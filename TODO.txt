@@ -1,0 +1,7 @@
+05:22 p.m. 23/11/2017
+[ESTADO][PRIORIDAD][DESCRIPCIÓN]
+TODO - 1 - Organizar entorno del proyecto en VS
+TODO - 2 - Incluir librerías para leak detector en ambos proyectos
+TODO - 3 - Diseño de clases del proyecto
+TODO - 3 - Mejorar bash script en config.bat para manejar VS y CB
+TODO - 4 - Investigar cmake y sus directivas para manejar proyectos en VS y CB (CodeBlocks)
