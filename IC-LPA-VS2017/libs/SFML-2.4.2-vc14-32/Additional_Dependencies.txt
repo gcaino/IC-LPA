@@ -1,0 +1,7 @@
+sfml-graphics-s-d.lib
+sfml-window-s-d.lib
+sfml-system-s-d.lib
+jpeg.lib
+freetype.lib
+opengl32.lib
+winmm.lib
