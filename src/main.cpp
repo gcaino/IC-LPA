@@ -8,7 +8,7 @@ int main()
 	sf::Texture texture;
 	sf::Sprite sprite;
 
-	if (!texture.loadFromFile("../../assets/textures/zoimbie1_hold.png"))
+	if (!texture.loadFromFile("../../../assets/textures/zoimbie1_hold.png"))
     {
         std::cout << "Error al cargar zoimbie1_hold1.png" << std::endl;
     }

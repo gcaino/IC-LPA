@@ -1,7 +1,25 @@
 05:22 p.m. 23/11/2017
 [ESTADO][PRIORIDAD][DESCRIPCIÓN]
-TODO - 1 - Organizar entorno del proyecto en VS
-TODO - 2 - Incluir librerías para leak detector en ambos proyectos
+OK - 1 - Organizar entorno del proyecto en VS
+OK - 1 - Incluir paths relativos en ambos proyectos, tanto para includes como para libs
+OK - 1 - Eliminar opción de headers pre-compiladas de VS (modificar configuración)
+OK - 1 - Incluir sfml-main en modo Release y cambiar a tipo de proyecto Windows
+OK - 1 - Incluir directorios bin y obj en ambos proyectos (para organizar archivos)
+OK | NO - 2 - Incluir librerías para leak detector en ambos proyectos (OK VS | NO CB)
 TODO - 3 - Diseño de clases del proyecto
 TODO - 3 - Mejorar bash script en config.bat para manejar VS y CB
 TODO - 4 - Investigar cmake y sus directivas para manejar proyectos en VS y CB (CodeBlocks)
+
+[Diagramas de Clase]
+https://creately.com/diagram/example/he388ggb1/Java%20game
+[UML]
+https://www.youtube.com/watch?v=BhEoV57nj0Q
+[VS Shortcuts]
+ctrl + k -> ctrl + C // Comenta bloque de código seleccionado
+ctrl + k -> ctrl + U // Descomenta bloque de código seleccionado
+ctrl + . // Abre menú contextual de 'Quick Actions'
+ctrl + tab // Abre lista de navegación de archivos
+ctrl + alt + inicio (home) // Abre archivo .cpp para definición de método
+ctrl + q // Ir al 'Quick Launch'
+ctrl + shift + a // Add New Item
+F12 // Ir a definición de método

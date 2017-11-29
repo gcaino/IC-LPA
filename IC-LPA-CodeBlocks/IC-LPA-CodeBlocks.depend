@@ -1167,9 +1167,10 @@
 	<string>
 	<vector>
 
-1511591454 source:c:\users\gerdev\desktop\programacion\formacion\05 imagecampus\03 lpa\01_clases\99_proyectofinal\ic-lpa\src\main.cpp
+1511594271 source:c:\users\gerdev\desktop\programacion\formacion\05 imagecampus\03 lpa\01_clases\99_proyectofinal\ic-lpa\src\main.cpp
 	<iostream>
 	<SFML/Graphics.hpp>
+	<debug_new.h>
 
 1511468506 c:\users\gerdev\desktop\programacion\formacion\05 imagecampus\03 lpa\01_clases\99_proyectofinal\ic-lpa\ic-lpa-codeblocks\libs\sfml-2.4.2-tdm\include\sfml\graphics.hpp
 	<SFML/Window.hpp>
@@ -1558,4 +1559,15 @@
 	<SFML/System/String.hpp>
 	<string>
 	<vector>
+
+1446269288 c:\users\gerdev\desktop\programacion\formacion\05 imagecampus\03 lpa\01_clases\99_proyectofinal\ic-lpa\ic-lpa-codeblocks\libs\nvwa-1.1\nvwa\debug_new.h
+	<new>
+	<stdio.h>
+	"_nvwa.h"
+	"c++11.h"
+	<stdlib.h>
+
+1446269275 c:\users\gerdev\desktop\programacion\formacion\05 imagecampus\03 lpa\01_clases\99_proyectofinal\ic-lpa\ic-lpa-codeblocks\libs\nvwa-1.1\nvwa\_nvwa.h
+
+1491216490 c:\users\gerdev\desktop\programacion\formacion\05 imagecampus\03 lpa\01_clases\99_proyectofinal\ic-lpa\ic-lpa-codeblocks\libs\nvwa-1.1\nvwa\c++11.h
 

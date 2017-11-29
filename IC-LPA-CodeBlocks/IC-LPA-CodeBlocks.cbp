@@ -12,7 +12,6 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
-				<Option projectIncludeDirsRelation="0" />
 				<Option projectResourceIncludeDirsRelation="0" />
 				<Option projectLibDirsRelation="0" />
 				<Compiler>
@@ -24,10 +23,7 @@
 					<Add library="sfml-system-d" />
 				</Linker>
 				<ExtraCommands>
-					<Add after='cmd /c copy  &quot;$(PROJECT_DIR)libs\TDM-GCC-32\libstdc++-6.dll&quot; &quot;$(PROJECT_DIR)$(TARGET_OUTPUT_DIR)&quot;' />
-					<Add after='cmd /c copy  &quot;$(PROJECT_DIR)libs\SFML-2.4.2-tdm\bin\sfml-graphics-d-2.dll&quot; &quot;$(PROJECT_DIR)$(TARGET_OUTPUT_DIR)&quot;' />
-					<Add after='cmd /c copy  &quot;$(PROJECT_DIR)libs\SFML-2.4.2-tdm\bin\sfml-window-d-2.dll&quot; &quot;$(PROJECT_DIR)$(TARGET_OUTPUT_DIR)&quot;' />
-					<Add after='cmd /c copy  &quot;$(PROJECT_DIR)libs\SFML-2.4.2-tdm\bin\sfml-system-d-2.dll&quot; &quot;$(PROJECT_DIR)$(TARGET_OUTPUT_DIR)&quot;' />
+					<Add after='&quot;$(PROJECT_DIR)scripts\config.bat&quot; &quot;$(PROJECT_DIR)&quot; &quot;$(TARGET_OUTPUT_DIR)&quot;' />
 					<Mode after="always" />
 				</ExtraCommands>
 			</Target>
@@ -55,7 +51,6 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add option="-std=c++11" />
 			<Add directory="libs/SFML-2.4.2-tdm/include" />
 		</Compiler>
 		<Linker>
@@ -70,6 +65,7 @@
 		<Extensions>
 			<code_completion />
 			<debugger />
+			<envvars />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>
