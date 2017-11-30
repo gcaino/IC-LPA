@@ -1,18 +1,21 @@
 #ifndef PLAYER_H
 #define PLAYER_H
-#include "GameObject.h"
-#include <SFML\Graphics.hpp>
-
-class Player : public GameObject, public sf::Drawable
+// -----------------------------------------
+#include "Character.h"
+// -----------------------------------------
+namespace lpa
 {
-private:
+	class Player : public Character
+	{
+	private:
 
-public:
-	Player();
-	~Player();
+	public:
+		Player();
+		~Player();
 
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-};
-
+		void handlerInputs();
+		virtual void update(sf::Time elapsedTime);
+	};
+}
 #endif // !PLAYER_H
 

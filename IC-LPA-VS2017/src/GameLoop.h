@@ -1,23 +1,29 @@
 #ifndef GAMELOOP_H
 #define GAMELOOP_H
+// -----------------------------------------
 #include <SFML\Graphics.hpp>
-#include "GameWorld.h"
-
-class GameLoop
+// -----------------------------------------
+namespace lpa
 {
-private:
-	sf::RenderWindow	_window;
-	GameWorld*			_gameWorld;
+	class GameWorld; // Forward declaration
 
-	void handlerEvents();
-	void update();
-	void render();
+	class GameLoop
+	{
+	private:
+		sf::RenderWindow	_window;
+		sf::Clock			_clock;
+		sf::Time			_elapsedTime;
+		GameWorld*			_gameWorld;
 
-public:
-	GameLoop();
-	~GameLoop();
+		void handlerEvents();
+		void update(sf::Time elapsedTime);
+		void draw();
 
-	void run();
-}; 
+	public:
+		GameLoop();
+		~GameLoop();
 
+		void run();
+	};
+}
 #endif // GAMELOOP_H

@@ -1,16 +1,40 @@
+#include "Constants.h"
 #include "Player.h"
-
-Player::Player()
+// -----------------------------------------
+namespace lpa
 {
-	if (!_texture.loadFromFile("assets/textures/2_knight_.png")) {}
-	_sprite.setTexture(_texture);
-}
+	Player::Player()
+	{
+		if (!_texture.loadFromFile("assets/textures/2_knight_.png")) {}
+		_sprite.setTexture(_texture);
+	}
 
-Player::~Player()
-{
-}
+	Player::~Player()
+	{
+	}
 
-void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	target.draw(_sprite);
+	void Player::handlerInputs()
+	{
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+		{
+
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		{
+
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+		{
+
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+		{
+
+		}
+	}
+
+	void Player::update(sf::Time elapsedTime)
+	{
+
+	}
 }

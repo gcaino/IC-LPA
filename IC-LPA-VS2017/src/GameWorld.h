@@ -1,19 +1,23 @@
 #ifndef GAMEWORLD_H
 #define GAMEWORLD_H
+// -----------------------------------------
+#include <SFML\Graphics.hpp>
 #include "Player.h"
-
-class GameWorld
+// -----------------------------------------
+namespace lpa
 {
-private:
-	Player _player;
+	class GameWorld : public sf::Drawable
+	{
+	private:
+		Player _player;
 
-public:
-	GameWorld();
-	~GameWorld();
+	public:
+		GameWorld();
+		~GameWorld();
 
-	Player getPlayer() { return _player; }
-
-	void update();
-};
-
+		void handlerInputs();
+		void update(sf::Time elapsedTime);
+		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	};
+}
 #endif // GAMEWORLD_H

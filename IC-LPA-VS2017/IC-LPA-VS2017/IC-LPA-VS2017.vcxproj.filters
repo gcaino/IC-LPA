@@ -10,9 +10,6 @@
     <ClCompile Include="..\src\GameLoop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\GameObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\GameWorld.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -22,12 +19,12 @@
     <ClCompile Include="..\src\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Character.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\GameLoop.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\GameObject.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\GameWorld.h">
@@ -36,5 +33,9 @@
     <ClInclude Include="..\src\Player.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\Character.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Constants.h" />
   </ItemGroup>
 </Project>

@@ -9,9 +9,9 @@ OK | NO - 2 - Incluir librerías para leak detector en ambos proyectos (OK VS | N
 OK - 1 - Incluir archivos visual leak detector en proyecto VS
 OK - 1 - Incluir carpeta assets con el ejecutable tanto en debug como en release (modificar config.bat)
 OK - 1 - Incluir #ifdef _DEBUG para que tome la libreria de leak detector solo en modo debug
-TODO - 1 - Organizar clases bajo un namespace
-TODO - 1 - Agregar carpetas dentro de debug para organizar sources y headers
-TODO - 3 - Diseño de clases del proyecto
+OK - 1 - Agregar carpeta src para organizar sources y headers
+OK - 1 - Organizar clases bajo un namespace
+IN PROGRESS - 3 - Diseño de clases del proyecto
 TODO - 3 - Mejorar bash script en config.bat para manejar VS y CB
 TODO - 4 - Investigar cmake y sus directivas para manejar proyectos en VS y CB (CodeBlocks)
 
