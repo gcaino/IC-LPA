@@ -12,7 +12,6 @@ namespace lpa
 		float			_velocity;
 		sf::Texture		_texture;
 		sf::Sprite		_sprite;
-		bool			_isMoving;
 
 	public:
 		Character();

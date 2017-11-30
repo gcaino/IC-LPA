@@ -3,7 +3,7 @@
 // -----------------------------------------
 namespace Constants
 {
-	const float SPEED = 1.f;
+	
 }
 #endif // !CONSTANTS_H
 

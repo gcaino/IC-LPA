@@ -2,10 +2,11 @@
 #define PLAYER_H
 // -----------------------------------------
 #include "Character.h"
+#include "InputManager.h"
 // -----------------------------------------
 namespace lpa
 {
-	class Player : public Character
+	class Player : public Character, public InputManager
 	{
 	private:
 

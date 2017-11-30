@@ -6,7 +6,7 @@ namespace lpa
 {
 	GameLoop::GameLoop()
 	{
-		_window.create(sf::VideoMode(800, 600), "Final Project LPA");
+		_window.create(sf::VideoMode(1280, 720), "Final Project LPA");
 		_gameWorld = new GameWorld();
 	}
 

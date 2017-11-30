@@ -4,10 +4,9 @@ namespace lpa
 {
 	Character::Character()
 		: _position()
-		, _velocity(1.f)
+		, _velocity(100.f)
 		, _sprite()
 		, _texture()
-		, _isMoving(false)
 	{
 	}
 
@@ -17,7 +16,6 @@ namespace lpa
 
 	void Character::update(sf::Time elapsedTime)
 	{
-		
 	}
 
 	void Character::draw(sf::RenderTarget & target, sf::RenderStates states) const
