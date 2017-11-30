@@ -2,7 +2,7 @@
 
 Player::Player()
 {
-	if (!_texture.loadFromFile("../../../assets/textures/2_knight_.png")) {}
+	if (!_texture.loadFromFile("assets/textures/2_knight_.png")) {}
 	_sprite.setTexture(_texture);
 }
 

@@ -7,7 +7,7 @@ OK - 1 - Incluir sfml-main en modo Release y cambiar a tipo de proyecto Windows
 OK - 1 - Incluir directorios bin y obj en ambos proyectos (para organizar archivos)
 OK | NO - 2 - Incluir librerías para leak detector en ambos proyectos (OK VS | NO CB)
 OK - 1 - Incluir archivos visual leak detector en proyecto VS
-TODO - 1 - Incluir carpeta assets con el ejecutable
+OK - 1 - Incluir carpeta assets con el ejecutable tanto en debug como en release (modificar config.bat)
 OK - 1 - Incluir #ifdef _DEBUG para que tome la libreria de leak detector solo en modo debug
 TODO - 1 - Organizar clases bajo un namespace
 TODO - 1 - Agregar carpetas dentro de debug para organizar sources y headers
