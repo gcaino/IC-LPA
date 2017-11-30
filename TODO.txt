@@ -6,6 +6,11 @@ OK - 1 - Eliminar opción de headers pre-compiladas de VS (modificar configuració
 OK - 1 - Incluir sfml-main en modo Release y cambiar a tipo de proyecto Windows
 OK - 1 - Incluir directorios bin y obj en ambos proyectos (para organizar archivos)
 OK | NO - 2 - Incluir librerías para leak detector en ambos proyectos (OK VS | NO CB)
+OK - 1 - Incluir archivos visual leak detector en proyecto VS
+TODO - 1 - Incluir carpeta assets con el ejecutable
+OK - 1 - Incluir #ifdef _DEBUG para que tome la libreria de leak detector solo en modo debug
+TODO - 1 - Organizar clases bajo un namespace
+TODO - 1 - Agregar carpetas dentro de debug para organizar sources y headers
 TODO - 3 - Diseño de clases del proyecto
 TODO - 3 - Mejorar bash script en config.bat para manejar VS y CB
 TODO - 4 - Investigar cmake y sus directivas para manejar proyectos en VS y CB (CodeBlocks)
@@ -23,3 +28,8 @@ ctrl + alt + inicio (home) // Abre archivo .cpp para definición de método
 ctrl + q // Ir al 'Quick Launch'
 ctrl + shift + a // Add New Item
 F12 // Ir a definición de método
+
+[Comentarios sobre el diseño]
+- GameWorld, si tengo todos objetos dibujables, me conviene tal vez implementar ahi el metodo virtual draw.
+- GameWorld incluira screens o scenes, las cuales a su vez heredan de clase abstacta, e implementan metodo draw.
+- Desde GameLoop _window.draw(_gameWorld->currentScene->draw()

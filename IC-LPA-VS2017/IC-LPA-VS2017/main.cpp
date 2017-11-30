@@ -1,4 +1,6 @@
+#ifdef _DEBUG
 #include "vld.h"
+#endif
 #include "GameLoop.h"
 
 int main()
