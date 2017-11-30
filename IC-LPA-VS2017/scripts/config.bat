@@ -14,4 +14,4 @@ copy "%(PROJECT_DIR)%libs\VLD\bin\Win32\Microsoft.DTfW.DHL.manifest" "%(TARGET_O
 copy "%(PROJECT_DIR)%libs\VLD\bin\Win32\vld_x86.dll" "%(TARGET_OUTPUT_DIR)%"
 )
 
-Xcopy /E /I "%(PROJECT_DIR)%assets" "%(TARGET_OUTPUT_DIR)%assets"
+Xcopy /E /I /Y "%(PROJECT_DIR)%assets" "%(TARGET_OUTPUT_DIR)%assets"
