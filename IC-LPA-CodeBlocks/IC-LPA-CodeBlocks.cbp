@@ -16,6 +16,8 @@
 				<Option projectLibDirsRelation="0" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="include" />
+					<Add directory="src" />
 				</Compiler>
 				<Linker>
 					<Add library="sfml-graphics-d" />
@@ -23,7 +25,7 @@
 					<Add library="sfml-system-d" />
 				</Linker>
 				<ExtraCommands>
-					<Add after='&quot;$(PROJECT_DIR)scripts\config.bat&quot; &quot;$(PROJECT_DIR)&quot; &quot;$(TARGET_OUTPUT_DIR)&quot;' />
+					<Add after='&quot;$(PROJECT_DIR)scripts\config.bat&quot; &quot;$(PROJECT_DIR)&quot; &quot;$(TARGET_OUTPUT_DIR)&quot; &quot;DEBUG&quot;' />
 					<Mode after="always" />
 				</ExtraCommands>
 			</Target>
@@ -40,6 +42,8 @@
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-DSFML_STATIC" />
+					<Add directory="include" />
+					<Add directory="src" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -47,6 +51,10 @@
 					<Add library="sfml-window-s" />
 					<Add library="sfml-system-s" />
 				</Linker>
+				<ExtraCommands>
+					<Add after='&quot;$(PROJECT_DIR)scripts\config.bat&quot; &quot;$(PROJECT_DIR)&quot; &quot;$(TARGET_OUTPUT_DIR)&quot; &quot;RELEASE&quot;' />
+					<Mode after="always" />
+				</ExtraCommands>
 			</Target>
 		</Build>
 		<Compiler>
@@ -61,7 +69,24 @@
 			<Add library="winmm" />
 			<Add directory="libs/SFML-2.4.2-tdm/lib" />
 		</Linker>
-		<Unit filename="../src/main.cpp" />
+		<Unit filename="src/Arena.cpp" />
+		<Unit filename="src/Arena.h" />
+		<Unit filename="src/Character.cpp" />
+		<Unit filename="src/Character.h" />
+		<Unit filename="src/Constants.h" />
+		<Unit filename="src/Enemy.cpp" />
+		<Unit filename="src/Enemy.h" />
+		<Unit filename="src/GameLoop.cpp" />
+		<Unit filename="src/GameLoop.h" />
+		<Unit filename="src/GameWorld.cpp" />
+		<Unit filename="src/GameWorld.h" />
+		<Unit filename="src/InputManager.cpp" />
+		<Unit filename="src/InputManager.h" />
+		<Unit filename="src/Player.cpp" />
+		<Unit filename="src/Player.h" />
+		<Unit filename="src/Wave.cpp" />
+		<Unit filename="src/Wave.h" />
+		<Unit filename="src/main.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
