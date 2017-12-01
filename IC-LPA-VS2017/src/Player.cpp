@@ -5,8 +5,11 @@ namespace lpa
 {
 	Player::Player()
 	{
-		if (!_texture.loadFromFile("assets/textures/knight-01.png")) {}
+		if (!_texture.loadFromFile(Constants::texturesPath + "knight-01.png")) {}
 		_sprite.setTexture(_texture);
+
+		_isAlive = true;
+		resetPosition();
 	}
 
 	Player::~Player()
@@ -74,6 +77,18 @@ namespace lpa
 			_position.x -= _velocity * elapsedTime.asSeconds();
 		}
 
+		_sprite.setPosition(_position);
+	}
+
+	void Player::draw(sf::RenderTarget & target, sf::RenderStates states) const
+	{
+		target.draw(_sprite);
+	}
+
+	void Player::resetPosition()
+	{
+		_position.x = Constants::WINDOW_WIDTH_MAX / 2 - _sprite.getGlobalBounds().width / 2;
+		_position.y = Constants::WINDOW_HEIGHT_MAX / 2 - _sprite.getGlobalBounds().height / 2;
 		_sprite.setPosition(_position);
 	}
 }

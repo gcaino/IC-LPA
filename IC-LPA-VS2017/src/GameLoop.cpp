@@ -1,3 +1,4 @@
+#include "Constants.h"
 #include "GameLoop.h"
 #include "GameWorld.h"
 #include <SFML\Graphics.hpp>
@@ -6,13 +7,15 @@ namespace lpa
 {
 	GameLoop::GameLoop()
 	{
-		_window.create(sf::VideoMode(1280, 720), "Final Project LPA");
+		_window.create(sf::VideoMode(Constants::WINDOW_WIDTH_MAX,
+                               Constants::WINDOW_HEIGHT_MAX), "Final Project LPA");
 		_gameWorld = new GameWorld();
 	}
 
 	GameLoop::~GameLoop()
 	{
-		delete _gameWorld;
+		if (_gameWorld != nullptr)
+			delete _gameWorld;
 	}
 
 	void GameLoop::run()

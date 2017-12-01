@@ -19,20 +19,28 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\Arena.cpp" />
+    <ClCompile Include="..\src\Enemy.cpp" />
     <ClCompile Include="..\src\GameLoop.cpp" />
     <ClCompile Include="..\src\Character.cpp" />
     <ClCompile Include="..\src\GameWorld.cpp" />
     <ClCompile Include="..\src\InputManager.cpp" />
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\Player.cpp" />
+    <ClCompile Include="..\src\SpawnManager.cpp" />
+    <ClCompile Include="..\src\Wave.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\Arena.h" />
     <ClInclude Include="..\src\Constants.h" />
+    <ClInclude Include="..\src\Enemy.h" />
     <ClInclude Include="..\src\GameLoop.h" />
     <ClInclude Include="..\src\Character.h" />
     <ClInclude Include="..\src\GameWorld.h" />
     <ClInclude Include="..\src\InputManager.h" />
     <ClInclude Include="..\src\Player.h" />
+    <ClInclude Include="..\src\SpawnManager.h" />
+    <ClInclude Include="..\src\Wave.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

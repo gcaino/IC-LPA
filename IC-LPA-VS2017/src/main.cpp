@@ -1,17 +1,19 @@
+// @author Germán Caíno
+// @version 1.0.0 30/11/17
+// -----------------------------------------
 #ifdef _DEBUG
 #include "vld.h"
 #endif
 // -----------------------------------------
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 #include "GameLoop.h"
-// -----------------------------------------
-/**
-@author Germán Caíno
-@version 1.0.0 30/11/17
-*/
 // -----------------------------------------
 int main()
 {
+	std::srand(std::time(NULL));
+
 	try
 	{
 		lpa::GameLoop game;

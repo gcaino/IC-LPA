@@ -3,8 +3,11 @@
 namespace lpa
 {
 	Character::Character()
-		: _position()
+		: _position(0.f, 0.f)
 		, _velocity(100.f)
+		, _health(100)
+		, _strength(5)
+		, _isAlive(false)
 		, _sprite()
 		, _texture()
 	{
@@ -12,14 +15,5 @@ namespace lpa
 
 	Character::~Character()
 	{
-	}
-
-	void Character::update(sf::Time elapsedTime)
-	{
-	}
-
-	void Character::draw(sf::RenderTarget & target, sf::RenderStates states) const
-	{
-		target.draw(_sprite);
 	}
 }

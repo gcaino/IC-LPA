@@ -1,24 +1,18 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef ENEMY_H
+#define ENEMY_H
 // -----------------------------------------
 #include "Character.h"
-#include "InputManager.h"
 // -----------------------------------------
 namespace lpa
 {
-	class Player : public Character, public InputManager
-	{
-	private:
-        void resetPosition();
+    class Enemy : public Character
+    {
+    public:
+        Enemy();
+        ~Enemy();
 
-	public:
-		Player();
-		~Player();
-
-		void handlerInputs();
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 		virtual void update(sf::Time elapsedTime);
-	};
+    };
 }
-#endif // !PLAYER_H
-
+#endif // ENEMY_H
