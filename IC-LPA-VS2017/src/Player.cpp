@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Constants.h"
 #include "Player.h"
+#include "Enemy.h"
 #include "CollisionManager.h"
 // -----------------------------------------
 namespace lpa
@@ -9,11 +10,11 @@ namespace lpa
 	{
 		if (!_texture.loadFromFile(Constants::texturesPath + "knight-01.png")) {}
 		_sprite.setTexture(_texture);
-
+		_health = PLAYER_START_HEALTH;
 		_alive = true;
 		_speedAttack = PLAYER_SPEED_ATTACK;
 		_timeSinceLastAttack = _clockAttack.restart();
-
+		_attacking = false;
 		resetPosition();
 		//std::cout << "Create Player" << std::endl;
 	}
@@ -22,8 +23,11 @@ namespace lpa
 	{
 	}
 
-	void Player::handlerInputs()
+	void Player::handlerInputs(const sf::Window& window)
 	{
+		if (!_alive)
+			return;
+
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || 
 			sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
@@ -64,10 +68,13 @@ namespace lpa
 			stopDown();
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return) ||
-			sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
-			attack();
+			_attacking = true;
+		}
+		else
+		{
+			_attacking = false;
 		}
 	}
 
@@ -88,12 +95,17 @@ namespace lpa
 		_sprite.setPosition(_position);
 	}
 
-	void Player::attack()
+	void Player::attack(Enemy* enemy, sf::Vector2i targetCoords)
 	{
 		_timeSinceLastAttack = _clockAttack.getElapsedTime();
 		if (_timeSinceLastAttack > _speedAttack)
 		{
-			std::cout << "Player Attack" << std::endl;
+			std::cout << "Player Attack - Coordinates: x: " << targetCoords.x << " - y: " << targetCoords.y << std::endl;
+			if (enemy->getSprite().getGlobalBounds().contains(static_cast<sf::Vector2f>(targetCoords)))
+			{
+				std::cout << "Pum Pum Pum" << std::endl;
+				enemy->takeDamage(calculateDamage());
+			}
 			_clockAttack.restart();
 		}
 	}
@@ -114,5 +126,24 @@ namespace lpa
 	{
 		_position = _prevPosition;
 		_sprite.setPosition(_position);
+	}
+
+	uint Player::calculateDamage()
+	{
+		return	_strength;
+	}
+
+	void Player::takeDamage(uint damage)
+	{
+		_health -= damage;
+		std::cout << "Player Health: " << _health << std::endl;
+		if (_health <= 0)
+			die();
+	}
+
+	void Player::die()
+	{
+		_alive = false;
+		std::cout << "Player Died" << std::endl;
 	}
 }

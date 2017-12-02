@@ -9,7 +9,7 @@ namespace lpa
 	{
 		_window.create(sf::VideoMode(Constants::WINDOW_WIDTH_MAX,
                                Constants::WINDOW_HEIGHT_MAX), "Final Project LPA");
-		_gameWorld = new GameWorld();
+		_gameWorld = new GameWorld(_window);
 	}
 
 	GameLoop::~GameLoop()
@@ -44,7 +44,7 @@ namespace lpa
 					_window.close();
 			}
 		}
-		_gameWorld->handlerInputs();
+		_gameWorld->handlerInputs(_window);
 	}
 
 	void GameLoop::update(sf::Time elapsedTime)

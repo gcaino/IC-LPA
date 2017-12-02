@@ -15,17 +15,20 @@ namespace lpa
 	class GameWorld : public sf::Drawable
 	{
 	private:
-		Player				_player;
-		Arena				_arena;
-		uint				_indexCurrentWave;
-		Wave				_waves[WAVE_MAX];
-		SpawnManager		_spawnManager;
+		const sf::RenderWindow*	_window;
+		uint					_score;
+		uint					_highScore;
+		Player					_player;
+		Arena					_arena;
+		uint					_indexCurrentWave;
+		Wave					_waves[WAVE_MAX];
+		SpawnManager			_spawnManager;
 
 	public:
-		GameWorld();
+		GameWorld(const sf::RenderWindow& window);
 		~GameWorld();
 
-		void handlerInputs();
+		void handlerInputs(const sf::Window& window);
 		void update(sf::Time elapsedTime);
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	};

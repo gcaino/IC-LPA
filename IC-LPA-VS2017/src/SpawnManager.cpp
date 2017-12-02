@@ -39,7 +39,7 @@ namespace lpa
 			uint indexCurrentEnemy = _wave->getIndexCurrentEnemy();
 
 			Enemy& currentEnemy = _wave->getEnemyRefByIndex(indexCurrentEnemy);
-			currentEnemy.setIsAlive(true);
+			currentEnemy.setAlive(true);
 			currentEnemy.setPosition(_spawnPoints[randomPoint]);
 
 			_wave->increaseIndexCurrentEnemy();

@@ -23,6 +23,7 @@ namespace Constants
 	const float ENEMY_VELOCITY = 20.f;
 	const sf::Time ENEMY_SPEED_ATTACK = sf::seconds(3.f);
 	const sf::Time PLAYER_SPEED_ATTACK = sf::seconds(1.f);
+	const uint	PLAYER_START_HEALTH = 100;
 }
 #endif // !CONSTANTS_H
 

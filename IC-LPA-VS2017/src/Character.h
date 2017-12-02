@@ -31,7 +31,7 @@ namespace lpa
 		sf::Vector2f	getPrevPosition() const						{ return _prevPosition; }
 		void			setPrevPosition(sf::Vector2f prevPosition)	{ _position = prevPosition; }
 		bool			isAlive() const								{ return _alive; }
-		void			setIsAlive(bool isAlive)					{ _alive = isAlive; }
+		void			setAlive(bool alive)						{ _alive = alive; }
 
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const = 0;
 	};

@@ -14,19 +14,25 @@ namespace lpa
 		sf::Time	_speedAttack;
 		sf::Time	_timeSinceLastAttack;
 		sf::Clock	_clockAttack;
+		bool		_attacking;
 
 		void move(sf::Time elapsedTime);
         void resetPosition();
-		void attack();
+		uint calculateDamage();
+		void die();
 
 	public:
 		Player();
 		~Player();
 
-		void handlerInputs();
+		bool isAttacking() const { return _attacking; }
+
+		void handlerInputs(const sf::Window& window);
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 		void update(sf::Time elapsedTime);
 		void movePreviousPosition();
+		void attack(Enemy* enemy, sf::Vector2i targetCoords);
+		void takeDamage(uint damage);
 	};
 }
 #endif // !PLAYER_H
