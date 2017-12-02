@@ -6,10 +6,18 @@
 // -----------------------------------------
 namespace lpa
 {
+	class Enemy;
+
 	class Player : public Character, public InputManager
 	{
 	private:
+		sf::Time	_speedAttack;
+		sf::Time	_timeSinceLastAttack;
+		sf::Clock	_clockAttack;
+
+		void move(sf::Time elapsedTime);
         void resetPosition();
+		void attack();
 
 	public:
 		Player();
@@ -17,7 +25,8 @@ namespace lpa
 
 		void handlerInputs();
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-		virtual void update(sf::Time elapsedTime);
+		void update(sf::Time elapsedTime);
+		void movePreviousPosition();
 	};
 }
 #endif // !PLAYER_H

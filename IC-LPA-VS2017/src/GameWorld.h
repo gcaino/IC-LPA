@@ -15,11 +15,11 @@ namespace lpa
 	class GameWorld : public sf::Drawable
 	{
 	private:
-		Player			_player;
-		Arena			_arena;
-		uint			_indexCurrentWave;
-		Wave			_waves[WAVE_MAX];
-		SpawnManager	_spawnManager;
+		Player				_player;
+		Arena				_arena;
+		uint				_indexCurrentWave;
+		Wave				_waves[WAVE_MAX];
+		SpawnManager		_spawnManager;
 
 	public:
 		GameWorld();

@@ -1,5 +1,6 @@
 #include <iostream>
 #include "GameWorld.h"
+#include "CollisionManager.h"
 // -----------------------------------------
 namespace lpa
 {
@@ -22,7 +23,20 @@ namespace lpa
 	{
 		_player.update(elapsedTime);
 		_spawnManager.update(elapsedTime);
-		_waves[_indexCurrentWave].update(elapsedTime);
+		_waves[_indexCurrentWave].update(elapsedTime, &_player);
+
+		uint maxWaveEnemies = _waves[_indexCurrentWave].getMaxEnemies();
+		Enemy* enemy = nullptr;
+		for (uint i = 0; i < maxWaveEnemies; i++)
+		{
+			enemy = &_waves[_indexCurrentWave].getEnemyRefByIndex(i);
+			if (CollisionManager::boundingBoxTest(_player.getSprite(), enemy->getSprite()))
+			{
+				//_player.movePreviousPosition();
+				enemy->movePreviousPosition();
+				enemy->attack(&_player);
+			}
+		}
 	}
 
 	void GameWorld::draw(sf::RenderTarget& target, sf::RenderStates states) const

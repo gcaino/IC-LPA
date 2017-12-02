@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Wave.h"
+#include "Player.h"
 #include "Constants.h"
 // -----------------------------------------
 namespace lpa
@@ -7,6 +8,7 @@ namespace lpa
     Wave::Wave()
 		: _remainingEnemies(Constants::ENEMY_MAX)
 		, _indexCurrentEnemy(0)
+		, _maxEnemies(Constants::ENEMY_MAX)
     {
     }
 
@@ -15,12 +17,14 @@ namespace lpa
 		//std::cout << "Destroy Wave" << std::endl;
     }
 
-	void Wave::update(sf::Time elapsedTime)
+	void Wave::update(sf::Time elapsedTime, Player* pPlayer)
 	{
 		for (uint i = 0; i < ENEMY_MAX; i++)
 		{
-			if (_enemies[i].getIsAlive())
-				_enemies[i].update(elapsedTime);
+			if (_enemies[i].isAlive())
+			{
+				_enemies[i].update(elapsedTime, pPlayer);
+			}
 		}
 	}
 
@@ -28,7 +32,7 @@ namespace lpa
 	{
 		for (uint i = 0; i < ENEMY_MAX; i++)
 		{
-			if (_enemies[i].getIsAlive())
+			if (_enemies[i].isAlive())
 				_enemies[i].draw(target, states);
 		}
 	}

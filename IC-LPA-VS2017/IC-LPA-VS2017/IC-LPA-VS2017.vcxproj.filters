@@ -37,6 +37,9 @@
     <ClCompile Include="..\src\SpawnManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\CollisionManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\GameLoop.h">
@@ -67,6 +70,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\SpawnManager.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\CollisionManager.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

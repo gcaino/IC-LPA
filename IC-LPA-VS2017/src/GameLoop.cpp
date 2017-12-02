@@ -37,6 +37,12 @@ namespace lpa
 		{
 			if (event.type == sf::Event::Closed)
 				_window.close();
+
+			if (event.type == sf::Event::KeyPressed)
+			{
+				if (event.key.code == sf::Keyboard::Escape)
+					_window.close();
+			}
 		}
 		_gameWorld->handlerInputs();
 	}
