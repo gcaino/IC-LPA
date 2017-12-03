@@ -24,15 +24,30 @@ void GameWorld::handlerInputs()
 }
 void GameWorld::update(sf::Time elapsedTime)
 {
+	if (!_player.isAlive())
+		return;
+
 	_player.update(elapsedTime);
 	_waves[_indexCurrentWave].update(elapsedTime, &_player);
+	
+	collisionDetectionPlayerEnemies();
 
+	_spawnManager.update(elapsedTime);
+}
+void GameWorld::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	_arena.draw(target, states);
+	_waves[_indexCurrentWave].draw(target, states);
+	_player.draw(target, states);
+}
+void GameWorld::collisionDetectionPlayerEnemies()
+{
 	uint maxWaveEnemies = _waves[_indexCurrentWave].getMaxEnemies();
 	Enemy* enemy = nullptr;
 	for (uint i = 0; i < maxWaveEnemies; i++)
 	{
 		enemy = &_waves[_indexCurrentWave].getEnemyRefByIndex(i);
-		if (_player.isAlive() && enemy->isAlive())
+		if (enemy->isAlive())
 		{
 			if (CollisionManager::boundingBoxTest(enemy->getSprite(), _player.getSprite()))
 			{
@@ -52,14 +67,6 @@ void GameWorld::update(sf::Time elapsedTime)
 			}
 		}
 	}
-	if (_player.isAlive())
-		_spawnManager.update(elapsedTime);
-}
-void GameWorld::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	_arena.draw(target, states);
-	_waves[_indexCurrentWave].draw(target, states);
-	_player.draw(target, states);
 }
 // -----------------------------------------
 }

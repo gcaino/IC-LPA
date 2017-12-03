@@ -13,9 +13,12 @@ class GameLoop
 {
 private:
 	sf::RenderWindow	_window;
+	bool				_paused;
 	sf::Clock			_clock;
 	sf::Time			_elapsedTime;
 	GameWorld*			_gameWorld;
+
+	void pause();
 
 	void handlerEvents();
 	void update(sf::Time elapsedTime);

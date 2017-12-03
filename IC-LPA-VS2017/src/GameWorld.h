@@ -26,6 +26,8 @@ private:
 	Wave					_waves[WAVE_MAX];
 	SpawnManager			_spawnManager;
 
+	void collisionDetectionPlayerEnemies();
+
 public:
 	GameWorld(const sf::RenderWindow& window);
 	~GameWorld();
