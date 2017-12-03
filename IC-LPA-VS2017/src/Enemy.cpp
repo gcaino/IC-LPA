@@ -20,6 +20,7 @@ Enemy::Enemy()
 {
 	_texture.loadFromFile(Constants::texturesPath + "orc-01.png");
 	_sprite.setTexture(_texture);
+	_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
 	_velocity = ENEMY_VELOCITY;
 	_speedAttack = ENEMY_SPEED_ATTACK;
 	_timeSinceLastAttack = _clockAttack.restart();

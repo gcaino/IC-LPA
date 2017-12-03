@@ -1,5 +1,7 @@
 #include "CollisionManager.h"
 // -----------------------------------------
+#include <iostream>
+// -----------------------------------------
 namespace lpa
 // -----------------------------------------
 {
@@ -29,6 +31,21 @@ bool CollisionManager::boundingBoxTest(const sf::Sprite & Object1, const sf::Spr
 		return true;
 	else
 		return false;
+}
+bool CollisionManager::pixelTest(const sf::Sprite& sprite, const sf::Image& mapImage)
+{
+	sf::Vector2u spritePosition = static_cast<sf::Vector2u>(sprite.getPosition());
+	sf::Color pixelColor = mapImage.getPixel(spritePosition.x, spritePosition.y);
+
+	if (pixelColor == sf::Color::Red)
+	{
+		std::cout << "Pixel Collision" << std::endl;
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 // -----------------------------------------
 }

@@ -18,6 +18,7 @@ Player::Player()
 {
 	_texture.loadFromFile(texturesPath + "knight-01.png");
 	_sprite.setTexture(_texture);
+	_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
 	_health = PLAYER_START_HEALTH;
 	_speedAttack = PLAYER_SPEED_ATTACK;
 	_alive = true;
@@ -116,8 +117,10 @@ void Player::draw(sf::RenderTarget & target, sf::RenderStates states) const
 }
 void Player::resetPosition()
 {
-	_position.x = WINDOW_WIDTH_MAX / 2 - _sprite.getGlobalBounds().width / 2;
-	_position.y = WINDOW_HEIGHT_MAX / 2 - _sprite.getGlobalBounds().height / 2;
+	//_position.x = WINDOW_WIDTH_MAX / 2 - _sprite.getGlobalBounds().width / 2;
+	//_position.y = WINDOW_HEIGHT_MAX / 2 - _sprite.getGlobalBounds().height / 2;
+	_position.x = WINDOW_WIDTH_MAX / 2;
+	_position.y = WINDOW_HEIGHT_MAX / 2 + _sprite.getGlobalBounds().height / 2;
 	_sprite.setPosition(_position);
 }
 void Player::attack(Enemy* enemy, sf::Vector2i targetCoords)

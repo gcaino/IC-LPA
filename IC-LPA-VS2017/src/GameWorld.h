@@ -26,6 +26,7 @@ private:
 	Wave					_waves[WAVE_MAX];
 	SpawnManager			_spawnManager;
 
+	void collisionDetectionLimitsArena();
 	void collisionDetectionPlayerEnemies();
 	void collisionPlayerActions(Enemy* pEnemy);
 	void collisionEnemyActions(Enemy* pEnemy);

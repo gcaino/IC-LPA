@@ -42,6 +42,7 @@ void GameWorld::update(sf::Time elapsedTime)
 	_waves[_indexCurrentWave].update(elapsedTime, &_player);
 	
 	collisionDetectionPlayerEnemies();
+	collisionDetectionLimitsArena();
 
 	_spawnManager.update(elapsedTime);
 }
@@ -69,6 +70,28 @@ void GameWorld::draw(sf::RenderTarget& target, sf::RenderStates states)
 	for (it = sprites.begin(); it != sprites.end(); ++it)
 	{
 		target.draw(*it, sf::RenderStates::Default);
+	}
+}
+void GameWorld::collisionDetectionLimitsArena()
+{
+	sf::Image imageArenaCollision = _arena.getImageCollision();
+	
+	if (CollisionManager::pixelTest(_player.getSprite(), imageArenaCollision))
+	{
+		_player.movePreviousPosition();
+	}
+
+	uint maxWaveEnemies = _waves[_indexCurrentWave].getMaxEnemies();
+	for (uint i = 0; i < maxWaveEnemies; i++)
+	{
+		Enemy* enemy = &_waves[_indexCurrentWave].getEnemyRefByIndex(i);
+		if (enemy->isAlive())
+		{
+			if (CollisionManager::pixelTest(enemy->getSprite(), imageArenaCollision))
+			{
+				enemy->movePreviousPosition();
+			}
+		}
 	}
 }
 void GameWorld::collisionDetectionPlayerEnemies()

@@ -14,6 +14,7 @@ public:
 	~CollisionManager();
 
 	static bool boundingBoxTest(const sf::Sprite& Object1, const sf::Sprite& Object2);
+	static bool pixelTest(const sf::Sprite& sprite, const sf::Image& mapImage);
 };
 // -----------------------------------------
 }
