@@ -5,34 +5,43 @@
 #include <SFML\Graphics.hpp>
 // -----------------------------------------
 namespace lpa
+// -----------------------------------------
 {
-	class Player;
+// -----------------------------------------
+typedef unsigned int uint;
+// -----------------------------------------
+class Player;
+// -----------------------------------------
+class Enemy : public Character
+{
+private:
+	const float			ENEMY_VELOCITY;
+	const sf::Time		ENEMY_SPEED_ATTACK;
 
-    class Enemy : public Character
-    {
-	private:
-		unsigned int	_points;
-		bool			_following;
-		sf::Time		_speedAttack;
-		sf::Time		_timeSinceLastAttack;
-		sf::Clock		_clockAttack;
+	uint				_points;
+	bool				_following;
+	sf::Time			_speedAttack;
+	sf::Time			_timeSinceLastAttack;
+	sf::Clock			_clockAttack;
 
-		void move(sf::Time elapsedTime, Player* pPlayer);
-		uint calculateDamage();
+	void move(sf::Time elapsedTime, Player* pPlayer);
+	uint calculateDamage();
 		
-    public:
-        Enemy();
-        ~Enemy();
+public:
+    Enemy();
+    ~Enemy();
 
-		bool isFollowing() const			{ return _following; }
-		void setFollowing(bool following)	{ _following = following; }
+	bool isFollowing() const			{ return _following; }
+	void setFollowing(bool following)	{ _following = following; }
 
-		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-		void update(sf::Time elapsedTime, Player* pPlayer);
-		void movePreviousPosition();
-		void attack(Player* pPlayer);
-		void takeDamage(unsigned int damage);
-		void die();
-    };
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	void update(sf::Time elapsedTime, Player* pPlayer);
+	void movePreviousPosition();
+	void attack(Player* pPlayer);
+	void takeDamage(unsigned int damage);
+	void die();
+};
+// -----------------------------------------
 }
+// -----------------------------------------
 #endif // ENEMY_H

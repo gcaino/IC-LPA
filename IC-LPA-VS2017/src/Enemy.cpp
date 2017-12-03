@@ -1,90 +1,87 @@
-#include <iostream>
 #include "Enemy.h"
+// -----------------------------------------
 #include "Player.h"
 #include "Constants.h"
+#include <iostream>
 // -----------------------------------------
 namespace lpa
+// -----------------------------------------
 {
-	Enemy::Enemy()
-		: _points(10)
-		, _following(true)
-    {
-        if (!_texture.loadFromFile(Constants::texturesPath + "orc-01.png")) {}
-		_sprite.setTexture(_texture);
-		_velocity = ENEMY_VELOCITY;
-		_speedAttack = ENEMY_SPEED_ATTACK;
-		_timeSinceLastAttack = _clockAttack.restart();
-		//std::cout << "Create Enemy" << std::endl;
-    }
-
-    Enemy::~Enemy()
-    {
-		//std::cout << "Destroy Enemy" << std::endl;
-    }
-
-	void Enemy::update(sf::Time elapsedTime, Player* pPlayer)
+// -----------------------------------------
+Enemy::Enemy()
+	: ENEMY_VELOCITY(20.f)
+	, ENEMY_SPEED_ATTACK(sf::seconds(3.f))
+	, _points(10)
+	, _following(true)
+{
+	_texture.loadFromFile(Constants::texturesPath + "orc-01.png");
+	_sprite.setTexture(_texture);
+	_velocity = ENEMY_VELOCITY;
+	_speedAttack = ENEMY_SPEED_ATTACK;
+	_timeSinceLastAttack = _clockAttack.restart();
+	//std::cout << "Create Enemy" << std::endl;
+}
+Enemy::~Enemy()
+{
+	//std::cout << "Destroy Enemy" << std::endl;
+}
+void Enemy::update(sf::Time elapsedTime, Player* pPlayer)
+{
+	move(elapsedTime, pPlayer);
+}
+void Enemy::draw(sf::RenderTarget & target, sf::RenderStates states) const
+{
+	target.draw(_sprite);
+}
+void Enemy::move(sf::Time elapsedTime, Player* pPlayer)
+{
+	if (pPlayer->isAlive() && _following)
 	{
-		move(elapsedTime, pPlayer);
-	}
+		_prevPosition = _position;
 
-	void Enemy::draw(sf::RenderTarget & target, sf::RenderStates states) const
-	{
-		target.draw(_sprite);
-	}
+		sf::Vector2f posPlayer = pPlayer->getPosition();
+		if (posPlayer.x > _position.x)
+			_position.x += _velocity * elapsedTime.asSeconds();
+		if (posPlayer.x < _position.x)
+			_position.x -= _velocity * elapsedTime.asSeconds();
+		if (posPlayer.y > _position.y)
+			_position.y += _velocity * elapsedTime.asSeconds();
+		if (posPlayer.y < _position.y)
+			_position.y -= _velocity * elapsedTime.asSeconds();
 
-	void Enemy::move(sf::Time elapsedTime, Player* pPlayer)
-	{
-		if (pPlayer->isAlive() && _following)
-		{
-			_prevPosition = _position;
-
-			sf::Vector2f posPlayer = pPlayer->getPosition();
-			if (posPlayer.x > _position.x)
-				_position.x += _velocity * elapsedTime.asSeconds();
-			if (posPlayer.x < _position.x)
-				_position.x -= _velocity * elapsedTime.asSeconds();
-			if (posPlayer.y > _position.y)
-				_position.y += _velocity * elapsedTime.asSeconds();
-			if (posPlayer.y < _position.y)
-				_position.y -= _velocity * elapsedTime.asSeconds();
-
-			_sprite.setPosition(_position);
-		}
-	}
-
-	void Enemy::movePreviousPosition()
-	{
-		_position = _prevPosition;
 		_sprite.setPosition(_position);
 	}
-
-	void Enemy::attack(Player* pPlayer)
+}
+void Enemy::movePreviousPosition()
+{
+	_position = _prevPosition;
+	_sprite.setPosition(_position);
+}
+void Enemy::attack(Player* pPlayer)
+{
+	_timeSinceLastAttack = _clockAttack.getElapsedTime();
+	if (_timeSinceLastAttack > _speedAttack)
 	{
-		_timeSinceLastAttack = _clockAttack.getElapsedTime();
-		if (_timeSinceLastAttack > _speedAttack)
-		{
-			std::cout << "Enemy Attack" << std::endl;
-			pPlayer->takeDamage(calculateDamage());
-			_clockAttack.restart();
-		}
+		std::cout << "Enemy Attack" << std::endl;
+		pPlayer->takeDamage(calculateDamage());
+		_clockAttack.restart();
 	}
-
-	void Enemy::takeDamage(unsigned int damage)
-	{
-		_health -= damage;
-		std::cout << "Enemy Health: " << _health << std::endl;
-		if (_health <= 0)
-			die();
-	}
-
-	uint Enemy::calculateDamage()
-	{
-		return	_strength;
-	}
-
-	void Enemy::die()
-	{
-		_alive = false;
-		std::cout << "Enemy Died" << std::endl;
-	}
+}
+void Enemy::takeDamage(unsigned int damage)
+{
+	_health -= damage;
+	std::cout << "Enemy Health: " << _health << std::endl;
+	if (_health <= 0)
+		die();
+}
+uint Enemy::calculateDamage()
+{
+	return	_strength;
+}
+void Enemy::die()
+{
+	_alive = false;
+	std::cout << "Enemy Died" << std::endl;
+}
+// -----------------------------------------
 }

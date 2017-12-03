@@ -4,26 +4,30 @@
 #include <SFML\Graphics.hpp>
 // -----------------------------------------
 namespace lpa
+// -----------------------------------------
 {
-	class GameWorld; // Forward declaration
+// -----------------------------------------
+class GameWorld;
+// -----------------------------------------
+class GameLoop
+{
+private:
+	sf::RenderWindow	_window;
+	sf::Clock			_clock;
+	sf::Time			_elapsedTime;
+	GameWorld*			_gameWorld;
 
-	class GameLoop
-	{
-	private:
-		sf::RenderWindow	_window;
-		sf::Clock			_clock;
-		sf::Time			_elapsedTime;
-		GameWorld*			_gameWorld;
+	void handlerEvents();
+	void update(sf::Time elapsedTime);
+	void draw();
 
-		void handlerEvents();
-		void update(sf::Time elapsedTime);
-		void draw();
+public:
+	GameLoop();
+	~GameLoop();
 
-	public:
-		GameLoop();
-		~GameLoop();
-
-		void run();
-	};
+	void run();
+};
+// -----------------------------------------
 }
+// -----------------------------------------
 #endif // GAMELOOP_H

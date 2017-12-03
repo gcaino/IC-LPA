@@ -4,14 +4,18 @@
 #include <SFML\Graphics.hpp>
 // -----------------------------------------
 namespace lpa
+// -----------------------------------------
 {
-	class CollisionManager
-	{
-	public:
-		CollisionManager();
-		~CollisionManager();
+// -----------------------------------------
+class CollisionManager
+{
+public:
+	CollisionManager();
+	~CollisionManager();
 
-		static bool boundingBoxTest(const sf::Sprite& Object1, const sf::Sprite& Object2);
-	};
+	static bool boundingBoxTest(const sf::Sprite& Object1, const sf::Sprite& Object2);
+};
+// -----------------------------------------
 }
+// -----------------------------------------
 #endif // !COLLISION_MANAGER_H

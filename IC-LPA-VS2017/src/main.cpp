@@ -5,14 +5,14 @@
 #include "vld.h"
 #endif
 // -----------------------------------------
-#include <iostream>
+#include "GameLoop.h"
 #include <cstdlib>
 #include <ctime>
-#include "GameLoop.h"
+#include <iostream>
 // -----------------------------------------
 int main()
 {
-	std::srand(std::time(NULL));
+	std::srand(static_cast<unsigned int>(std::time(NULL)));
 
 	try
 	{
@@ -23,7 +23,6 @@ int main()
 	{
 		std::cerr << "Abnormal termination\n" << std::endl;
 	}
-
 	return 0;
 }
 
