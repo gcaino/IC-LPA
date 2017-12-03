@@ -1,11 +1,18 @@
 #include "GameWorld.h"
 // -----------------------------------------
 #include "CollisionManager.h"
+#include "GameObject.h"
 #include <iostream>
+#include <list>
+#include <iterator>
 // -----------------------------------------
 namespace lpa
 // -----------------------------------------
 {
+bool compareAxisY(const sf::Sprite& first, const sf::Sprite& second)
+{
+	return (first.getPosition().y < second.getPosition().y);
+}
 // -----------------------------------------
 GameWorld::GameWorld(const sf::RenderWindow& window)
 	: _indexCurrentWave(0)
@@ -20,7 +27,11 @@ GameWorld::~GameWorld()
 }
 void GameWorld::handlerInputs()
 {
+	if (!_player.isAlive())
+		return;
+
 	_player.handlerInputs();
+	_player.handlerInputsAttack(_waves, *_window);
 }
 void GameWorld::update(sf::Time elapsedTime)
 {
@@ -36,36 +47,68 @@ void GameWorld::update(sf::Time elapsedTime)
 }
 void GameWorld::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	_arena.draw(target, states);
-	_waves[_indexCurrentWave].draw(target, states);
-	_player.draw(target, states);
+}
+void GameWorld::draw(sf::RenderTarget& target, sf::RenderStates states)
+{
+	std::list<sf::Sprite> sprites;
+	sprites.push_back(_arena.getSprite());
+	sprites.push_back(_player.getSprite());
+
+	uint maxWaveEnemies = _waves[_indexCurrentWave].getMaxEnemies();
+	for (uint i = 0; i < maxWaveEnemies; i++)
+	{
+		if (_waves[_indexCurrentWave].getEnemyRefByIndex(i).isAlive())
+		{
+			sprites.push_back(_waves[_indexCurrentWave].getEnemyRefByIndex(i).getSprite());
+		}
+	}
+
+	sprites.sort(compareAxisY);
+	
+	std::list<sf::Sprite>::iterator it;
+	for (it = sprites.begin(); it != sprites.end(); ++it)
+	{
+		target.draw(*it, sf::RenderStates::Default);
+	}
 }
 void GameWorld::collisionDetectionPlayerEnemies()
 {
 	uint maxWaveEnemies = _waves[_indexCurrentWave].getMaxEnemies();
-	Enemy* enemy = nullptr;
 	for (uint i = 0; i < maxWaveEnemies; i++)
 	{
-		enemy = &_waves[_indexCurrentWave].getEnemyRefByIndex(i);
+		Enemy* enemy = &_waves[_indexCurrentWave].getEnemyRefByIndex(i);
 		if (enemy->isAlive())
 		{
 			if (CollisionManager::boundingBoxTest(enemy->getSprite(), _player.getSprite()))
 			{
-				//_player.movePreviousPosition();
-				if (_player.isAttacking())
-				{
-					sf::Vector2i targetCoords = sf::Mouse::getPosition(*_window);
-					_player.attack(enemy, targetCoords);
-				}
-				//enemy->movePreviousPosition();
-				enemy->setFollowing(false);
-				enemy->attack(&_player);
+				collisionPlayerActions(enemy);
+				collisionEnemyActions(enemy);
 			}
 			else
 			{
-				enemy->setFollowing(true);
+				notCollisionEnemyActions(enemy);
 			}
 		}
+	}
+}
+void GameWorld::collisionPlayerActions(Enemy* pEnemy)
+{
+	_player.movePreviousPosition();
+}
+void GameWorld::collisionEnemyActions(Enemy* pEnemy)
+{
+	pEnemy->movePreviousPosition();
+	pEnemy->attack(&_player);
+	pEnemy->setFollowing(false);
+}
+void GameWorld::notCollisionEnemyActions(Enemy* pEnemy)
+{
+	if (!pEnemy->isFollowing()) 
+	{
+		if (!pEnemy->isClockFollowingActive())
+			pEnemy->restartClockToFollow();
+		
+		pEnemy->waitToFollow();
 	}
 }
 // -----------------------------------------

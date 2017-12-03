@@ -27,6 +27,9 @@ private:
 	SpawnManager			_spawnManager;
 
 	void collisionDetectionPlayerEnemies();
+	void collisionPlayerActions(Enemy* pEnemy);
+	void collisionEnemyActions(Enemy* pEnemy);
+	void notCollisionEnemyActions(Enemy* pEnemy);
 
 public:
 	GameWorld(const sf::RenderWindow& window);
@@ -34,6 +37,7 @@ public:
 
 	void handlerInputs();
 	void update(sf::Time elapsedTime);
+	void draw(sf::RenderTarget& target, sf::RenderStates states);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 // -----------------------------------------

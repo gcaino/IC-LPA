@@ -2,6 +2,7 @@
 // -----------------------------------------
 #include "Player.h"
 #include "Constants.h"
+#include <SFML\System.hpp>
 #include <iostream>
 // -----------------------------------------
 namespace lpa
@@ -13,6 +14,9 @@ Enemy::Enemy()
 	, ENEMY_SPEED_ATTACK(sf::seconds(3.f))
 	, _points(10)
 	, _following(true)
+	, _timeToFollow(sf::seconds(3.f))
+	, _timeSinceNotFollowing(sf::seconds(0.f))
+	, _clockFollowingActive(false)
 {
 	_texture.loadFromFile(Constants::texturesPath + "orc-01.png");
 	_sprite.setTexture(_texture);
@@ -56,6 +60,20 @@ void Enemy::movePreviousPosition()
 {
 	_position = _prevPosition;
 	_sprite.setPosition(_position);
+}
+void Enemy::waitToFollow()
+{
+	_timeSinceNotFollowing = _clockFollowing.getElapsedTime();
+	if (_timeSinceNotFollowing > _timeToFollow)
+	{
+		_following = true;
+		_clockFollowingActive = false;
+	}
+}
+void Enemy::restartClockToFollow()
+{
+	_clockFollowing.restart();
+	_clockFollowingActive = true;
 }
 void Enemy::attack(Player* pPlayer)
 {

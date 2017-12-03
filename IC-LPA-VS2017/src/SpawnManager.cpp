@@ -25,7 +25,7 @@ SpawnManager::SpawnManager(Wave* wave)
 }
 SpawnManager::~SpawnManager()
 {
-	std::cout << "Destroy SpawnManager" << std::endl;
+	//std::cout << "Destroy SpawnManager" << std::endl;
 }
 void SpawnManager::update(sf::Time elapsedTime)
 {
@@ -43,9 +43,9 @@ void SpawnManager::spawnEnemies()
 		uint randomPoint = std::rand() % SPAWN_POINTS_MAX;
 		uint indexCurrentEnemy = _wave->getIndexCurrentEnemy();
 
-		Enemy& currentEnemy = _wave->getEnemyRefByIndex(indexCurrentEnemy);
-		currentEnemy.setAlive(true);
-		currentEnemy.setPosition(_spawnPoints[randomPoint]);
+		Enemy* currentEnemy = &_wave->getEnemyRefByIndex(indexCurrentEnemy);
+		currentEnemy->setAlive(true);
+		currentEnemy->setPosition(_spawnPoints[randomPoint]);
 
 		_wave->increaseIndexCurrentEnemy();
 		_wave->decreaseRemainingEnemies();

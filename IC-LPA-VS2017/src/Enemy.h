@@ -2,6 +2,7 @@
 #define ENEMY_H
 // -----------------------------------------
 #include "Character.h"
+#include "GameObject.h"
 #include <SFML\Graphics.hpp>
 // -----------------------------------------
 namespace lpa
@@ -24,6 +25,11 @@ private:
 	sf::Time			_timeSinceLastAttack;
 	sf::Clock			_clockAttack;
 
+	sf::Time			_timeToFollow;
+	sf::Time			_timeSinceNotFollowing;
+	sf::Clock			_clockFollowing;
+	bool				_clockFollowingActive;
+
 	void move(sf::Time elapsedTime, Player* pPlayer);
 	uint calculateDamage();
 		
@@ -33,10 +39,13 @@ public:
 
 	bool isFollowing() const			{ return _following; }
 	void setFollowing(bool following)	{ _following = following; }
-
+	bool isClockFollowingActive() const { return _clockFollowingActive; }
+	
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void update(sf::Time elapsedTime, Player* pPlayer);
 	void movePreviousPosition();
+	void waitToFollow();
+	void restartClockToFollow();
 	void attack(Player* pPlayer);
 	void takeDamage(unsigned int damage);
 	void die();

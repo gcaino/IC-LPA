@@ -2,6 +2,7 @@
 #define PLAYER_H
 // -----------------------------------------
 #include "Character.h"
+#include "GameObject.h"
 #include "InputManager.h"
 // -----------------------------------------
 namespace lpa
@@ -9,6 +10,7 @@ namespace lpa
 {
 // -----------------------------------------
 class Enemy;
+class Wave;
 // -----------------------------------------
 class Player : public Character, public InputManager
 {
@@ -33,6 +35,7 @@ public:
 	bool isAttacking() const { return _attacking; }
 
 	void handlerInputs();
+	void handlerInputsAttack(Wave* pWave, const sf::RenderWindow& window);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void update(sf::Time elapsedTime);
 	void movePreviousPosition();

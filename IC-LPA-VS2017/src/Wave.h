@@ -12,7 +12,7 @@ const uint ENEMY_MAX = 9;
 // -----------------------------------------
 class Player;
 // -----------------------------------------
-class Wave
+class Wave : public sf::Drawable
 {
 private:
     Enemy			_enemies[ENEMY_MAX];
@@ -24,10 +24,10 @@ public:
     Wave();
     ~Wave();
 
-	uint	getRemainingEnemies() const		{ return _remainingEnemies; }
-	Enemy&	getEnemyRefByIndex(uint index)	{ return _enemies[index]; }
-	uint	getIndexCurrentEnemy() const	{ return _indexCurrentEnemy; }
-	uint	getMaxEnemies() const			{ return _maxEnemies; }
+	uint	getRemainingEnemies() const						{ return _remainingEnemies; }
+	Enemy&	getEnemyRefByIndex(uint index) 					{ return _enemies[index]; }
+	uint	getIndexCurrentEnemy() const					{ return _indexCurrentEnemy; }
+	uint	getMaxEnemies() const							{ return _maxEnemies; }
 
 	void	increaseIndexCurrentEnemy()		{ ++_indexCurrentEnemy; }
 	void	decreaseRemainingEnemies()		{ if (_remainingEnemies == 0) return; --_remainingEnemies; }

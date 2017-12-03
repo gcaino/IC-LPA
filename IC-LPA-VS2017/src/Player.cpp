@@ -3,6 +3,7 @@
 #include "CollisionManager.h"
 #include "Constants.h"
 #include "Enemy.h"
+#include "Wave.h"
 #include <iostream>
 // -----------------------------------------
 namespace lpa
@@ -72,15 +73,37 @@ void Player::handlerInputs()
 	{
 		stopDown();
 	}
-
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) || 
-		sf::Keyboard::Return)
+}
+void Player::handlerInputsAttack(Wave* pWave, const sf::RenderWindow& window)
+{
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) ||
+		sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
 	{
 		_attacking = true;
 	}
 	else
 	{
 		_attacking = false;
+	}
+
+	if (_attacking)
+	{
+		sf::Vector2i targetCoords = sf::Mouse::getPosition(window);
+		uint maxWaveEnemies = pWave->getMaxEnemies();
+		Enemy* enemy = nullptr;
+		for (uint i = 0; i < maxWaveEnemies; i++)
+		{
+			enemy = &pWave->getEnemyRefByIndex(i);
+			if (enemy->isAlive())
+			{
+				if (CollisionManager::boundingBoxTest(getSprite(), enemy->getSprite()))
+				{
+					attack(enemy, targetCoords);
+					_attacking = false;
+					return;
+				}
+			}
+		}
 	}
 }
 void Player::update(sf::Time elapsedTime)
@@ -105,9 +128,9 @@ void Player::attack(Enemy* enemy, sf::Vector2i targetCoords)
 		std::cout << "Player Attack - Coordinates: x: " << targetCoords.x << " - y: " << targetCoords.y << std::endl;
 		if (enemy->getSprite().getGlobalBounds().contains(static_cast<sf::Vector2f>(targetCoords)))
 		{
-			std::cout << "Pum Pum Pum" << std::endl;
-			enemy->takeDamage(calculateDamage());
+			std::cout << "Attack with mouse: Pum Pum Pum" << std::endl;
 		}
+		enemy->takeDamage(calculateDamage());
 		_clockAttack.restart();
 	}
 }

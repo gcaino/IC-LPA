@@ -9,8 +9,10 @@ Character::Character()
 	, _velocity(100.f)
 	, _health(50)
 	, _strength(5)
+	, _evasion(0)
+	, _level(1)
 	, _alive(false)
-	, _sprite()
+	//, _sprite()
 	, _texture()
 {
 }
