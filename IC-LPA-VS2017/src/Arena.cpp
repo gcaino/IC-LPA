@@ -9,8 +9,8 @@ namespace lpa
 // ---------------------------
 Arena::Arena()
 {
-	_texture.loadFromFile(Constants::texturesPath + "arena-01.png");
-	_textureCollision.loadFromFile(Constants::texturesPath + "arena-01-collision.png");
+	_texture.loadFromFile(Constants::texturePathArena);
+	_textureCollision.loadFromFile(Constants::texturePathArenaCollision);
     _sprite.setTexture(_texture);
 	_spriteCollision.setTexture(_textureCollision);
 	_imageCollision = _textureCollision.copyToImage();

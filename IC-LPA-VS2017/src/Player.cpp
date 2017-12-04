@@ -13,16 +13,17 @@ namespace lpa
 using namespace Constants;
 // -----------------------------------------
 Player::Player()
-	: PLAYER_SPEED_ATTACK(sf::seconds(1.f))
-	, PLAYER_START_HEALTH(100)
+	: PLAYER_SPEED_ATTACK(sf::seconds(0.5f))
+	, PLAYER_START_HEALTH(200)
+	, _attacking(false)
+	, _moving(false)
 {
-	_texture.loadFromFile(texturesPath + "knight-01.png");
+	_texture.loadFromFile(texturePathPlayer);
 	_sprite.setTexture(_texture);
 	_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
 	_health = PLAYER_START_HEALTH;
 	_speedAttack = PLAYER_SPEED_ATTACK;
 	_alive = true;
-	_attacking = false;
 	_timeSinceLastAttack = _clockAttack.restart();
 	resetPosition();
 	//std::cout << "Create Player" << std::endl;
@@ -86,30 +87,11 @@ void Player::handlerInputsAttack(Wave* pWave, const sf::RenderWindow& window)
 	{
 		_attacking = false;
 	}
-
-	if (_attacking)
-	{
-		sf::Vector2i targetCoords = sf::Mouse::getPosition(window);
-		uint maxWaveEnemies = pWave->getMaxEnemies();
-		Enemy* enemy = nullptr;
-		for (uint i = 0; i < maxWaveEnemies; i++)
-		{
-			enemy = &pWave->getEnemyRefByIndex(i);
-			if (enemy->isAlive())
-			{
-				if (CollisionManager::boundingBoxTest(getSprite(), enemy->getSprite()))
-				{
-					attack(enemy, targetCoords);
-					_attacking = false;
-					return;
-				}
-			}
-		}
-	}
 }
 void Player::update(sf::Time elapsedTime)
 {
 	move(elapsedTime);
+	calculateDirection();
 }
 void Player::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
@@ -117,8 +99,6 @@ void Player::draw(sf::RenderTarget & target, sf::RenderStates states) const
 }
 void Player::resetPosition()
 {
-	//_position.x = WINDOW_WIDTH_MAX / 2 - _sprite.getGlobalBounds().width / 2;
-	//_position.y = WINDOW_HEIGHT_MAX / 2 - _sprite.getGlobalBounds().height / 2;
 	_position.x = WINDOW_WIDTH_MAX / 2;
 	_position.y = WINDOW_HEIGHT_MAX / 2 + _sprite.getGlobalBounds().height / 2;
 	_sprite.setPosition(_position);
@@ -147,6 +127,11 @@ void Player::move(sf::Time elapsedTime)
 	if (_leftPressed)	_position.x -= _velocity * elapsedTime.asSeconds();
 
 	_sprite.setPosition(_position);
+	
+	if (_upPressed || _downPressed || _rightPressed || _leftPressed)	
+		_moving = true;
+	else	
+		_moving = false;
 }
 void Player::movePreviousPosition()
 {
@@ -162,7 +147,10 @@ void Player::takeDamage(uint damage)
 	_health -= damage;
 	std::cout << "Player Health: " << _health << std::endl;
 	if (_health <= 0)
+	{
+		_health = 0;
 		die();
+	}	
 }
 void Player::die()
 {

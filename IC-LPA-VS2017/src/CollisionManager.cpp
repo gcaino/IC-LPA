@@ -39,7 +39,6 @@ bool CollisionManager::pixelTest(const sf::Sprite& sprite, const sf::Image& mapI
 
 	if (pixelColor == sf::Color::Red)
 	{
-		std::cout << "Pixel Collision" << std::endl;
 		return true;
 	}
 	else

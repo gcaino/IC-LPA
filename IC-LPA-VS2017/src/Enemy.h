@@ -44,6 +44,7 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void update(sf::Time elapsedTime, Player* pPlayer);
 	void movePreviousPosition();
+	void moveRandomDirection();
 	void waitToFollow();
 	void restartClockToFollow();
 	void attack(Player* pPlayer);

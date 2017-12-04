@@ -19,5 +19,13 @@ Character::Character()
 Character::~Character()
 {
 }
+void Character::calculateDirection()
+{
+	if (_position.x > _prevPosition.x)		_direction._axisX = RIGHT;
+	else if (_position.x < _prevPosition.x)	_direction._axisX = LEFT;
+
+	if (_position.y > _prevPosition.y)		_direction._axisY = DOWN;
+	else if (_position.y < _prevPosition.y)	_direction._axisY = UP;
+}
 // -----------------------------------------
 }

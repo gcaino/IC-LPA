@@ -12,6 +12,8 @@ class GameWorld;
 class GameLoop
 {
 private:
+	const unsigned int	FPS;
+
 	sf::RenderWindow	_window;
 	bool				_paused;
 	sf::Clock			_clock;

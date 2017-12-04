@@ -3,6 +3,7 @@
 #include "Constants.h"
 #include "GameWorld.h"
 #include <SFML\Graphics.hpp>
+#include <iostream>
 // -----------------------------------------
 namespace lpa
 // -----------------------------------------
@@ -10,9 +11,11 @@ namespace lpa
 // -----------------------------------------
 GameLoop::GameLoop()
 	: _paused(false)
+	, FPS(60)
 {
 	_window.create(sf::VideoMode(Constants::WINDOW_WIDTH_MAX,
 								 Constants::WINDOW_HEIGHT_MAX), "Final Project LPA");
+	_window.setFramerateLimit(FPS);
 	_gameWorld = new GameWorld(_window);
 }
 GameLoop::~GameLoop()
@@ -24,9 +27,10 @@ void GameLoop::run()
 {
 	while (_window.isOpen())
 	{
-		_elapsedTime = _clock.restart();
-
 		handlerEvents();
+
+		_elapsedTime = _clock.restart();
+		//std::cout << 1.0f / _elapsedTime.asSeconds() << std::endl;
 
 		if (!_paused)
 			update(_elapsedTime);

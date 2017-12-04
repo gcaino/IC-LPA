@@ -18,7 +18,7 @@ Enemy::Enemy()
 	, _timeSinceNotFollowing(sf::seconds(0.f))
 	, _clockFollowingActive(false)
 {
-	_texture.loadFromFile(Constants::texturesPath + "orc-01.png");
+	_texture.loadFromFile(Constants::texturePathOrc);
 	_sprite.setTexture(_texture);
 	_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
 	_velocity = ENEMY_VELOCITY;
@@ -33,6 +33,7 @@ Enemy::~Enemy()
 void Enemy::update(sf::Time elapsedTime, Player* pPlayer)
 {
 	move(elapsedTime, pPlayer);
+	calculateDirection();
 }
 void Enemy::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
@@ -61,6 +62,10 @@ void Enemy::movePreviousPosition()
 {
 	_position = _prevPosition;
 	_sprite.setPosition(_position);
+}
+void Enemy::moveRandomDirection()
+{
+	// TODO método para evitar que los enemigos se queden atorados en el mapa
 }
 void Enemy::waitToFollow()
 {

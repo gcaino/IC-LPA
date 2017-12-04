@@ -13,6 +13,20 @@ typedef unsigned int uint;
 class Character : public GameObject
 {
 protected:
+	enum DirectionAxis
+	{
+		LEFT,
+		RIGHT,
+		UP,
+		DOWN
+	};
+	struct Direction
+	{
+		DirectionAxis	_axisX;
+		DirectionAxis	_axisY;
+	};
+
+	Direction		_direction;
 	sf::Vector2f	_position;
 	sf::Vector2f	_prevPosition;
 	float			_velocity;
@@ -31,12 +45,15 @@ public:
 	//sf::Sprite		getSprite() const							{ return _sprite; }
 	sf::Vector2f	getPosition() const							{ return _position; }
 	void			setPosition(sf::Vector2f newPosition)		{ _position = newPosition; }
+	Direction		getDirection() const						{ return _direction; }
+	void			setDirection(Direction newDirection)		{ _direction = newDirection; }
 	sf::Vector2f	getPrevPosition() const						{ return _prevPosition; }
 	void			setPrevPosition(sf::Vector2f prevPosition)	{ _position = prevPosition; }
 	bool			isAlive() const								{ return _alive; }
 	void			setAlive(bool alive)						{ _alive = alive; }
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const = 0;
+	void calculateDirection();
 };
 // -----------------------------------------
 }

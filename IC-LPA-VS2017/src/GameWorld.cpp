@@ -41,8 +41,10 @@ void GameWorld::update(sf::Time elapsedTime)
 	_player.update(elapsedTime);
 	_waves[_indexCurrentWave].update(elapsedTime, &_player);
 	
+	collisionDetectionPlayerLimitsArena();
+	collisionDetectionEnemiesLimitsArena();
 	collisionDetectionPlayerEnemies();
-	collisionDetectionLimitsArena();
+	collisionDetectionEnemyEmemies();
 
 	_spawnManager.update(elapsedTime);
 }
@@ -72,15 +74,19 @@ void GameWorld::draw(sf::RenderTarget& target, sf::RenderStates states)
 		target.draw(*it, sf::RenderStates::Default);
 	}
 }
-void GameWorld::collisionDetectionLimitsArena()
+void GameWorld::collisionDetectionPlayerLimitsArena()
 {
 	sf::Image imageArenaCollision = _arena.getImageCollision();
 	
 	if (CollisionManager::pixelTest(_player.getSprite(), imageArenaCollision))
 	{
+		std::cout << "Player Pixel Collision" << std::endl;
 		_player.movePreviousPosition();
 	}
-
+}
+void GameWorld::collisionDetectionEnemiesLimitsArena()
+{
+	sf::Image imageArenaCollision = _arena.getImageCollision();
 	uint maxWaveEnemies = _waves[_indexCurrentWave].getMaxEnemies();
 	for (uint i = 0; i < maxWaveEnemies; i++)
 	{
@@ -89,6 +95,7 @@ void GameWorld::collisionDetectionLimitsArena()
 		{
 			if (CollisionManager::pixelTest(enemy->getSprite(), imageArenaCollision))
 			{
+				std::cout << "Enemy Pixel Collision" << std::endl;
 				enemy->movePreviousPosition();
 			}
 		}
@@ -114,13 +121,45 @@ void GameWorld::collisionDetectionPlayerEnemies()
 		}
 	}
 }
+void GameWorld::collisionDetectionEnemyEmemies()
+{
+	uint maxWaveEnemies = _waves[_indexCurrentWave].getMaxEnemies();
+	for (uint i = 0; i < maxWaveEnemies - 1; i++)
+	{
+		Enemy* enemy = &_waves[_indexCurrentWave].getEnemyRefByIndex(i);
+		if (enemy->isAlive())
+		{
+			for (uint j = i + 1; j < maxWaveEnemies; j++)
+			{
+				Enemy* enemy2 = &_waves[_indexCurrentWave].getEnemyRefByIndex(j);
+				if (enemy2->isAlive())
+				{
+					if (CollisionManager::boundingBoxTest(enemy->getSprite(), enemy2->getSprite()))
+					{
+						enemy->movePreviousPosition();
+					}
+				}
+			}
+		}
+	}
+}
 void GameWorld::collisionPlayerActions(Enemy* pEnemy)
 {
-	_player.movePreviousPosition();
+	if (_player.isAttacking())
+	{
+		sf::Vector2i targetCoords = sf::Mouse::getPosition(*_window);
+		_player.attack(pEnemy, targetCoords);
+		_player.setAttacking(false);
+	}
+
+	if (_player.isMoving())
+	{
+		_player.movePreviousPosition();
+	}
 }
 void GameWorld::collisionEnemyActions(Enemy* pEnemy)
 {
-	pEnemy->movePreviousPosition();
+	//pEnemy->movePreviousPosition();
 	pEnemy->attack(&_player);
 	pEnemy->setFollowing(false);
 }

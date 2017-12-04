@@ -22,6 +22,7 @@ private:
 	sf::Time			_timeSinceLastAttack;
 	sf::Clock			_clockAttack;
 	bool				_attacking;
+	bool				_moving;
 
 	void move(sf::Time elapsedTime);
     void resetPosition();
@@ -32,7 +33,10 @@ public:
 	Player();
 	~Player();
 
-	bool isAttacking() const { return _attacking; }
+	bool isAttacking() const			{ return _attacking; }
+	void setAttacking(bool attacking)	{ _attacking = attacking; }
+	bool isMoving() const				{ return _moving; }
+	void setMoving(bool moving)			{ _moving = moving; }
 
 	void handlerInputs();
 	void handlerInputsAttack(Wave* pWave, const sf::RenderWindow& window);
