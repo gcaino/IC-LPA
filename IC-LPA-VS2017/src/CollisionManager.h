@@ -13,7 +13,8 @@ public:
 	CollisionManager();
 	~CollisionManager();
 
-	static bool boundingBoxTest(const sf::Sprite& Object1, const sf::Sprite& Object2);
+	static bool boundingBoxTest(const sf::Sprite& Object1, const sf::Sprite& Object2, float factor = 0.f);
+	static bool CollisionManager::boundingBoxRangeAttack(const sf::Sprite & Object1, const sf::Sprite & Object2, float factor = 0.f);
 	static bool pixelTest(const sf::Sprite& sprite, const sf::Image& mapImage);
 };
 // -----------------------------------------

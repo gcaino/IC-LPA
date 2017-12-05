@@ -8,8 +8,8 @@ namespace lpa
 {
 // -----------------------------------------
 Wave::Wave()
-	: _remainingEnemies(ENEMY_MAX)
-	, _maxEnemies(ENEMY_MAX)
+	: _maxEnemies(ENEMY_MAX)
+	, _remainingEnemies(ENEMY_MAX)
 	, _indexCurrentEnemy(0)
 {
 }

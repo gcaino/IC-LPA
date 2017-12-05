@@ -4,6 +4,7 @@
 #include "Character.h"
 #include "GameObject.h"
 #include "InputManager.h"
+#include <list>
 // -----------------------------------------
 namespace lpa
 // -----------------------------------------
@@ -23,6 +24,10 @@ private:
 	sf::Clock			_clockAttack;
 	bool				_attacking;
 	bool				_moving;
+	float				_rangeAttack;
+
+	std::list<Enemy*>	_attackablesEnemies;
+	std::list<Enemy*>::iterator it;
 
 	void move(sf::Time elapsedTime);
     void resetPosition();
@@ -38,12 +43,16 @@ public:
 	bool isMoving() const				{ return _moving; }
 	void setMoving(bool moving)			{ _moving = moving; }
 
+	void addAttackableEnemy(Enemy* enemy);
+	void removeAttackableEnemy(Enemy* enemy);
+	bool isItemAttackablesEnemiesList(const Enemy* enemy);
+
 	void handlerInputs();
 	void handlerInputsAttack(Wave* pWave, const sf::RenderWindow& window);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void update(sf::Time elapsedTime);
 	void movePreviousPosition();
-	void attack(Enemy* enemy, sf::Vector2i targetCoords);
+	void attack(Enemy* enemy);
 	void takeDamage(uint damage);
 };
 // -----------------------------------------

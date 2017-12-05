@@ -5,6 +5,7 @@
 #include <iostream>
 #include <list>
 #include <iterator>
+#include <cmath>
 // -----------------------------------------
 namespace lpa
 // -----------------------------------------
@@ -71,6 +72,30 @@ void GameWorld::draw(sf::RenderTarget& target, sf::RenderStates states)
 	std::list<sf::Sprite>::iterator it;
 	for (it = sprites.begin(); it != sprites.end(); ++it)
 	{
+		// Escalar Texturas (Comentado, no me termina de gustar el gameplay que genera y el pixelado)
+		/*if (it != sprites.begin())
+		{
+			float targetSizeY	= static_cast<float>(target.getSize().y / 2);
+			float spritePosY	= (*it).getPosition().y;
+			float diffAbs		= abs(targetSizeY - spritePosY);
+			float diffRel		= diffAbs / targetSizeY;
+
+			if (diffRel > 0.25f)	diffRel = 0.25f;
+
+			if (spritePosY < targetSizeY)
+			{
+				(*it).setScale(1 - diffRel, 1 - diffRel);
+			}
+			else if (spritePosY > targetSizeY)
+			{
+				(*it).setScale(1 + diffRel, 1 + diffRel);
+			}
+			else
+			{
+				(*it).setScale(1, 1);
+			}
+		}*/
+		// Dibujar
 		target.draw(*it, sf::RenderStates::Default);
 	}
 }
@@ -80,7 +105,7 @@ void GameWorld::collisionDetectionPlayerLimitsArena()
 	
 	if (CollisionManager::pixelTest(_player.getSprite(), imageArenaCollision))
 	{
-		std::cout << "Player Pixel Collision" << std::endl;
+		//std::cout << "Player Pixel Collision" << std::endl;
 		_player.movePreviousPosition();
 	}
 }
@@ -95,7 +120,7 @@ void GameWorld::collisionDetectionEnemiesLimitsArena()
 		{
 			if (CollisionManager::pixelTest(enemy->getSprite(), imageArenaCollision))
 			{
-				std::cout << "Enemy Pixel Collision" << std::endl;
+				//std::cout << "Enemy Pixel Collision" << std::endl;
 				enemy->movePreviousPosition();
 			}
 		}
@@ -106,17 +131,38 @@ void GameWorld::collisionDetectionPlayerEnemies()
 	uint maxWaveEnemies = _waves[_indexCurrentWave].getMaxEnemies();
 	for (uint i = 0; i < maxWaveEnemies; i++)
 	{
-		Enemy* enemy = &_waves[_indexCurrentWave].getEnemyRefByIndex(i);
-		if (enemy->isAlive())
+		Enemy* pEnemy = &_waves[_indexCurrentWave].getEnemyRefByIndex(i);
+		if (pEnemy->isAlive())
 		{
-			if (CollisionManager::boundingBoxTest(enemy->getSprite(), _player.getSprite()))
+			// Movement
+			if (CollisionManager::boundingBoxTest(pEnemy->getSprite(), _player.getSprite(), 0.15f))
 			{
-				collisionPlayerActions(enemy);
-				collisionEnemyActions(enemy);
+				collisionPlayerActions(pEnemy);
+				collisionEnemyActions(pEnemy);
 			}
 			else
 			{
-				notCollisionEnemyActions(enemy);
+				notCollisionEnemyActions(pEnemy);
+			}
+			// Range Attack Player
+			if (CollisionManager::boundingBoxRangeAttack(_player.getSprite(), pEnemy->getSprite()))
+			{
+				_player.addAttackableEnemy(pEnemy);
+				//std::cout << "Enemy is attackable" << std::endl;
+			}
+			else
+			{
+				_player.removeAttackableEnemy(pEnemy);
+			}
+			// Range Attack Enemies
+			if (CollisionManager::boundingBoxRangeAttack(pEnemy->getSprite(), _player.getSprite()))
+			{
+				pEnemy->addAttackablePlayer(&_player);
+				//std::cout << "Player is attackable" << std::endl;
+			}
+			else
+			{
+				pEnemy->removeAttackablePlayer(&_player);
 			}
 		}
 	}
@@ -134,7 +180,7 @@ void GameWorld::collisionDetectionEnemyEmemies()
 				Enemy* enemy2 = &_waves[_indexCurrentWave].getEnemyRefByIndex(j);
 				if (enemy2->isAlive())
 				{
-					if (CollisionManager::boundingBoxTest(enemy->getSprite(), enemy2->getSprite()))
+					if (CollisionManager::boundingBoxTest(enemy->getSprite(), enemy2->getSprite(), 0.1f))
 					{
 						enemy->movePreviousPosition();
 					}
@@ -145,13 +191,6 @@ void GameWorld::collisionDetectionEnemyEmemies()
 }
 void GameWorld::collisionPlayerActions(Enemy* pEnemy)
 {
-	if (_player.isAttacking())
-	{
-		sf::Vector2i targetCoords = sf::Mouse::getPosition(*_window);
-		_player.attack(pEnemy, targetCoords);
-		_player.setAttacking(false);
-	}
-
 	if (_player.isMoving())
 	{
 		_player.movePreviousPosition();
@@ -159,8 +198,8 @@ void GameWorld::collisionPlayerActions(Enemy* pEnemy)
 }
 void GameWorld::collisionEnemyActions(Enemy* pEnemy)
 {
-	//pEnemy->movePreviousPosition();
-	pEnemy->attack(&_player);
+	pEnemy->movePreviousPosition();
+	//pEnemy->attack(&_player);
 	pEnemy->setFollowing(false);
 }
 void GameWorld::notCollisionEnemyActions(Enemy* pEnemy)

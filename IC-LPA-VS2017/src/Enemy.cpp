@@ -4,6 +4,7 @@
 #include "Constants.h"
 #include <SFML\System.hpp>
 #include <iostream>
+#include <algorithm>
 // -----------------------------------------
 namespace lpa
 // -----------------------------------------
@@ -14,7 +15,8 @@ Enemy::Enemy()
 	, ENEMY_SPEED_ATTACK(sf::seconds(3.f))
 	, _points(10)
 	, _following(true)
-	, _timeToFollow(sf::seconds(3.f))
+	, _rangeAttack(false)
+	, _timeToFollow(sf::seconds(2.f))
 	, _timeSinceNotFollowing(sf::seconds(0.f))
 	, _clockFollowingActive(false)
 {
@@ -34,6 +36,7 @@ void Enemy::update(sf::Time elapsedTime, Player* pPlayer)
 {
 	move(elapsedTime, pPlayer);
 	calculateDirection();
+	iteratePlayersAttackables(pPlayer);
 }
 void Enemy::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
@@ -81,6 +84,11 @@ void Enemy::restartClockToFollow()
 	_clockFollowing.restart();
 	_clockFollowingActive = true;
 }
+void Enemy::iteratePlayersAttackables(Player* pPlayer)
+{
+	if (isItemAttackablesPlayersList(pPlayer))
+		attack(pPlayer);
+}
 void Enemy::attack(Player* pPlayer)
 {
 	_timeSinceLastAttack = _clockAttack.getElapsedTime();
@@ -106,6 +114,22 @@ void Enemy::die()
 {
 	_alive = false;
 	std::cout << "Enemy Died" << std::endl;
+}
+void Enemy::addAttackablePlayer(Player* pPlayer)
+{
+	if (isItemAttackablesPlayersList(pPlayer))
+		return;
+	
+	_attackablesPlayers.push_back(pPlayer);
+}
+void Enemy::removeAttackablePlayer(Player* pPlayer)
+{
+	if (isItemAttackablesPlayersList(pPlayer))
+		_attackablesPlayers.remove(pPlayer);
+}
+bool Enemy::isItemAttackablesPlayersList(Player* pPlayer)
+{
+	return (std::find(_attackablesPlayers.begin(), _attackablesPlayers.end(), pPlayer) != _attackablesPlayers.end());
 }
 // -----------------------------------------
 }
