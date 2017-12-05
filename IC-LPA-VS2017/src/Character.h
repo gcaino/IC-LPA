@@ -27,6 +27,7 @@ protected:
 	};
 
 	Direction		_direction;
+	Direction		_prevDirection;
 	sf::Vector2f	_position;
 	sf::Vector2f	_prevPosition;
 	float			_velocity;
@@ -54,6 +55,7 @@ public:
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const = 0;
 	void calculateDirection();
+	void rotateSprite();
 };
 // -----------------------------------------
 }

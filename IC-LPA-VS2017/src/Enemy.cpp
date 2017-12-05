@@ -36,6 +36,7 @@ void Enemy::update(sf::Time elapsedTime, Player* pPlayer)
 {
 	move(elapsedTime, pPlayer);
 	calculateDirection();
+	rotateSprite();
 	iteratePlayersAttackables(pPlayer);
 }
 void Enemy::draw(sf::RenderTarget & target, sf::RenderStates states) const

@@ -144,6 +144,7 @@ void Player::update(sf::Time elapsedTime)
 {
 	move(elapsedTime);
 	calculateDirection();
+	rotateSprite();
 }
 void Player::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
