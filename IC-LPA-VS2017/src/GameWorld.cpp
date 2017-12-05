@@ -1,5 +1,6 @@
 #include "GameWorld.h"
 // -----------------------------------------
+#include "Constants.h"
 #include "CollisionManager.h"
 #include "GameObject.h"
 #include <iostream>

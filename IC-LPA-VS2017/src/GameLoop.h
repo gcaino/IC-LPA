@@ -20,7 +20,12 @@ private:
 	sf::Time			_elapsedTime;
 	GameWorld*			_gameWorld;
 
+	sf::Texture			_textureMousePointer;
+	sf::Sprite			_spriteMousePointer;
+
 	void pause();
+	void setMousePointer();
+	void updateMousePointer();
 
 	void handlerEvents();
 	void update(sf::Time elapsedTime);
