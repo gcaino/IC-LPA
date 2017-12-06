@@ -23,22 +23,7 @@ Enemy::Enemy()
 	, _timeSinceNotFollowing(sf::seconds(0.f))
 	, _clockFollowingActive(false)
 {
-	//_texture.loadFromFile(Constants::texturePathOrc);
-	//_sprite.setTexture(_texture);
-	//_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height);
-
-	_texture.loadFromFile(Constants::texturePathOrc);
-	_walkingAnimation.setSpriteSheet(_texture);
-	_walkingAnimation.addFrame(sf::IntRect(0, 0, 150, 126));
-	/*_walkingAnimation.addFrame(sf::IntRect(120, 0, 120, 113));
-	_walkingAnimation.addFrame(sf::IntRect(240, 0, 120, 113));
-	_walkingAnimation.addFrame(sf::IntRect(360, 0, 120, 113));
-	_walkingAnimation.addFrame(sf::IntRect(480, 0, 120, 113));
-	_walkingAnimation.addFrame(sf::IntRect(600, 0, 120, 113));
-	_walkingAnimation.addFrame(sf::IntRect(720, 0, 120, 113));*/
-	
-	_currentAnimation = &_walkingAnimation;
-	_animatedSprite.setAnimation(*_currentAnimation);
+	setupAnimations();
 	_animatedSprite.setOrigin(_animatedSprite.getGlobalBounds().width / 2, _animatedSprite.getGlobalBounds().height);
 
 	_velocity = ENEMY_VELOCITY;
@@ -53,7 +38,7 @@ Enemy::~Enemy()
 void Enemy::setupAnimations()
 {
 	// IDLE
-	_textureIdle.loadFromFile(textureOrcIdleAnimation);
+	_textureIdle.loadFromFile(texturePlayerIdleAnimation);
 	_idleAnimation.setSpriteSheet(_textureIdle);
 
 	_idleAnimation.addFrame(sf::IntRect(0, 0, 133, 114));
@@ -64,7 +49,7 @@ void Enemy::setupAnimations()
 	_idleAnimation.addFrame(sf::IntRect(665, 0, 133, 114));
 	_idleAnimation.addFrame(sf::IntRect(798, 0, 133, 114));
 	// WALK
-	_textureWalk.loadFromFile(textureOrcWalkAnimation);
+	_textureWalk.loadFromFile(texturePlayerWalkAnimation);
 	_walkingAnimation.setSpriteSheet(_textureWalk);
 
 	_walkingAnimation.addFrame(sf::IntRect(0, 0, 136, 114));
@@ -75,7 +60,7 @@ void Enemy::setupAnimations()
 	_walkingAnimation.addFrame(sf::IntRect(680, 0, 136, 114));
 	_walkingAnimation.addFrame(sf::IntRect(816, 0, 136, 114));
 	// ATTACK
-	_textureAttack.loadFromFile(textureOrcAttackAnimation);
+	_textureAttack.loadFromFile(texturePlayerAttackAnimation);
 	_attackAnimation.setSpriteSheet(_textureAttack);
 
 	_attackAnimation.addFrame(sf::IntRect(0, 0, 137, 120));
@@ -86,7 +71,7 @@ void Enemy::setupAnimations()
 	_attackAnimation.addFrame(sf::IntRect(685, 0, 137, 120));
 	_attackAnimation.addFrame(sf::IntRect(822, 0, 137, 120));
 	// HURT
-	_textureHurt.loadFromFile(textureOrcHurtAnimation);
+	_textureHurt.loadFromFile(texturePlayerHurtAnimation);
 	_hurtAnimation.setSpriteSheet(_textureHurt);
 
 	_hurtAnimation.addFrame(sf::IntRect(0, 0, 124, 123));
@@ -97,7 +82,7 @@ void Enemy::setupAnimations()
 	_hurtAnimation.addFrame(sf::IntRect(620, 0, 124, 123));
 	_hurtAnimation.addFrame(sf::IntRect(744, 0, 124, 123));
 	// DIE
-	_textureDie.loadFromFile(textureOrcDieAnimation);
+	_textureDie.loadFromFile(texturePlayerDieAnimation);
 	_dieAnimation.setSpriteSheet(_textureDie);
 
 	_dieAnimation.addFrame(sf::IntRect(880, 0, 176, 129));
@@ -119,6 +104,7 @@ void Enemy::update(sf::Time elapsedTime, Player* pPlayer)
 	calculateDirection();
 	rotateSprite();
 	iteratePlayersAttackables(pPlayer);
+	verifyDeath(elapsedTime);
 
 	_animatedSprite.update(elapsedTime);
 }
@@ -142,9 +128,26 @@ void Enemy::move(sf::Time elapsedTime, Player* pPlayer)
 		if (posPlayer.y < _position.y)
 			_position.y -= _velocity * elapsedTime.asSeconds();
 
+		_animatedSprite.setPosition(_position);
+	}
+
+	if (_following)
+	{
 		_currentAnimation = &_walkingAnimation;
 		_animatedSprite.play(*_currentAnimation);
-		_animatedSprite.setPosition(_position);
+	}
+	else
+	{
+		if (_currentAnimation == &_walkingAnimation)
+		{
+			_animatedSprite.stop();
+		}
+
+		if (!_animatedSprite.isPlaying())
+		{
+			_currentAnimation = &_idleAnimation;
+			_animatedSprite.play(*_currentAnimation);
+		}
 	}
 }
 void Enemy::movePreviousPosition()
@@ -182,6 +185,10 @@ void Enemy::attack(Player* pPlayer)
 	{
 		std::cout << "Enemy Attack" << std::endl;
 		pPlayer->takeDamage(calculateDamage());
+
+		_currentAnimation = &_attackAnimation;
+		_animatedSprite.play(*_currentAnimation);
+
 		_clockAttack.restart();
 	}
 }
@@ -190,16 +197,44 @@ void Enemy::takeDamage(unsigned int damage)
 	_health -= damage;
 	std::cout << "Enemy Health: " << _health << std::endl;
 	if (_health <= 0)
-		die();
+	{
+		_health = 0;
+		return;
+	}
+
+	if (!_animatedSprite.isPlaying() || _currentAnimation == &_idleAnimation)
+	{
+		_animatedSprite.pause();
+		_currentAnimation = &_hurtAnimation;
+		_animatedSprite.play(*_currentAnimation);
+	}
+
+	if (!_animatedSpriteBlood.isPlaying() && _currentAnimation == &_hurtAnimation)
+		_animatedSpriteBlood.play();
 }
 uint Enemy::calculateDamage()
 {
 	return	_strength;
 }
-void Enemy::die()
+void Enemy::verifyDeath(sf::Time elapsedTime)
 {
-	_alive = false;
-	std::cout << "Enemy Died" << std::endl;
+	if (_health <= 0)
+	{
+		if (_currentAnimation != &_dieAnimation)
+		{
+			_animatedSprite.pause();
+			_currentAnimation = &_dieAnimation;
+			_animatedSprite.play(*_currentAnimation);
+			_animatedSprite.setFrame(1);
+		}
+
+		_elapsedDeadTime += elapsedTime;
+		if (_elapsedDeadTime > _deadTime)
+		{
+			_alive = false;
+			std::cout << "Enemy Died" << std::endl;
+		}
+	}
 }
 void Enemy::addAttackablePlayer(Player* pPlayer)
 {
