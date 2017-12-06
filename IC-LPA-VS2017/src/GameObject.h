@@ -17,7 +17,7 @@ public:
 	~GameObject();
 
 	sf::Sprite		getSprite() const { return _sprite; }
-
+	
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 // -----------------------------------

@@ -15,7 +15,7 @@ SpawnManager::SpawnManager(Wave* wave)
 	: SPAWN_POINT_UNO(0, WINDOW_HEIGHT_MAX * 0.75f)
 	, SPAWN_POINT_DOS(WINDOW_WIDTH_MAX - 100, WINDOW_HEIGHT_MAX * 0.75f)
 	, SPAWN_POINTS_MAX(2)
-	, SPAWN_TIME(sf::seconds(10.f))
+	, SPAWN_TIME(sf::seconds(5.f))
 	, _spawnPoints{ SPAWN_POINT_UNO, SPAWN_POINT_DOS }
 	, _spawnTime(SPAWN_TIME)
 	, _timeSinceLastSpawn(sf::seconds(0.f))

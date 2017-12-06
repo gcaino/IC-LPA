@@ -1,5 +1,7 @@
 #include "Character.h"
 // -----------------------------------------
+#include "Constants.h"
+// -----------------------------------------
 namespace lpa
 // -----------------------------------------
 {
@@ -12,11 +14,26 @@ Character::Character()
 	, _evasion(0)
 	, _level(1)
 	, _alive(false)
-	//, _sprite()
 	, _texture()
+	, _animatedSprite(sf::seconds(0.1f), true, false)
+	, _animatedSpriteBlood(sf::seconds(0.1f), true, false)
+	, _drawBlood(false)
 {
 	_direction._axisX = RIGHT;
 	_prevDirection._axisX = RIGHT;
+
+	_bloodTexture.loadFromFile(Constants::texturePathBlood);
+	_bloodAnimation.setSpriteSheet(_bloodTexture);
+	
+	_bloodAnimation.addFrame(sf::IntRect(640, 0, 128, 128));
+	_bloodAnimation.addFrame(sf::IntRect(0, 0, 128, 128));
+	_bloodAnimation.addFrame(sf::IntRect(128, 0, 128, 128));
+	_bloodAnimation.addFrame(sf::IntRect(256, 0, 128, 128));
+	_bloodAnimation.addFrame(sf::IntRect(384, 0, 128, 128));
+	_bloodAnimation.addFrame(sf::IntRect(512, 0, 128, 128));
+	_bloodAnimation.addFrame(sf::IntRect(640, 0, 128, 128));
+
+	_animatedSpriteBlood.setAnimation(_bloodAnimation);
 }
 Character::~Character()
 {
@@ -34,7 +51,9 @@ void Character::calculateDirection()
 void Character::rotateSprite()
 {
 	if (_prevDirection._axisX != _direction._axisX)
-		_sprite.scale(-1,1);
+	{
+		_animatedSprite.scale(-1, 1);
+	}	
 }
 // -----------------------------------------
 }

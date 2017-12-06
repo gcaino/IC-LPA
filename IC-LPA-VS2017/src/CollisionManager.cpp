@@ -1,5 +1,6 @@
 #include "CollisionManager.h"
 // -----------------------------------------
+#include "AnimatedSprite.h"
 #include <iostream>
 // -----------------------------------------
 namespace lpa
@@ -12,7 +13,7 @@ CollisionManager::CollisionManager()
 CollisionManager::~CollisionManager()
 {
 }
-bool CollisionManager::boundingBoxTest(const sf::Sprite & Object1, const sf::Sprite & Object2, float factor)
+bool CollisionManager::boundingBoxTest(const AnimatedSprite & Object1, const AnimatedSprite & Object2, float factor)
 {
 	sf::FloatRect boundingBoxObj1 = Object1.getGlobalBounds();
 	sf::FloatRect boundingBoxObj2 = Object2.getGlobalBounds();
@@ -32,7 +33,7 @@ bool CollisionManager::boundingBoxTest(const sf::Sprite & Object1, const sf::Spr
 	else
 		return false;
 }
-bool CollisionManager::boundingBoxRangeAttack(const sf::Sprite & Object1, const sf::Sprite & Object2, float factor)
+bool CollisionManager::boundingBoxRangeAttack(const AnimatedSprite & Object1, const AnimatedSprite & Object2, float factor)
 {
 	sf::FloatRect boundingBoxObj1 = Object1.getGlobalBounds();
 	sf::FloatRect boundingBoxObj2 = Object2.getGlobalBounds();
@@ -53,7 +54,7 @@ bool CollisionManager::boundingBoxRangeAttack(const sf::Sprite & Object1, const 
 	else
 		return false;
 }
-bool CollisionManager::pixelTest(const sf::Sprite& sprite, const sf::Image& mapImage)
+bool CollisionManager::pixelTest(const AnimatedSprite& sprite, const sf::Image& mapImage)
 {
 	sf::Vector2u spritePosition = static_cast<sf::Vector2u>(sprite.getPosition());
 	sf::Color pixelColor = mapImage.getPixel(spritePosition.x, spritePosition.y);

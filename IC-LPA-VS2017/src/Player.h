@@ -24,6 +24,7 @@ private:
 	sf::Clock			_clockAttack;
 	bool				_attacking;
 	bool				_moving;
+	bool				_active;
 	float				_rangeAttack;
 
 	std::list<Enemy*>	_attackablesEnemies;
@@ -32,7 +33,8 @@ private:
 	void move(sf::Time elapsedTime);
     void resetPosition();
 	uint calculateDamage();
-	void die();
+	void verifyDeath(sf::Time elapsedTime);
+	void setAttributesAnimations();
 
 public:
 	Player();
@@ -46,6 +48,8 @@ public:
 	void addAttackableEnemy(Enemy* enemy);
 	void removeAttackableEnemy(Enemy* enemy);
 	bool isItemAttackablesEnemiesList(const Enemy* enemy);
+
+	void setupAnimations();
 
 	void handlerInputs();
 	void handlerInputsAttack(Wave* pWave, const sf::RenderWindow& window);

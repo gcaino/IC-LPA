@@ -37,6 +37,7 @@ private:
 	sf::Clock			_clockFollowing;
 	bool				_clockFollowingActive;
 
+	void setupAnimations();
 	void move(sf::Time elapsedTime, Player* pPlayer);
 	uint calculateDamage();
 	void iteratePlayersAttackables(Player* pPlayer);

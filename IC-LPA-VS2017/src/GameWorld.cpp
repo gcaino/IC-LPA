@@ -1,5 +1,6 @@
 #include "GameWorld.h"
 // -----------------------------------------
+#include "AnimatedSprite.h"
 #include "Constants.h"
 #include "CollisionManager.h"
 #include "GameObject.h"
@@ -11,7 +12,7 @@
 namespace lpa
 // -----------------------------------------
 {
-bool compareAxisY(const sf::Sprite& first, const sf::Sprite& second)
+bool compareAxisY(const AnimatedSprite& first, const AnimatedSprite& second)
 {
 	return (first.getPosition().y < second.getPosition().y);
 }
@@ -37,8 +38,7 @@ void GameWorld::handlerInputs()
 }
 void GameWorld::update(sf::Time elapsedTime)
 {
-	if (!_player.isAlive())
-		return;
+	if (!_player.isAlive()) return;
 
 	_player.update(elapsedTime);
 	_waves[_indexCurrentWave].update(elapsedTime, &_player);
@@ -55,22 +55,29 @@ void GameWorld::draw(sf::RenderTarget& target, sf::RenderStates states) const
 }
 void GameWorld::draw(sf::RenderTarget& target, sf::RenderStates states)
 {
-	std::list<sf::Sprite> sprites;
-	sprites.push_back(_arena.getSprite());
-	sprites.push_back(_player.getSprite());
+	target.draw(_arena.getSprite(), sf::RenderStates::Default);
+	
+	std::list<AnimatedSprite> sprites;
+	//sprites.push_back(_arena.getSprite());
+	sprites.push_back(_player.getAnimatedSprite());
+
+	if (_player.canDrawBlood())
+	{
+		sprites.push_back(_player.getAnimatedSpriteBlood());
+	}
 
 	uint maxWaveEnemies = _waves[_indexCurrentWave].getMaxEnemies();
 	for (uint i = 0; i < maxWaveEnemies; i++)
 	{
 		if (_waves[_indexCurrentWave].getEnemyRefByIndex(i).isAlive())
 		{
-			sprites.push_back(_waves[_indexCurrentWave].getEnemyRefByIndex(i).getSprite());
+			sprites.push_back(_waves[_indexCurrentWave].getEnemyRefByIndex(i).getAnimatedSprite());
 		}
 	}
 
 	sprites.sort(compareAxisY);
 	
-	std::list<sf::Sprite>::iterator it;
+	std::list<AnimatedSprite>::iterator it;
 	for (it = sprites.begin(); it != sprites.end(); ++it)
 	{
 		// Escalar Texturas (Comentado, no me termina de gustar el gameplay que genera y el pixelado)
@@ -98,13 +105,14 @@ void GameWorld::draw(sf::RenderTarget& target, sf::RenderStates states)
 		}*/
 		// Dibujar
 		target.draw(*it, sf::RenderStates::Default);
+		
 	}
 }
 void GameWorld::collisionDetectionPlayerLimitsArena()
 {
 	sf::Image imageArenaCollision = _arena.getImageCollision();
 	
-	if (CollisionManager::pixelTest(_player.getSprite(), imageArenaCollision))
+	if (CollisionManager::pixelTest(_player.getAnimatedSprite(), imageArenaCollision))
 	{
 		//std::cout << "Player Pixel Collision" << std::endl;
 		_player.movePreviousPosition();
@@ -119,7 +127,7 @@ void GameWorld::collisionDetectionEnemiesLimitsArena()
 		Enemy* enemy = &_waves[_indexCurrentWave].getEnemyRefByIndex(i);
 		if (enemy->isAlive())
 		{
-			if (CollisionManager::pixelTest(enemy->getSprite(), imageArenaCollision))
+			if (CollisionManager::pixelTest(enemy->getAnimatedSprite(), imageArenaCollision))
 			{
 				//std::cout << "Enemy Pixel Collision" << std::endl;
 				enemy->movePreviousPosition();
@@ -136,7 +144,7 @@ void GameWorld::collisionDetectionPlayerEnemies()
 		if (pEnemy->isAlive())
 		{
 			// Movement
-			if (CollisionManager::boundingBoxTest(pEnemy->getSprite(), _player.getSprite(), 0.15f))
+			if (CollisionManager::boundingBoxTest(pEnemy->getAnimatedSprite(), _player.getAnimatedSprite(), 0.15f))
 			{
 				collisionPlayerActions(pEnemy);
 				collisionEnemyActions(pEnemy);
@@ -146,7 +154,7 @@ void GameWorld::collisionDetectionPlayerEnemies()
 				notCollisionEnemyActions(pEnemy);
 			}
 			// Range Attack Player
-			if (CollisionManager::boundingBoxRangeAttack(_player.getSprite(), pEnemy->getSprite()))
+			if (CollisionManager::boundingBoxRangeAttack(_player.getAnimatedSprite(), pEnemy->getAnimatedSprite()))
 			{
 				_player.addAttackableEnemy(pEnemy);
 				//std::cout << "Enemy is attackable" << std::endl;
@@ -156,7 +164,7 @@ void GameWorld::collisionDetectionPlayerEnemies()
 				_player.removeAttackableEnemy(pEnemy);
 			}
 			// Range Attack Enemies
-			if (CollisionManager::boundingBoxRangeAttack(pEnemy->getSprite(), _player.getSprite()))
+			if (CollisionManager::boundingBoxRangeAttack(pEnemy->getAnimatedSprite(), _player.getAnimatedSprite()))
 			{
 				pEnemy->addAttackablePlayer(&_player);
 				//std::cout << "Player is attackable" << std::endl;
@@ -181,7 +189,7 @@ void GameWorld::collisionDetectionEnemyEmemies()
 				Enemy* enemy2 = &_waves[_indexCurrentWave].getEnemyRefByIndex(j);
 				if (enemy2->isAlive())
 				{
-					if (CollisionManager::boundingBoxTest(enemy->getSprite(), enemy2->getSprite(), 0.1f))
+					if (CollisionManager::boundingBoxTest(enemy->getAnimatedSprite(), enemy2->getAnimatedSprite(), 0.1f))
 					{
 						enemy->movePreviousPosition();
 					}
