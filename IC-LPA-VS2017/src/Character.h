@@ -38,13 +38,13 @@ protected:
 	Animation*			_currentAnimation;
 
 	sf::Texture			_texture;
-	//sf::Texture			_playerTexture;
 	sf::Texture			_textureIdle;
 	sf::Texture			_textureWalk;
 	sf::Texture			_textureAttack;
 	sf::Texture			_textureHurt;
 	sf::Texture			_textureDie;
-	sf::Texture			_bloodTexture;
+	sf::Texture			_redBloodTexture;
+	sf::Texture			_greenBloodTexture;
 
 	AnimatedSprite		_animatedSpriteBlood;
 	Animation			_bloodAnimation;
@@ -64,6 +64,7 @@ protected:
 	uint				_evasion;
 	uint				_level;
 	bool				_alive;
+	bool				_active;
 
 public:
 	Character();
@@ -81,6 +82,8 @@ public:
 	void			setPrevPosition(sf::Vector2f prevPosition)	{ _position = prevPosition; }
 	bool			isAlive() const								{ return _alive; }
 	void			setAlive(bool alive)						{ _alive = alive; }
+	bool			isActive() const							{ return _active; }
+	void			setActive(bool active)						{ _active = active; }
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const = 0;
 	void calculateDirection();

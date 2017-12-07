@@ -24,7 +24,6 @@ private:
 	sf::Clock			_clockAttack;
 	bool				_attacking;
 	bool				_moving;
-	bool				_active;
 	float				_rangeAttack;
 
 	std::list<Enemy*>	_attackablesEnemies;

@@ -38,6 +38,7 @@ private:
 	bool				_clockFollowingActive;
 
 	void setupAnimations();
+	void setAttributesAnimations();
 	void move(sf::Time elapsedTime, Player* pPlayer);
 	uint calculateDamage();
 	void verifyDeath(sf::Time elapsedTime);

@@ -25,10 +25,14 @@ Enemy::Enemy()
 {
 	setupAnimations();
 	_animatedSprite.setOrigin(_animatedSprite.getGlobalBounds().width / 2, _animatedSprite.getGlobalBounds().height);
+	_animatedSpriteBlood.setOrigin(_animatedSprite.getGlobalBounds().width / 2, _animatedSprite.getGlobalBounds().height);
 
 	_velocity = ENEMY_VELOCITY;
 	_speedAttack = ENEMY_SPEED_ATTACK;
 	_timeSinceLastAttack = _clockAttack.restart();
+	_deadTime = sf::seconds(10.f);
+	_elapsedDeadTime = sf::seconds(0.f);
+
 	//std::cout << "Create Enemy" << std::endl;
 }
 Enemy::~Enemy()
@@ -38,75 +42,134 @@ Enemy::~Enemy()
 void Enemy::setupAnimations()
 {
 	// IDLE
-	_textureIdle.loadFromFile(texturePlayerIdleAnimation);
+	_textureIdle.loadFromFile(textureOrcIdleAnimation);
 	_idleAnimation.setSpriteSheet(_textureIdle);
 
-	_idleAnimation.addFrame(sf::IntRect(0, 0, 133, 114));
-	_idleAnimation.addFrame(sf::IntRect(133, 0, 133, 114));
-	_idleAnimation.addFrame(sf::IntRect(266, 0, 133, 114));
-	_idleAnimation.addFrame(sf::IntRect(399, 0, 133, 114));
-	_idleAnimation.addFrame(sf::IntRect(532, 0, 133, 114));
-	_idleAnimation.addFrame(sf::IntRect(665, 0, 133, 114));
-	_idleAnimation.addFrame(sf::IntRect(798, 0, 133, 114));
+	_idleAnimation.addFrame(sf::IntRect(0, 0, 158, 117));
+	_idleAnimation.addFrame(sf::IntRect(158, 0, 158, 117));
+	_idleAnimation.addFrame(sf::IntRect(316, 0, 158, 117));
+	_idleAnimation.addFrame(sf::IntRect(474, 0, 158, 117));
+	_idleAnimation.addFrame(sf::IntRect(632, 0, 158, 117));
+	_idleAnimation.addFrame(sf::IntRect(790, 0, 158, 117));
+	_idleAnimation.addFrame(sf::IntRect(948, 0, 158, 117));
+	_idleAnimation.addFrame(sf::IntRect(1106, 0, 158, 117));
+	_idleAnimation.addFrame(sf::IntRect(1264, 0, 158, 117));
+	_idleAnimation.addFrame(sf::IntRect(1422, 0, 158, 117));
+	_idleAnimation.addFrame(sf::IntRect(1580, 0, 158, 117));
+	_idleAnimation.addFrame(sf::IntRect(1738, 0, 158, 117));
+	_idleAnimation.addFrame(sf::IntRect(1896, 0, 158, 117));
+	_idleAnimation.addFrame(sf::IntRect(2054, 0, 158, 117));
+
 	// WALK
-	_textureWalk.loadFromFile(texturePlayerWalkAnimation);
+	_textureWalk.loadFromFile(textureOrcWalkAnimation);
 	_walkingAnimation.setSpriteSheet(_textureWalk);
 
-	_walkingAnimation.addFrame(sf::IntRect(0, 0, 136, 114));
-	_walkingAnimation.addFrame(sf::IntRect(136, 0, 136, 114));
-	_walkingAnimation.addFrame(sf::IntRect(272, 0, 136, 114));
-	_walkingAnimation.addFrame(sf::IntRect(408, 0, 136, 114));
-	_walkingAnimation.addFrame(sf::IntRect(544, 0, 136, 114));
-	_walkingAnimation.addFrame(sf::IntRect(680, 0, 136, 114));
-	_walkingAnimation.addFrame(sf::IntRect(816, 0, 136, 114));
+	_walkingAnimation.addFrame(sf::IntRect(0, 0, 161, 121));
+	_walkingAnimation.addFrame(sf::IntRect(161, 0, 161, 121));
+	_walkingAnimation.addFrame(sf::IntRect(322, 0, 161, 121));
+	_walkingAnimation.addFrame(sf::IntRect(483, 0, 161, 121));
+	_walkingAnimation.addFrame(sf::IntRect(644, 0, 161, 121));
+	_walkingAnimation.addFrame(sf::IntRect(805, 0, 161, 121));
+	_walkingAnimation.addFrame(sf::IntRect(966, 0, 161, 121));
+	_walkingAnimation.addFrame(sf::IntRect(1127, 0, 161, 121));
+	_walkingAnimation.addFrame(sf::IntRect(1288, 0, 161, 121));
+	_walkingAnimation.addFrame(sf::IntRect(1449, 0, 161, 121));
+	_walkingAnimation.addFrame(sf::IntRect(1610, 0, 161, 121));
+	_walkingAnimation.addFrame(sf::IntRect(1771, 0, 161, 121));
+	_walkingAnimation.addFrame(sf::IntRect(1932, 0, 161, 121));
+	_walkingAnimation.addFrame(sf::IntRect(2093, 0, 161, 121));
+
 	// ATTACK
-	_textureAttack.loadFromFile(texturePlayerAttackAnimation);
+	_textureAttack.loadFromFile(textureOrcAttackAnimation);
 	_attackAnimation.setSpriteSheet(_textureAttack);
 
-	_attackAnimation.addFrame(sf::IntRect(0, 0, 137, 120));
-	_attackAnimation.addFrame(sf::IntRect(137, 0, 137, 120));
-	_attackAnimation.addFrame(sf::IntRect(274, 0, 137, 120));
-	_attackAnimation.addFrame(sf::IntRect(411, 0, 137, 120));
-	_attackAnimation.addFrame(sf::IntRect(548, 0, 137, 120));
-	_attackAnimation.addFrame(sf::IntRect(685, 0, 137, 120));
-	_attackAnimation.addFrame(sf::IntRect(822, 0, 137, 120));
+	_attackAnimation.addFrame(sf::IntRect(0, 0, 177, 118));
+	_attackAnimation.addFrame(sf::IntRect(177, 0, 177, 118));
+	_attackAnimation.addFrame(sf::IntRect(354, 0, 177, 118));
+	_attackAnimation.addFrame(sf::IntRect(531, 0, 177, 118));
+	_attackAnimation.addFrame(sf::IntRect(708, 0, 177, 118));
+	_attackAnimation.addFrame(sf::IntRect(885, 0, 177, 118));
+	_attackAnimation.addFrame(sf::IntRect(1062, 0, 177, 118));
+	_attackAnimation.addFrame(sf::IntRect(1239, 0, 177, 118));
+	_attackAnimation.addFrame(sf::IntRect(1416, 0, 177, 118));
+	_attackAnimation.addFrame(sf::IntRect(1593, 0, 177, 118));
+	_attackAnimation.addFrame(sf::IntRect(1770, 0, 177, 118));
+	_attackAnimation.addFrame(sf::IntRect(1947, 0, 177, 118));
+	_attackAnimation.addFrame(sf::IntRect(2124, 0, 177, 118));
+	_attackAnimation.addFrame(sf::IntRect(2301, 0, 177, 118));
+
 	// HURT
-	_textureHurt.loadFromFile(texturePlayerHurtAnimation);
+	_textureHurt.loadFromFile(textureOrcHurtAnimation);
 	_hurtAnimation.setSpriteSheet(_textureHurt);
 
-	_hurtAnimation.addFrame(sf::IntRect(0, 0, 124, 123));
-	_hurtAnimation.addFrame(sf::IntRect(124, 0, 124, 123));
-	_hurtAnimation.addFrame(sf::IntRect(248, 0, 124, 123));
-	_hurtAnimation.addFrame(sf::IntRect(372, 0, 124, 123));
-	_hurtAnimation.addFrame(sf::IntRect(496, 0, 124, 123));
-	_hurtAnimation.addFrame(sf::IntRect(620, 0, 124, 123));
-	_hurtAnimation.addFrame(sf::IntRect(744, 0, 124, 123));
+	_hurtAnimation.addFrame(sf::IntRect(0, 0, 153, 120));
+	_hurtAnimation.addFrame(sf::IntRect(153, 0, 153, 120));
+	_hurtAnimation.addFrame(sf::IntRect(306, 0, 153, 120));
+	_hurtAnimation.addFrame(sf::IntRect(459, 0, 153, 120));
+	_hurtAnimation.addFrame(sf::IntRect(612, 0, 153, 120));
+	_hurtAnimation.addFrame(sf::IntRect(765, 0, 153, 120));
+	_hurtAnimation.addFrame(sf::IntRect(918, 0, 153, 120));
+	_hurtAnimation.addFrame(sf::IntRect(1071, 0, 153, 120));
+	_hurtAnimation.addFrame(sf::IntRect(1224, 0, 153, 120));
+	_hurtAnimation.addFrame(sf::IntRect(1377, 0, 153, 120));
+	_hurtAnimation.addFrame(sf::IntRect(1530, 0, 153, 120));
+	_hurtAnimation.addFrame(sf::IntRect(1683, 0, 153, 120));
+	_hurtAnimation.addFrame(sf::IntRect(1836, 0, 153, 120));
+	_hurtAnimation.addFrame(sf::IntRect(1989, 0, 153, 120));
+
 	// DIE
-	_textureDie.loadFromFile(texturePlayerDieAnimation);
+	_textureDie.loadFromFile(textureOrcDieAnimation);
 	_dieAnimation.setSpriteSheet(_textureDie);
 
-	_dieAnimation.addFrame(sf::IntRect(880, 0, 176, 129));
-	_dieAnimation.addFrame(sf::IntRect(0, 0, 176, 129));
-	_dieAnimation.addFrame(sf::IntRect(176, 0, 176, 129));
-	_dieAnimation.addFrame(sf::IntRect(352, 0, 176, 129));
-	_dieAnimation.addFrame(sf::IntRect(528, 0, 176, 129));
-	_dieAnimation.addFrame(sf::IntRect(704, 0, 176, 129));
-	_dieAnimation.addFrame(sf::IntRect(880, 0, 176, 129));
+	_dieAnimation.addFrame(sf::IntRect(2860, 0, 220, 124));
+	_dieAnimation.addFrame(sf::IntRect(0, 0, 220, 124));
+	_dieAnimation.addFrame(sf::IntRect(220, 0, 220, 124));
+	_dieAnimation.addFrame(sf::IntRect(440, 0, 220, 124));
+	_dieAnimation.addFrame(sf::IntRect(660, 0, 220, 124));
+	_dieAnimation.addFrame(sf::IntRect(880, 0, 220, 124));
+	_dieAnimation.addFrame(sf::IntRect(1100, 0, 220, 124));
+	_dieAnimation.addFrame(sf::IntRect(1320, 0, 220, 124));
+	_dieAnimation.addFrame(sf::IntRect(1540, 0, 220, 124));
+	_dieAnimation.addFrame(sf::IntRect(1760, 0, 220, 124));
+	_dieAnimation.addFrame(sf::IntRect(1980, 0, 220, 124));
+	_dieAnimation.addFrame(sf::IntRect(2200, 0, 220, 124));
+	_dieAnimation.addFrame(sf::IntRect(2420, 0, 220, 124));
+	_dieAnimation.addFrame(sf::IntRect(2640, 0, 220, 124));
+	_dieAnimation.addFrame(sf::IntRect(2860, 0, 220, 124));
 
 	_currentAnimation = &_idleAnimation;
 	_animatedSprite.setAnimation(*_currentAnimation);
+
+	// GREEN BLOOD
+	_greenBloodTexture.loadFromFile(Constants::texturePathGreenBlood);
+	_bloodAnimation.setSpriteSheet(_greenBloodTexture);
+
+	_bloodAnimation.addFrame(sf::IntRect(640, 0, 128, 128));
+	_bloodAnimation.addFrame(sf::IntRect(0, 0, 128, 128));
+	_bloodAnimation.addFrame(sf::IntRect(128, 0, 128, 128));
+	_bloodAnimation.addFrame(sf::IntRect(256, 0, 128, 128));
+	_bloodAnimation.addFrame(sf::IntRect(384, 0, 128, 128));
+	_bloodAnimation.addFrame(sf::IntRect(512, 0, 128, 128));
+	_bloodAnimation.addFrame(sf::IntRect(640, 0, 128, 128));
+
+	_animatedSpriteBlood.setAnimation(_bloodAnimation);
 }
 void Enemy::update(sf::Time elapsedTime, Player* pPlayer)
 {
 	if (!pPlayer->isAlive()) return;
 
-	move(elapsedTime, pPlayer);
-	calculateDirection();
-	rotateSprite();
-	iteratePlayersAttackables(pPlayer);
+	if (_active)
+	{
+		move(elapsedTime, pPlayer);
+		calculateDirection();
+		rotateSprite();
+		iteratePlayersAttackables(pPlayer);
+	}
 	verifyDeath(elapsedTime);
 
+	setAttributesAnimations();
 	_animatedSprite.update(elapsedTime);
+	_animatedSpriteBlood.update(elapsedTime);
 }
 void Enemy::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
@@ -129,6 +192,7 @@ void Enemy::move(sf::Time elapsedTime, Player* pPlayer)
 			_position.y -= _velocity * elapsedTime.asSeconds();
 
 		_animatedSprite.setPosition(_position);
+		_animatedSpriteBlood.setPosition(_position);
 	}
 
 	if (_following)
@@ -173,11 +237,6 @@ void Enemy::restartClockToFollow()
 	_clockFollowing.restart();
 	_clockFollowingActive = true;
 }
-void Enemy::iteratePlayersAttackables(Player* pPlayer)
-{
-	if (isItemAttackablesPlayersList(pPlayer))
-		attack(pPlayer);
-}
 void Enemy::attack(Player* pPlayer)
 {
 	_timeSinceLastAttack = _clockAttack.getElapsedTime();
@@ -220,12 +279,13 @@ void Enemy::verifyDeath(sf::Time elapsedTime)
 {
 	if (_health <= 0)
 	{
-		if (_currentAnimation != &_dieAnimation)
+		if (_active && _currentAnimation != &_dieAnimation)
 		{
 			_animatedSprite.pause();
 			_currentAnimation = &_dieAnimation;
 			_animatedSprite.play(*_currentAnimation);
 			_animatedSprite.setFrame(1);
+			_active = false;
 		}
 
 		_elapsedDeadTime += elapsedTime;
@@ -251,6 +311,35 @@ void Enemy::removeAttackablePlayer(Player* pPlayer)
 bool Enemy::isItemAttackablesPlayersList(Player* pPlayer)
 {
 	return (std::find(_attackablesPlayers.begin(), _attackablesPlayers.end(), pPlayer) != _attackablesPlayers.end());
+}
+void Enemy::iteratePlayersAttackables(Player* pPlayer)
+{
+	if (isItemAttackablesPlayersList(pPlayer))
+		attack(pPlayer);
+}
+void Enemy::setAttributesAnimations()
+{
+	if (_currentAnimation == &_idleAnimation)
+	{
+		_animatedSprite.setFrameTime(sf::seconds(0.2f));
+	}
+	else if (_currentAnimation == &_attackAnimation || _currentAnimation == &_hurtAnimation)
+	{
+		_animatedSprite.setFrameTime(sf::seconds(0.05f));
+	}
+	else
+	{
+		_animatedSprite.setFrameTime(sf::seconds(0.1f));
+	}
+
+	if (_animatedSpriteBlood.isPlaying())
+	{
+		_drawBlood = true;
+	}
+	else
+	{
+		_drawBlood = false;
+	}
 }
 // -----------------------------------------
 }

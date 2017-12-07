@@ -8,11 +8,14 @@
     <Filter Include="Header Files">
       <UniqueIdentifier>{dbd0c409-9932-4940-a8f6-81964cb9e891}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Externals">
+      <UniqueIdentifier>{ecc9d477-5e8c-4c2c-b8f3-bb40c58050c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{730e754a-6112-4b82-87db-78b1f5a92be1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\GameLoop.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\GameWorld.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -25,9 +28,6 @@
     <ClCompile Include="..\src\Character.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\InputManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\Arena.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -37,27 +37,30 @@
     <ClCompile Include="..\src\Wave.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\SpawnManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\CollisionManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\AnimatedSprite.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Externals</Filter>
     </ClCompile>
     <ClCompile Include="..\src\Animation.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Externals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\CollisionManager.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\GameLoop.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\InputManager.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SpawnManager.cpp">
+      <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Arena.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\CollisionManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Constants.h">
@@ -66,22 +69,13 @@
     <ClInclude Include="..\src\Enemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\GameLoop.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\Character.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\GameWorld.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\InputManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\Player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\SpawnManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Wave.h">
@@ -91,10 +85,22 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\AnimatedSprite.h">
-      <Filter>Header Files</Filter>
+      <Filter>Externals</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Animation.h">
-      <Filter>Header Files</Filter>
+      <Filter>Externals</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\CollisionManager.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\GameLoop.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\InputManager.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SpawnManager.h">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

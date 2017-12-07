@@ -58,7 +58,6 @@ void GameWorld::draw(sf::RenderTarget& target, sf::RenderStates states)
 	target.draw(_arena.getSprite(), sf::RenderStates::Default);
 	
 	std::list<AnimatedSprite> sprites;
-	//sprites.push_back(_arena.getSprite());
 	sprites.push_back(_player.getAnimatedSprite());
 
 	if (_player.canDrawBlood())
@@ -67,11 +66,17 @@ void GameWorld::draw(sf::RenderTarget& target, sf::RenderStates states)
 	}
 
 	uint maxWaveEnemies = _waves[_indexCurrentWave].getMaxEnemies();
+	Enemy* pEnemy = nullptr;
 	for (uint i = 0; i < maxWaveEnemies; i++)
 	{
-		if (_waves[_indexCurrentWave].getEnemyRefByIndex(i).isAlive())
+		pEnemy = &_waves[_indexCurrentWave].getEnemyRefByIndex(i);
+		if (pEnemy->isAlive())
 		{
-			sprites.push_back(_waves[_indexCurrentWave].getEnemyRefByIndex(i).getAnimatedSprite());
+			sprites.push_back(pEnemy->getAnimatedSprite());
+			if (pEnemy->canDrawBlood())
+			{
+				sprites.push_back(pEnemy->getAnimatedSpriteBlood());
+			}
 		}
 	}
 
@@ -105,7 +110,6 @@ void GameWorld::draw(sf::RenderTarget& target, sf::RenderStates states)
 		}*/
 		// Dibujar
 		target.draw(*it, sf::RenderStates::Default);
-		
 	}
 }
 void GameWorld::collisionDetectionPlayerLimitsArena()
@@ -125,7 +129,7 @@ void GameWorld::collisionDetectionEnemiesLimitsArena()
 	for (uint i = 0; i < maxWaveEnemies; i++)
 	{
 		Enemy* enemy = &_waves[_indexCurrentWave].getEnemyRefByIndex(i);
-		if (enemy->isAlive())
+		if (enemy->isActive())
 		{
 			if (CollisionManager::pixelTest(enemy->getAnimatedSprite(), imageArenaCollision))
 			{
@@ -141,7 +145,7 @@ void GameWorld::collisionDetectionPlayerEnemies()
 	for (uint i = 0; i < maxWaveEnemies; i++)
 	{
 		Enemy* pEnemy = &_waves[_indexCurrentWave].getEnemyRefByIndex(i);
-		if (pEnemy->isAlive())
+		if (pEnemy->isActive())
 		{
 			// Movement
 			if (CollisionManager::boundingBoxTest(pEnemy->getAnimatedSprite(), _player.getAnimatedSprite(), 0.15f))
@@ -182,12 +186,12 @@ void GameWorld::collisionDetectionEnemyEmemies()
 	for (uint i = 0; i < maxWaveEnemies - 1; i++)
 	{
 		Enemy* enemy = &_waves[_indexCurrentWave].getEnemyRefByIndex(i);
-		if (enemy->isAlive())
+		if (enemy->isActive())
 		{
 			for (uint j = i + 1; j < maxWaveEnemies; j++)
 			{
 				Enemy* enemy2 = &_waves[_indexCurrentWave].getEnemyRefByIndex(j);
-				if (enemy2->isAlive())
+				if (enemy2->isActive())
 				{
 					if (CollisionManager::boundingBoxTest(enemy->getAnimatedSprite(), enemy2->getAnimatedSprite(), 0.1f))
 					{
@@ -208,7 +212,6 @@ void GameWorld::collisionPlayerActions(Enemy* pEnemy)
 void GameWorld::collisionEnemyActions(Enemy* pEnemy)
 {
 	pEnemy->movePreviousPosition();
-	//pEnemy->attack(&_player);
 	pEnemy->setFollowing(false);
 }
 void GameWorld::notCollisionEnemyActions(Enemy* pEnemy)
