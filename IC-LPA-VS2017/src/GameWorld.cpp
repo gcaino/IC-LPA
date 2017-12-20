@@ -23,11 +23,61 @@ GameWorld::GameWorld(const sf::RenderWindow& window)
 	, _window(&window)
 	, _score(0)
 	, _highScore(0)
+	, _waitTime(sf::seconds(10.f))
+	, _elapsedWaitTime(sf::Time::Zero)
 {
+	initSounds();
+	initTexts();
 }
 GameWorld::~GameWorld()
 {
 }
+
+void GameWorld::initSounds()
+{
+	_orcCampMusic.openFromFile(Constants::orcCampMusic);
+	_orcCampMusic.setLoop(true);
+	_orcCampMusic.play();
+}
+
+void GameWorld::initTexts()
+{
+	_orcHordeFont.loadFromFile(Constants::ortHordeFont);
+	_waveText.text.setFont(_orcHordeFont);
+	_waveText.text.setFillColor(sf::Color::Color(255, 175, 5));
+	_waveText.text.setCharacterSize(60);
+	_waveText.text.setStyle(sf::Text::Bold);
+	_waveText.text.setString("WAVE IS COMMING...");
+	_waveText.text.setPosition(Constants::WINDOW_WIDTH_MAX / 2 - _waveText.text.getGlobalBounds().width / 2, Constants::WINDOW_HEIGHT_MAX * 0.2f);
+	_waveText.visible = true;
+
+	_scoreText.text.setFont(_orcHordeFont);
+	_scoreText.text.setFillColor(sf::Color::Color(255, 175, 5));
+	_scoreText.visible = true;
+
+	addTextsToDraw();
+}
+
+void GameWorld::addTextsToDraw()
+{
+	_texts.push_back(&_waveText);
+	_texts.push_back(&_scoreText);
+}
+
+void GameWorld::updateTexts()
+{
+	//_scoreText.text.setString("SCORE: " + std::to_string(""));
+}
+
+void GameWorld::showStartText(sf::Time elapsedTime)
+{
+	_elapsedWaitTime += elapsedTime;
+	if (_elapsedWaitTime > _waitTime)
+	{
+		_waveText.visible = false;
+	}
+}
+
 void GameWorld::handlerInputs()
 {
 	if (!_player.isAlive())
@@ -47,6 +97,9 @@ void GameWorld::update(sf::Time elapsedTime)
 	collisionDetectionEnemiesLimitsArena();
 	collisionDetectionPlayerEnemies();
 	collisionDetectionEnemyEmemies();
+
+	showStartText(elapsedTime);
+	updateTexts();
 
 	_spawnManager.update(elapsedTime);
 }
@@ -111,6 +164,12 @@ void GameWorld::draw(sf::RenderTarget& target, sf::RenderStates states)
 		// Dibujar
 		target.draw(*it, sf::RenderStates::Default);
 	}
+	// Texts
+	for (size_t i = 0; i < _texts.size(); i++)
+	{
+		if (_texts.at(i)->visible)
+			target.draw(_texts.at(i)->text);
+	}
 }
 void GameWorld::collisionDetectionPlayerLimitsArena()
 {
@@ -147,16 +206,6 @@ void GameWorld::collisionDetectionPlayerEnemies()
 		Enemy* pEnemy = &_waves[_indexCurrentWave].getEnemyRefByIndex(i);
 		if (pEnemy->isActive())
 		{
-			// Movement
-			if (CollisionManager::boundingBoxTest(pEnemy->getAnimatedSprite(), _player.getAnimatedSprite(), 0.15f))
-			{
-				collisionPlayerActions(pEnemy);
-				collisionEnemyActions(pEnemy);
-			}
-			else
-			{
-				notCollisionEnemyActions(pEnemy);
-			}
 			// Range Attack Player
 			if (CollisionManager::boundingBoxRangeAttack(_player.getAnimatedSprite(), pEnemy->getAnimatedSprite()))
 			{
@@ -167,7 +216,7 @@ void GameWorld::collisionDetectionPlayerEnemies()
 			{
 				_player.removeAttackableEnemy(pEnemy);
 			}
-			// Range Attack Enemies
+			//// Range Attack Enemies
 			if (CollisionManager::boundingBoxRangeAttack(pEnemy->getAnimatedSprite(), _player.getAnimatedSprite()))
 			{
 				pEnemy->addAttackablePlayer(&_player);
@@ -176,6 +225,17 @@ void GameWorld::collisionDetectionPlayerEnemies()
 			else
 			{
 				pEnemy->removeAttackablePlayer(&_player);
+			}
+			// Movement
+			if (CollisionManager::boundingBoxTest(_player.getAnimatedSprite(), pEnemy->getAnimatedSprite(), 0.4f))
+			{
+				std::cout << "Collision" << std::endl;
+				collisionPlayerActions(pEnemy);
+				collisionEnemyActions(pEnemy);
+			}
+			else
+			{
+				notCollisionEnemyActions(pEnemy);
 			}
 		}
 	}
@@ -193,7 +253,7 @@ void GameWorld::collisionDetectionEnemyEmemies()
 				Enemy* enemy2 = &_waves[_indexCurrentWave].getEnemyRefByIndex(j);
 				if (enemy2->isActive())
 				{
-					if (CollisionManager::boundingBoxTest(enemy->getAnimatedSprite(), enemy2->getAnimatedSprite(), 0.1f))
+					if (CollisionManager::boundingBoxTest(enemy->getAnimatedSprite(), enemy2->getAnimatedSprite()))
 					{
 						enemy->movePreviousPosition();
 					}
@@ -204,10 +264,7 @@ void GameWorld::collisionDetectionEnemyEmemies()
 }
 void GameWorld::collisionPlayerActions(Enemy* pEnemy)
 {
-	if (_player.isMoving())
-	{
-		_player.movePreviousPosition();
-	}
+	_player.movePreviousPosition();
 }
 void GameWorld::collisionEnemyActions(Enemy* pEnemy)
 {

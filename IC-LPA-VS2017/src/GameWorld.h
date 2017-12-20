@@ -6,6 +6,8 @@
 #include "SpawnManager.h"
 #include "Wave.h"
 #include <SFML\Graphics.hpp>
+#include <SFML\Audio.hpp>
+#include <vector>
 // -----------------------------------------
 namespace lpa
 // -----------------------------------------
@@ -13,6 +15,12 @@ namespace lpa
 // -----------------------------------------
 typedef unsigned int uint;
 const uint WAVE_MAX = 5;
+
+struct Text
+{
+	sf::Text	text;
+	bool		visible;
+};
 // -----------------------------------------
 class GameWorld : public sf::Drawable
 {
@@ -25,6 +33,22 @@ private:
 	uint					_indexCurrentWave;
 	Wave					_waves[WAVE_MAX];
 	SpawnManager			_spawnManager;
+
+	sf::Music				_orcCampMusic;
+
+	sf::Font				_orcHordeFont;
+	Text					_waveText;
+	Text					_scoreText;
+	sf::Time				_elapsedWaitTime;
+	sf::Time				_waitTime;
+	std::vector<Text*>		_texts;
+
+	void initTexts();
+	void addTextsToDraw();
+	void updateTexts();
+	void showStartText(sf::Time elapsedTime);
+
+	void initSounds();
 
 	void collisionDetectionPlayerLimitsArena();
 	void collisionDetectionEnemiesLimitsArena();
