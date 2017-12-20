@@ -2,6 +2,7 @@
 // ----------------------------------------------------------------------------
 #include "Constants.h"
 #include "GameWorld.h"
+#include "CreditsScreen.h"
 #include "ScreenManager.h"
 #include <SFML\Graphics.hpp>
 #include <iostream>
@@ -36,6 +37,12 @@ TitleScreen::~TitleScreen()
 
 void TitleScreen::handleEvent(sf::Event event)
 {
+	if (event.type == sf::Event::KeyPressed)
+	{
+		if (event.key.code == sf::Keyboard::Return || event.key.code == sf::Keyboard::Escape)
+			m_screenManager->getRenderWindow().close();
+	}
+
 	if (event.type == sf::Event::MouseMoved)
 	{
 		for (size_t i = 0; i < MAX_BUTTONS; i++)
@@ -64,7 +71,7 @@ void TitleScreen::handleEvent(sf::Event event)
 		else if (_buttons[1]._visible)
 		{
 			_soundButtonClick.play();
-			m_screenManager->changeScreen(new GameWorld(m_screenManager));
+			m_screenManager->changeScreen(new CreditScreen(m_screenManager));
 		}
 	}
 }

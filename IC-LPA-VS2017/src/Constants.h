@@ -40,8 +40,10 @@ const std::string orcCampMusic = "assets/sounds/orc-camp.ogg";
 const std::string clickButtonSound = "assets/sounds/click-wooden.wav";
 
 const std::string ortHordeFont = "assets/fonts/OrcHordeBB_Reg.ttf";
+const std::string creditScreenFont = "assets/fonts/ARLRDBD.TTF";
 
 const std::string pathTitleScreenImage = "assets/textures/menu-screen.jpg";
+const std::string pathCreditsScreenImage = "assets/textures/credits-screen-1024.png";
 
 const std::string textureCreditsButton = "assets/textures/button-credits-hover.png";
 const std::string texturePlayButton = "assets/textures/button-play-hover.png";
