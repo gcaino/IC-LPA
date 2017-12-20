@@ -25,6 +25,7 @@ private:
 	bool				_attacking;
 	bool				_moving;
 	float				_rangeAttack;
+	uint				_enemiesKilled;
 
 	std::list<Enemy*>	_attackablesEnemies;
 	std::list<Enemy*>::iterator it;
@@ -43,6 +44,8 @@ public:
 	void setAttacking(bool attacking)	{ _attacking = attacking; }
 	bool isMoving() const				{ return _moving; }
 	void setMoving(bool moving)			{ _moving = moving; }
+	uint getEnemiesKilled() const		{ return _enemiesKilled; }
+	void addEnemyKilled()				{ ++_enemiesKilled; }
 
 	void addAttackableEnemy(Enemy* enemy);
 	void removeAttackableEnemy(Enemy* enemy);

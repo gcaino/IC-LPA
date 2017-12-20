@@ -41,7 +41,7 @@ private:
 	void setAttributesAnimations();
 	void move(sf::Time elapsedTime, Player* pPlayer);
 	uint calculateDamage();
-	void verifyDeath(sf::Time elapsedTime);
+	void verifyDeath(sf::Time elapsedTime, Player& player);
 	void iteratePlayersAttackables(Player* pPlayer);
 	bool isItemAttackablesPlayersList(Player* pPlayer);
 		

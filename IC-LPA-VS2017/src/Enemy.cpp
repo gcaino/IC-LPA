@@ -45,97 +45,97 @@ void Enemy::setupAnimations()
 	_textureIdle.loadFromFile(textureOrcIdleAnimation);
 	_idleAnimation.setSpriteSheet(_textureIdle);
 
-	_idleAnimation.addFrame(sf::IntRect(0, 0, 158, 117));
-	_idleAnimation.addFrame(sf::IntRect(158, 0, 158, 117));
-	_idleAnimation.addFrame(sf::IntRect(316, 0, 158, 117));
-	_idleAnimation.addFrame(sf::IntRect(474, 0, 158, 117));
-	_idleAnimation.addFrame(sf::IntRect(632, 0, 158, 117));
-	_idleAnimation.addFrame(sf::IntRect(790, 0, 158, 117));
-	_idleAnimation.addFrame(sf::IntRect(948, 0, 158, 117));
-	_idleAnimation.addFrame(sf::IntRect(1106, 0, 158, 117));
-	_idleAnimation.addFrame(sf::IntRect(1264, 0, 158, 117));
-	_idleAnimation.addFrame(sf::IntRect(1422, 0, 158, 117));
-	_idleAnimation.addFrame(sf::IntRect(1580, 0, 158, 117));
-	_idleAnimation.addFrame(sf::IntRect(1738, 0, 158, 117));
-	_idleAnimation.addFrame(sf::IntRect(1896, 0, 158, 117));
-	_idleAnimation.addFrame(sf::IntRect(2054, 0, 158, 117));
+	_idleAnimation.addFrame(sf::IntRect(0, 0, 158, 155));
+	_idleAnimation.addFrame(sf::IntRect(158, 0, 158, 155));
+	_idleAnimation.addFrame(sf::IntRect(316, 0, 158, 155));
+	_idleAnimation.addFrame(sf::IntRect(474, 0, 158, 155));
+	_idleAnimation.addFrame(sf::IntRect(632, 0, 158, 155));
+	_idleAnimation.addFrame(sf::IntRect(790, 0, 158, 155));
+	_idleAnimation.addFrame(sf::IntRect(948, 0, 158, 155));
+	_idleAnimation.addFrame(sf::IntRect(1106, 0, 158, 155));
+	_idleAnimation.addFrame(sf::IntRect(1264, 0, 158, 155));
+	_idleAnimation.addFrame(sf::IntRect(1422, 0, 158, 155));
+	_idleAnimation.addFrame(sf::IntRect(1580, 0, 158, 155));
+	_idleAnimation.addFrame(sf::IntRect(1738, 0, 158, 155));
+	_idleAnimation.addFrame(sf::IntRect(1896, 0, 158, 155));
+	_idleAnimation.addFrame(sf::IntRect(2054, 0, 158, 155));
 
 	// WALK
 	_textureWalk.loadFromFile(textureOrcWalkAnimation);
 	_walkingAnimation.setSpriteSheet(_textureWalk);
 
-	_walkingAnimation.addFrame(sf::IntRect(0, 0, 161, 121));
-	_walkingAnimation.addFrame(sf::IntRect(161, 0, 161, 121));
-	_walkingAnimation.addFrame(sf::IntRect(322, 0, 161, 121));
-	_walkingAnimation.addFrame(sf::IntRect(483, 0, 161, 121));
-	_walkingAnimation.addFrame(sf::IntRect(644, 0, 161, 121));
-	_walkingAnimation.addFrame(sf::IntRect(805, 0, 161, 121));
-	_walkingAnimation.addFrame(sf::IntRect(966, 0, 161, 121));
-	_walkingAnimation.addFrame(sf::IntRect(1127, 0, 161, 121));
-	_walkingAnimation.addFrame(sf::IntRect(1288, 0, 161, 121));
-	_walkingAnimation.addFrame(sf::IntRect(1449, 0, 161, 121));
-	_walkingAnimation.addFrame(sf::IntRect(1610, 0, 161, 121));
-	_walkingAnimation.addFrame(sf::IntRect(1771, 0, 161, 121));
-	_walkingAnimation.addFrame(sf::IntRect(1932, 0, 161, 121));
-	_walkingAnimation.addFrame(sf::IntRect(2093, 0, 161, 121));
+	_walkingAnimation.addFrame(sf::IntRect(0, 0, 161, 155));
+	_walkingAnimation.addFrame(sf::IntRect(161, 0, 161, 155));
+	_walkingAnimation.addFrame(sf::IntRect(322, 0, 161, 155));
+	_walkingAnimation.addFrame(sf::IntRect(483, 0, 161, 155));
+	_walkingAnimation.addFrame(sf::IntRect(644, 0, 161, 155));
+	_walkingAnimation.addFrame(sf::IntRect(805, 0, 161, 155));
+	_walkingAnimation.addFrame(sf::IntRect(966, 0, 161, 155));
+	_walkingAnimation.addFrame(sf::IntRect(1127, 0, 161, 155));
+	_walkingAnimation.addFrame(sf::IntRect(1288, 0, 161, 155));
+	_walkingAnimation.addFrame(sf::IntRect(1449, 0, 161, 155));
+	_walkingAnimation.addFrame(sf::IntRect(1610, 0, 161, 155));
+	_walkingAnimation.addFrame(sf::IntRect(1771, 0, 161, 155));
+	_walkingAnimation.addFrame(sf::IntRect(1932, 0, 161, 155));
+	_walkingAnimation.addFrame(sf::IntRect(2093, 0, 161, 155));
 
 	// ATTACK
 	_textureAttack.loadFromFile(textureOrcAttackAnimation);
 	_attackAnimation.setSpriteSheet(_textureAttack);
 
-	_attackAnimation.addFrame(sf::IntRect(0, 0, 177, 118));
-	_attackAnimation.addFrame(sf::IntRect(177, 0, 177, 118));
-	_attackAnimation.addFrame(sf::IntRect(354, 0, 177, 118));
-	_attackAnimation.addFrame(sf::IntRect(531, 0, 177, 118));
-	_attackAnimation.addFrame(sf::IntRect(708, 0, 177, 118));
-	_attackAnimation.addFrame(sf::IntRect(885, 0, 177, 118));
-	_attackAnimation.addFrame(sf::IntRect(1062, 0, 177, 118));
-	_attackAnimation.addFrame(sf::IntRect(1239, 0, 177, 118));
-	_attackAnimation.addFrame(sf::IntRect(1416, 0, 177, 118));
-	_attackAnimation.addFrame(sf::IntRect(1593, 0, 177, 118));
-	_attackAnimation.addFrame(sf::IntRect(1770, 0, 177, 118));
-	_attackAnimation.addFrame(sf::IntRect(1947, 0, 177, 118));
-	_attackAnimation.addFrame(sf::IntRect(2124, 0, 177, 118));
-	_attackAnimation.addFrame(sf::IntRect(2301, 0, 177, 118));
+	_attackAnimation.addFrame(sf::IntRect(0, 0, 177, 155));
+	_attackAnimation.addFrame(sf::IntRect(177, 0, 177, 155));
+	_attackAnimation.addFrame(sf::IntRect(354, 0, 177, 155));
+	_attackAnimation.addFrame(sf::IntRect(531, 0, 177, 155));
+	_attackAnimation.addFrame(sf::IntRect(708, 0, 177, 155));
+	_attackAnimation.addFrame(sf::IntRect(885, 0, 177, 155));
+	_attackAnimation.addFrame(sf::IntRect(1062, 0, 177, 155));
+	_attackAnimation.addFrame(sf::IntRect(1239, 0, 177, 155));
+	_attackAnimation.addFrame(sf::IntRect(1416, 0, 177, 155));
+	_attackAnimation.addFrame(sf::IntRect(1593, 0, 177, 155));
+	_attackAnimation.addFrame(sf::IntRect(1770, 0, 177, 155));
+	_attackAnimation.addFrame(sf::IntRect(1947, 0, 177, 155));
+	_attackAnimation.addFrame(sf::IntRect(2124, 0, 177, 155));
+	_attackAnimation.addFrame(sf::IntRect(2301, 0, 177, 155));
 
 	// HURT
 	_textureHurt.loadFromFile(textureOrcHurtAnimation);
 	_hurtAnimation.setSpriteSheet(_textureHurt);
 
-	_hurtAnimation.addFrame(sf::IntRect(0, 0, 153, 120));
-	_hurtAnimation.addFrame(sf::IntRect(153, 0, 153, 120));
-	_hurtAnimation.addFrame(sf::IntRect(306, 0, 153, 120));
-	_hurtAnimation.addFrame(sf::IntRect(459, 0, 153, 120));
-	_hurtAnimation.addFrame(sf::IntRect(612, 0, 153, 120));
-	_hurtAnimation.addFrame(sf::IntRect(765, 0, 153, 120));
-	_hurtAnimation.addFrame(sf::IntRect(918, 0, 153, 120));
-	_hurtAnimation.addFrame(sf::IntRect(1071, 0, 153, 120));
-	_hurtAnimation.addFrame(sf::IntRect(1224, 0, 153, 120));
-	_hurtAnimation.addFrame(sf::IntRect(1377, 0, 153, 120));
-	_hurtAnimation.addFrame(sf::IntRect(1530, 0, 153, 120));
-	_hurtAnimation.addFrame(sf::IntRect(1683, 0, 153, 120));
-	_hurtAnimation.addFrame(sf::IntRect(1836, 0, 153, 120));
-	_hurtAnimation.addFrame(sf::IntRect(1989, 0, 153, 120));
+	_hurtAnimation.addFrame(sf::IntRect(0, 0, 153, 155));
+	_hurtAnimation.addFrame(sf::IntRect(153, 0, 153, 155));
+	_hurtAnimation.addFrame(sf::IntRect(306, 0, 153, 155));
+	_hurtAnimation.addFrame(sf::IntRect(459, 0, 153, 155));
+	_hurtAnimation.addFrame(sf::IntRect(612, 0, 153, 155));
+	_hurtAnimation.addFrame(sf::IntRect(765, 0, 153, 155));
+	_hurtAnimation.addFrame(sf::IntRect(918, 0, 153, 155));
+	_hurtAnimation.addFrame(sf::IntRect(1071, 0, 153, 155));
+	_hurtAnimation.addFrame(sf::IntRect(1224, 0, 153, 155));
+	_hurtAnimation.addFrame(sf::IntRect(1377, 0, 153, 155));
+	_hurtAnimation.addFrame(sf::IntRect(1530, 0, 153, 155));
+	_hurtAnimation.addFrame(sf::IntRect(1683, 0, 153, 155));
+	_hurtAnimation.addFrame(sf::IntRect(1836, 0, 153, 155));
+	_hurtAnimation.addFrame(sf::IntRect(1989, 0, 153, 155));
 
 	// DIE
 	_textureDie.loadFromFile(textureOrcDieAnimation);
 	_dieAnimation.setSpriteSheet(_textureDie);
 
-	_dieAnimation.addFrame(sf::IntRect(2860, 0, 220, 124));
-	_dieAnimation.addFrame(sf::IntRect(0, 0, 220, 124));
-	_dieAnimation.addFrame(sf::IntRect(220, 0, 220, 124));
-	_dieAnimation.addFrame(sf::IntRect(440, 0, 220, 124));
-	_dieAnimation.addFrame(sf::IntRect(660, 0, 220, 124));
-	_dieAnimation.addFrame(sf::IntRect(880, 0, 220, 124));
-	_dieAnimation.addFrame(sf::IntRect(1100, 0, 220, 124));
-	_dieAnimation.addFrame(sf::IntRect(1320, 0, 220, 124));
-	_dieAnimation.addFrame(sf::IntRect(1540, 0, 220, 124));
-	_dieAnimation.addFrame(sf::IntRect(1760, 0, 220, 124));
-	_dieAnimation.addFrame(sf::IntRect(1980, 0, 220, 124));
-	_dieAnimation.addFrame(sf::IntRect(2200, 0, 220, 124));
-	_dieAnimation.addFrame(sf::IntRect(2420, 0, 220, 124));
-	_dieAnimation.addFrame(sf::IntRect(2640, 0, 220, 124));
-	_dieAnimation.addFrame(sf::IntRect(2860, 0, 220, 124));
+	_dieAnimation.addFrame(sf::IntRect(2860, 0, 220, 155));
+	_dieAnimation.addFrame(sf::IntRect(0, 0, 220, 155));
+	_dieAnimation.addFrame(sf::IntRect(220, 0, 220, 155));
+	_dieAnimation.addFrame(sf::IntRect(440, 0, 220, 155));
+	_dieAnimation.addFrame(sf::IntRect(660, 0, 220, 155));
+	_dieAnimation.addFrame(sf::IntRect(880, 0, 220, 155));
+	_dieAnimation.addFrame(sf::IntRect(1100, 0, 220, 155));
+	_dieAnimation.addFrame(sf::IntRect(1320, 0, 220, 155));
+	_dieAnimation.addFrame(sf::IntRect(1540, 0, 220, 155));
+	_dieAnimation.addFrame(sf::IntRect(1760, 0, 220, 155));
+	_dieAnimation.addFrame(sf::IntRect(1980, 0, 220, 155));
+	_dieAnimation.addFrame(sf::IntRect(2200, 0, 220, 155));
+	_dieAnimation.addFrame(sf::IntRect(2420, 0, 220, 155));
+	_dieAnimation.addFrame(sf::IntRect(2640, 0, 220, 155));
+	_dieAnimation.addFrame(sf::IntRect(2860, 0, 220, 155));
 
 	_currentAnimation = &_idleAnimation;
 	_animatedSprite.setAnimation(*_currentAnimation);
@@ -165,7 +165,7 @@ void Enemy::update(sf::Time elapsedTime, Player* pPlayer)
 		rotateSprite();
 		iteratePlayersAttackables(pPlayer);
 	}
-	verifyDeath(elapsedTime);
+	verifyDeath(elapsedTime, *pPlayer);
 
 	setAttributesAnimations();
 	_animatedSprite.update(elapsedTime);
@@ -205,10 +205,6 @@ void Enemy::move(sf::Time elapsedTime, Player* pPlayer)
 		if (_currentAnimation == &_walkingAnimation)
 		{
 			_animatedSprite.stop();
-		}
-
-		if (!_animatedSprite.isPlaying())
-		{
 			_currentAnimation = &_idleAnimation;
 			_animatedSprite.play(*_currentAnimation);
 		}
@@ -230,6 +226,7 @@ void Enemy::waitToFollow()
 	{
 		_following = true;
 		_clockFollowingActive = false;
+		_timeSinceNotFollowing = sf::Time::Zero;
 	}
 }
 void Enemy::restartClockToFollow()
@@ -275,7 +272,7 @@ uint Enemy::calculateDamage()
 {
 	return	_strength;
 }
-void Enemy::verifyDeath(sf::Time elapsedTime)
+void Enemy::verifyDeath(sf::Time elapsedTime, Player& player)
 {
 	if (_health <= 0)
 	{
@@ -286,6 +283,7 @@ void Enemy::verifyDeath(sf::Time elapsedTime)
 			_animatedSprite.play(*_currentAnimation);
 			_animatedSprite.setFrame(1);
 			_active = false;
+			player.addEnemyKilled();
 		}
 
 		_elapsedDeadTime += elapsedTime;
