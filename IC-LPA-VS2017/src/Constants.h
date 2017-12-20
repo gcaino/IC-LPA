@@ -22,17 +22,32 @@ const std::string	texturePathOrc = "assets/textures/orc-01.png";
 const std::string	texturePathRedBlood = "assets/textures/spritesheets/effects/red-blood.png";
 const std::string	texturePathGreenBlood = "assets/textures/spritesheets/effects/green-blood.png";
 
-const std::string texturePlayerIdleAnimation = "assets/textures/spritesheets/player/knight-01-spritesheet-idle.png";
-const std::string texturePlayerWalkAnimation = "assets/textures/spritesheets/player/knight-01-spritesheet-walk.png";
-const std::string texturePlayerAttackAnimation = "assets/textures/spritesheets/player/knight-01-spritesheet-attack.png";
-const std::string texturePlayerHurtAnimation = "assets/textures/spritesheets/player/knight-01-spritesheet-hurt.png";
-const std::string texturePlayerDieAnimation = "assets/textures/spritesheets/player/knight-01-spritesheet-die.png";
+const std::string texturePlayerIdleAnimation = "assets/textures/spritesheets/player/knight-01-spritesheet-idle-b.png";
+const std::string texturePlayerWalkAnimation = "assets/textures/spritesheets/player/knight-01-spritesheet-walk-b.png";
+const std::string texturePlayerAttackAnimation = "assets/textures/spritesheets/player/knight-01-spritesheet-attack-b.png";
+const std::string texturePlayerHurtAnimation = "assets/textures/spritesheets/player/knight-01-spritesheet-hurt-b.png";
+const std::string texturePlayerDieAnimation = "assets/textures/spritesheets/player/knight-01-spritesheet-die-b.png";
 
-const std::string textureOrcIdleAnimation = "assets/textures/spritesheets/enemies/orc-01-spritesheet-idle.png";
-const std::string textureOrcWalkAnimation = "assets/textures/spritesheets/enemies/orc-01-spritesheet-walk.png";
-const std::string textureOrcAttackAnimation = "assets/textures/spritesheets/enemies/orc-01-spritesheet-attack.png";
-const std::string textureOrcHurtAnimation = "assets/textures/spritesheets/enemies/orc-01-spritesheet-hurt.png";
-const std::string textureOrcDieAnimation = "assets/textures/spritesheets/enemies/orc-01-spritesheet-die.png";
+const std::string textureOrcIdleAnimation = "assets/textures/spritesheets/enemies/orc-01-spritesheet-idle-b.png";
+const std::string textureOrcWalkAnimation = "assets/textures/spritesheets/enemies/orc-01-spritesheet-walk-b.png";
+const std::string textureOrcAttackAnimation = "assets/textures/spritesheets/enemies/orc-01-spritesheet-attack-b.png";
+const std::string textureOrcHurtAnimation = "assets/textures/spritesheets/enemies/orc-01-spritesheet-hurt-b.png";
+const std::string textureOrcDieAnimation = "assets/textures/spritesheets/enemies/orc-01-spritesheet-die-b.png";
+
+const std::string textureMenuScreen = "assets/textures/menu-screen.jpg";
+
+const std::string orcCampMusic = "assets/sounds/orc-camp.ogg";
+const std::string clickButtonSound = "assets/sounds/click-wooden.wav";
+
+const std::string ortHordeFont = "assets/fonts/OrcHordeBB_Reg.ttf";
+
+const std::string pathTitleScreenImage = "assets/textures/menu-screen.jpg";
+
+const std::string textureCreditsButton = "assets/textures/button-credits-hover.png";
+const std::string texturePlayButton = "assets/textures/button-play-hover.png";
+const std::string textureHealthStatusBar = "assets/textures/healthStatusBar-1024.png";
+const std::string textureCurrentHealth = "assets/textures/currentHelath-1024.png";
+const std::string textureOrcsKilledBar = "assets/textures/orcs-killed-bar-1024.png";
 
 // -----------------------------------------
 }

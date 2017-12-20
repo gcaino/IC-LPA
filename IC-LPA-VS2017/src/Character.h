@@ -59,7 +59,8 @@ protected:
 	sf::Vector2f		_prevPosition;
 	float				_velocity;
 
-	int					_health;
+	float				_health;
+	float				_maxHealth;
 	uint				_strength;
 	uint				_evasion;
 	uint				_level;
@@ -84,6 +85,8 @@ public:
 	void			setAlive(bool alive)						{ _alive = alive; }
 	bool			isActive() const							{ return _active; }
 	void			setActive(bool active)						{ _active = active; }
+	float			getHealth() const							{ return _health; }
+	float			getMaxHealth() const						{ return _maxHealth; }
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const = 0;
 	void calculateDirection();

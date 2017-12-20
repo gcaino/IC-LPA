@@ -29,7 +29,7 @@ bool comparePositionY(pair::value_type pos1, pair::value_type pos2)
 // -----------------------------------------
 Player::Player()
 	: PLAYER_SPEED_ATTACK(sf::seconds(0.5f))
-	, PLAYER_START_HEALTH(200)
+	, PLAYER_START_HEALTH(200.f)
 	, _attacking(false)
 	, _moving(false)
 	, _rangeAttack()
@@ -40,6 +40,7 @@ Player::Player()
 	resetPosition();
 
 	_health = PLAYER_START_HEALTH;
+	_maxHealth = _health;
 	_speedAttack = PLAYER_SPEED_ATTACK;
 	_alive = true;
 	_active = true;

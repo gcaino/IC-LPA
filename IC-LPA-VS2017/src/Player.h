@@ -17,7 +17,7 @@ class Player : public Character, public InputManager
 {
 private:
 	const sf::Time		PLAYER_SPEED_ATTACK;
-	const unsigned int	PLAYER_START_HEALTH;
+	const float			PLAYER_START_HEALTH;
 
 	sf::Time			_speedAttack;
 	sf::Time			_timeSinceLastAttack;

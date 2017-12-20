@@ -4,6 +4,7 @@
 #include "Constants.h"
 #include "CollisionManager.h"
 #include "GameObject.h"
+#include "ScreenManager.h"
 #include <iostream>
 #include <list>
 #include <iterator>
@@ -17,10 +18,10 @@ bool compareAxisY(const AnimatedSprite& first, const AnimatedSprite& second)
 	return (first.getPosition().y < second.getPosition().y);
 }
 // -----------------------------------------
-GameWorld::GameWorld(const sf::RenderWindow& window)
-	: _indexCurrentWave(0)
+GameWorld::GameWorld(ScreenManager* screenManager)
+	: Screen(screenManager)
+	, _indexCurrentWave(0)
 	, _spawnManager(&_waves[0])
-	, _window(&window)
 	, _score(0)
 	, _highScore(0)
 	, _waitTime(sf::seconds(10.f))
@@ -28,6 +29,16 @@ GameWorld::GameWorld(const sf::RenderWindow& window)
 {
 	initSounds();
 	initTexts();
+
+	_healthStatusBarTexture.loadFromFile(Constants::textureHealthStatusBar);
+	_healthStatusBar.setTexture(_healthStatusBarTexture);
+	_healthStatusBar.setPosition(sf::Vector2f(10.f, 15.f));
+	_currentHealthTexture.loadFromFile(Constants::textureCurrentHealth);
+	_currentHealth.setTexture(_currentHealthTexture);
+	_currentHealth.setPosition(sf::Vector2f(75.f, 50.f));
+	_orcsKilledBarTexture.loadFromFile(Constants::textureOrcsKilledBar);
+	_orcsKilledBar.setTexture(_orcsKilledBarTexture);
+	_orcsKilledBar.setPosition(sf::Vector2f(330.f, 15.f));
 }
 GameWorld::~GameWorld()
 {
@@ -52,7 +63,8 @@ void GameWorld::initTexts()
 	_waveText.visible = true;
 
 	_scoreText.text.setFont(_orcHordeFont);
-	_scoreText.text.setFillColor(sf::Color::Color(255, 175, 5));
+	_scoreText.text.setFillColor(sf::Color::Yellow);
+	_scoreText.text.setCharacterSize(23);
 	_scoreText.visible = true;
 
 	addTextsToDraw();
@@ -66,7 +78,13 @@ void GameWorld::addTextsToDraw()
 
 void GameWorld::updateTexts()
 {
-	//_scoreText.text.setString("SCORE: " + std::to_string(""));
+	_scoreText.text.setString("ORCS KILLED: " + std::to_string(_player.getEnemiesKilled()));
+	_scoreText.text.setPosition(_orcsKilledBar.getPosition().x + 78.f, _orcsKilledBar.getPosition().y + 34.f);
+}
+
+void GameWorld::updateHealthBar(const Player& player)
+{
+	_currentHealth.setScale(static_cast<float>(player.getHealth() / player.getMaxHealth()), 1.f);
 }
 
 void GameWorld::showStartText(sf::Time elapsedTime)
@@ -78,13 +96,17 @@ void GameWorld::showStartText(sf::Time elapsedTime)
 	}
 }
 
-void GameWorld::handlerInputs()
+void GameWorld::handleEvent(sf::Event event)
+{
+}
+
+void GameWorld::handleInput()
 {
 	if (!_player.isAlive())
 		return;
 
 	_player.handlerInputs();
-	_player.handlerInputsAttack(_waves, *_window);
+	_player.handlerInputsAttack(_waves, m_screenManager->getRenderWindow());
 }
 void GameWorld::update(sf::Time elapsedTime)
 {
@@ -98,6 +120,7 @@ void GameWorld::update(sf::Time elapsedTime)
 	collisionDetectionPlayerEnemies();
 	collisionDetectionEnemyEmemies();
 
+	updateHealthBar(_player);
 	showStartText(elapsedTime);
 	updateTexts();
 
@@ -164,6 +187,10 @@ void GameWorld::draw(sf::RenderTarget& target, sf::RenderStates states)
 		// Dibujar
 		target.draw(*it, sf::RenderStates::Default);
 	}
+	// HUD
+	target.draw(_healthStatusBar);
+	target.draw(_currentHealth);
+	target.draw(_orcsKilledBar);
 	// Texts
 	for (size_t i = 0; i < _texts.size(); i++)
 	{
