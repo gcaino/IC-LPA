@@ -33,6 +33,13 @@ Enemy::Enemy()
 	_deadTime = sf::seconds(10.f);
 	_elapsedDeadTime = sf::seconds(0.f);
 
+	_orcAttackSoundBuffer.loadFromFile(Constants::orcAttackSound);
+	_orcAttackSound.setBuffer(_orcAttackSoundBuffer);
+	_orcAttackSound.setVolume(80.f);
+	_orcDieSoundBuffer.loadFromFile(Constants::orcDieSound);
+	_orcDieSound.setBuffer(_orcDieSoundBuffer);
+	_orcDieSound.setVolume(80.f);
+
 	//std::cout << "Create Enemy" << std::endl;
 }
 Enemy::~Enemy()
@@ -242,6 +249,7 @@ void Enemy::attack(Player* pPlayer)
 		std::cout << "Enemy Attack" << std::endl;
 		pPlayer->takeDamage(calculateDamage());
 
+		_orcAttackSound.play();
 		_currentAnimation = &_attackAnimation;
 		_animatedSprite.play(*_currentAnimation);
 
@@ -284,6 +292,7 @@ void Enemy::verifyDeath(sf::Time elapsedTime, Player& player)
 			_animatedSprite.setFrame(1);
 			_active = false;
 			player.addEnemyKilled();
+			_orcDieSound.play();
 		}
 
 		_elapsedDeadTime += elapsedTime;

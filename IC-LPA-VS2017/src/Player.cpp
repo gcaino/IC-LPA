@@ -47,6 +47,9 @@ Player::Player()
 	_timeSinceLastAttack = _clockAttack.restart();
 	_deadTime = sf::seconds(2.f);
 	_elapsedDeadTime = sf::seconds(0.f);
+
+	_axeSoundBuffer.loadFromFile(Constants::battleAxeSwingSound);
+	_axeSound.setBuffer(_axeSoundBuffer);
 	
 	//std::cout << "Create Player" << std::endl;
 }
@@ -223,6 +226,7 @@ void Player::handlerInputsAttack(Wave* pWave, const sf::RenderWindow& window)
 
 		_currentAnimation = &_attackAnimation;
 		_animatedSprite.play(*_currentAnimation);
+		_axeSound.play();
 	}
 	else
 	{

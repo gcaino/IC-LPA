@@ -4,6 +4,7 @@
 #include "Character.h"
 #include "GameObject.h"
 #include "InputManager.h"
+#include <SFML\Audio.hpp>
 #include <list>
 // -----------------------------------------
 namespace lpa
@@ -29,6 +30,9 @@ private:
 
 	std::list<Enemy*>	_attackablesEnemies;
 	std::list<Enemy*>::iterator it;
+
+	sf::SoundBuffer		_axeSoundBuffer;
+	sf::Sound			_axeSound;
 
 	void move(sf::Time elapsedTime);
     void resetPosition();

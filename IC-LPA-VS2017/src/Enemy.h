@@ -4,6 +4,7 @@
 #include "Character.h"
 #include "GameObject.h"
 #include <SFML\Graphics.hpp>
+#include <SFML\Audio.hpp>
 #include <list>
 #include <iterator>
 // -----------------------------------------
@@ -36,6 +37,11 @@ private:
 	sf::Time			_timeSinceNotFollowing;
 	sf::Clock			_clockFollowing;
 	bool				_clockFollowingActive;
+
+	sf::SoundBuffer		_orcAttackSoundBuffer;
+	sf::SoundBuffer		_orcDieSoundBuffer;
+	sf::Sound			_orcAttackSound;
+	sf::Sound			_orcDieSound;
 
 	void setupAnimations();
 	void setAttributesAnimations();
