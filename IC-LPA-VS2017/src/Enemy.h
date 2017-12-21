@@ -37,12 +37,16 @@ private:
 	sf::Time			_timeSinceNotFollowing;
 	sf::Clock			_clockFollowing;
 	bool				_clockFollowingActive;
+	sf::Time			_waitTime;
+	sf::Time			_elapsedWaitTime;
+	bool				_waiting;
 
 	sf::SoundBuffer		_orcAttackSoundBuffer;
 	sf::SoundBuffer		_orcDieSoundBuffer;
 	sf::Sound			_orcAttackSound;
 	sf::Sound			_orcDieSound;
 
+	void waiting(sf::Time elapsedTime);
 	void setupAnimations();
 	void setAttributesAnimations();
 	void move(sf::Time elapsedTime, Player* pPlayer);

@@ -22,6 +22,9 @@ Enemy::Enemy()
 	, _timeToFollow(sf::seconds(2.f))
 	, _timeSinceNotFollowing(sf::seconds(0.f))
 	, _clockFollowingActive(false)
+	, _waiting(false)
+	, _waitTime(sf::seconds(5.f))
+	, _elapsedWaitTime(sf::Time::Zero)
 {
 	setupAnimations();
 	_animatedSprite.setOrigin(_animatedSprite.getGlobalBounds().width / 2, _animatedSprite.getGlobalBounds().height);
@@ -171,6 +174,7 @@ void Enemy::update(sf::Time elapsedTime, Player* pPlayer)
 		calculateDirection();
 		rotateSprite();
 		iteratePlayersAttackables(pPlayer);
+		waiting(elapsedTime);
 	}
 	verifyDeath(elapsedTime, *pPlayer);
 
@@ -186,27 +190,38 @@ void Enemy::move(sf::Time elapsedTime, Player* pPlayer)
 {
 	if (pPlayer->isAlive())
 	{
-		if ((_currentAnimation == &_hurtAnimation) && _animatedSprite.isPlaying()) return;
-
-		_prevPosition = _position;
-
-		sf::Vector2f posPlayer = pPlayer->getPosition();
-		if (posPlayer.x > _position.x)
-			_position.x += _velocity * elapsedTime.asSeconds();
-		if (posPlayer.x < _position.x)
-			_position.x -= _velocity * elapsedTime.asSeconds();
-		if (posPlayer.y > _position.y)
-			_position.y += _velocity * elapsedTime.asSeconds();
-		if (posPlayer.y < _position.y)
-			_position.y -= _velocity * elapsedTime.asSeconds();
-
-		_animatedSprite.setPosition(_position);
-		_animatedSpriteBlood.setPosition(_position.x, _position.y);
-
-		if (!_animatedSprite.isPlaying())
+		if (!_waiting)
 		{
-			_currentAnimation = &_walkingAnimation;
-			_animatedSprite.play(*_currentAnimation);
+			if ((_currentAnimation == &_hurtAnimation) && _animatedSprite.isPlaying()) return;
+
+			_prevPosition = _position;
+
+			sf::Vector2f posPlayer = pPlayer->getPosition();
+			if (posPlayer.x > _position.x)
+				_position.x += _velocity * elapsedTime.asSeconds();
+			if (posPlayer.x < _position.x)
+				_position.x -= _velocity * elapsedTime.asSeconds();
+			if (posPlayer.y > _position.y)
+				_position.y += _velocity * elapsedTime.asSeconds();
+			if (posPlayer.y < _position.y)
+				_position.y -= _velocity * elapsedTime.asSeconds();
+
+			_animatedSprite.setPosition(_position);
+			_animatedSpriteBlood.setPosition(_position.x, _position.y);
+
+			if (!_animatedSprite.isPlaying())
+			{
+				_currentAnimation = &_walkingAnimation;
+				_animatedSprite.play(*_currentAnimation);
+			}
+		}
+		else
+		{
+			if (!_animatedSprite.isPlaying())
+			{
+				_currentAnimation = &_idleAnimation;
+				_animatedSprite.play(*_currentAnimation);
+			}
 		}
 	}
 }
@@ -235,6 +250,17 @@ void Enemy::restartClockToFollow()
 	_clockFollowing.restart();
 	_clockFollowingActive = true;
 }
+
+void Enemy::waiting(sf::Time elapsedTime)
+{
+	_elapsedWaitTime += elapsedTime;
+	if (_elapsedWaitTime >= _waitTime)
+	{
+		_waiting = false;
+		_elapsedWaitTime = sf::Time::Zero;
+	}
+}
+
 void Enemy::attack(Player* pPlayer)
 {
 	_timeSinceLastAttack = _clockAttack.getElapsedTime();
@@ -247,6 +273,7 @@ void Enemy::attack(Player* pPlayer)
 		_currentAnimation = &_attackAnimation;
 		_animatedSprite.play(*_currentAnimation);
 
+		_waiting = true;
 		_clockAttack.restart();
 	}
 }
