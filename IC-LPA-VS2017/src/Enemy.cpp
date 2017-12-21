@@ -192,7 +192,11 @@ void Enemy::move(sf::Time elapsedTime, Player* pPlayer)
 	{
 		if (!_waiting)
 		{
-			if ((_currentAnimation == &_hurtAnimation) && _animatedSprite.isPlaying()) return;
+			if ((_currentAnimation == &_hurtAnimation) && _animatedSprite.isPlaying()) 
+				return;
+
+			if ((_currentAnimation == &_idleAnimation) && _animatedSprite.isPlaying()) 
+				_animatedSprite.stop();
 
 			_prevPosition = _position;
 

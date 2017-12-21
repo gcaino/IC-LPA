@@ -71,7 +71,7 @@ void GameWorld::initTexts()
 	_objectiveText.text.setFillColor(sf::Color::Black);
 	_objectiveText.text.setCharacterSize(23);
 	//_objectiveText.text.setStyle(sf::Text::Bold);
-	_objectiveText.text.setString("[OBJECTIVE: Kill 15 Orcs]");
+	_objectiveText.text.setString("[OBJECTIVE: Kill " + std::to_string(_waves->getMaxEnemies()) + " Orcs]");
 	_objectiveText.text.setPosition(sf::Vector2f(Constants::WINDOW_WIDTH_MAX * 0.67f, 50.f));
 	_objectiveText.visible = true;
 
