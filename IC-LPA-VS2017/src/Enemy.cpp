@@ -186,6 +186,8 @@ void Enemy::move(sf::Time elapsedTime, Player* pPlayer)
 {
 	if (pPlayer->isAlive())
 	{
+		if ((_currentAnimation == &_hurtAnimation) && _animatedSprite.isPlaying()) return;
+
 		_prevPosition = _position;
 
 		sf::Vector2f posPlayer = pPlayer->getPosition();
