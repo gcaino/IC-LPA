@@ -28,7 +28,7 @@ GameWorld::GameWorld(ScreenManager* screenManager)
 	, _score(0)
 	, _highScore(0)
 	, _waitTime(sf::seconds(10.f))
-	, _victoryTime(sf::seconds(10.f))
+	, _victoryTime(sf::seconds(8.f))
 	, _elapsedWaitTime(sf::Time::Zero)
 	, _elapsedVictoryTime(sf::Time::Zero)
 {
@@ -80,6 +80,14 @@ void GameWorld::initTexts()
 	_victoryText.text.setPosition(Constants::WINDOW_WIDTH_MAX / 2 - _victoryText.text.getGlobalBounds().width / 2, Constants::WINDOW_HEIGHT_MAX * 0.2f);
 	_victoryText.visible = false;
 
+	_defeatText.text.setFont(_orcHordeFont);
+	_defeatText.text.setFillColor(sf::Color::Red);
+	_defeatText.text.setCharacterSize(120);
+	_defeatText.text.setStyle(sf::Text::Bold);
+	_defeatText.text.setString("DEFEAT!!!");
+	_defeatText.text.setPosition(Constants::WINDOW_WIDTH_MAX / 2 - _defeatText.text.getGlobalBounds().width / 2, Constants::WINDOW_HEIGHT_MAX * 0.2f);
+	_defeatText.visible = false;
+
 	addTextsToDraw();
 }
 
@@ -88,6 +96,7 @@ void GameWorld::addTextsToDraw()
 	_texts.push_back(&_waveText);
 	_texts.push_back(&_scoreText);
 	_texts.push_back(&_victoryText);
+	_texts.push_back(&_defeatText);
 }
 
 void GameWorld::updateTexts()
@@ -129,24 +138,26 @@ void GameWorld::handleInput()
 }
 void GameWorld::update(sf::Time elapsedTime)
 {
-	if (!_player.isAlive()) return;
+	if (_player.isAlive())
+	{
+		_player.update(elapsedTime);
+		_waves[_indexCurrentWave].update(elapsedTime, &_player);
 
-	_player.update(elapsedTime);
-	_waves[_indexCurrentWave].update(elapsedTime, &_player);
-	
-	collisionDetectionPlayerLimitsArena();
-	collisionDetectionEnemiesLimitsArena();
-	collisionDetectionPlayerEnemies();
-	collisionDetectionEnemiesPlayer();
-	//collisionDetectionEnemyEmemies();
-	checkAttackRangePlayer();
-	checkAttackRangeEnemies();
+		collisionDetectionPlayerLimitsArena();
+		collisionDetectionEnemiesLimitsArena();
+		collisionDetectionPlayerEnemies();
+		collisionDetectionEnemiesPlayer();
+		//collisionDetectionEnemyEmemies();
+		checkAttackRangePlayer();
+		checkAttackRangeEnemies();
 
-	updateHealthBar(_player);
-	showStartText(elapsedTime);
-	updateTexts();
-	_spawnManager.update(elapsedTime);
+		updateHealthBar(_player);
+		showStartText(elapsedTime);
+		updateTexts();
+		_spawnManager.update(elapsedTime);
+	}
 	checkVictoryCondition(elapsedTime);
+	checkLossCondition(elapsedTime);
 }
 
 void GameWorld::checkVictoryCondition(sf::Time elapsedTime)
@@ -163,6 +174,22 @@ void GameWorld::checkVictoryCondition(sf::Time elapsedTime)
 		}
 	}
 }
+
+void GameWorld::checkLossCondition(sf::Time elapsedTime)
+{
+	if (_player.getHealth() <= 0)
+	{
+		_victory = false;
+		_defeatText.visible = true;
+
+		_elapsedVictoryTime += elapsedTime;
+		if (_elapsedVictoryTime >= _victoryTime)
+		{
+			m_screenManager->changeScreen(new CreditScreen(m_screenManager));
+		}
+	}
+}
+
 void GameWorld::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 }
@@ -303,7 +330,7 @@ void GameWorld::checkAttackRangeEnemies()
 		Enemy* pEnemy = &_waves[_indexCurrentWave].getEnemyRefByIndex(i);
 		if (pEnemy->isActive())
 		{
-			if (CollisionManager::boundingBoxRangeAttack(pEnemy->getAnimatedSprite(), _player.getAnimatedSprite(), 0.5f))
+			if (CollisionManager::boundingBoxRangeAttack(pEnemy->getAnimatedSprite(), _player.getAnimatedSprite(), 0.3f))
 			{
 				pEnemy->addAttackablePlayer(&_player);
 			}
@@ -323,7 +350,7 @@ void GameWorld::checkAttackRangePlayer()
 		Enemy* pEnemy = &_waves[_indexCurrentWave].getEnemyRefByIndex(i);
 		if (pEnemy->isActive())
 		{
-			if (CollisionManager::boundingBoxRangeAttack(_player.getAnimatedSprite(), pEnemy->getAnimatedSprite(), 0.5f))
+			if (CollisionManager::boundingBoxRangeAttack(_player.getAnimatedSprite(), pEnemy->getAnimatedSprite(), 0.3f))
 			{
 				_player.addAttackableEnemy(pEnemy);
 			}

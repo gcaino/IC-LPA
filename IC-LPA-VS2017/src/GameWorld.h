@@ -42,6 +42,7 @@ private:
 	Text					_waveText;
 	Text					_scoreText;
 	Text					_victoryText;
+	Text					_defeatText;
 	sf::Texture				_healthStatusBarTexture;
 	sf::Texture				_currentHealthTexture;
 	sf::Texture				_orcsKilledBarTexture;
@@ -61,6 +62,7 @@ private:
 	void updateHealthBar(const Player& player);
 	void initSounds();
 	void checkVictoryCondition(sf::Time elapsedTime);
+	void checkLossCondition(sf::Time elapsedTime);
 
 	void collisionDetectionPlayerLimitsArena();
 	void collisionDetectionEnemiesLimitsArena();
