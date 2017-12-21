@@ -7,7 +7,7 @@ namespace lpa
 // -----------------------------------------
 {
 // -----------------------------------------
-class GameWorld;
+class ScreenManager;
 // -----------------------------------------
 class GameLoop
 {
@@ -15,10 +15,12 @@ private:
 	const unsigned int	FPS;
 
 	sf::RenderWindow	_window;
+	sf::Event			_event;
+	ScreenManager*		_screenManager;
 	bool				_paused;
 	sf::Clock			_clock;
 	sf::Time			_elapsedTime;
-	GameWorld*			_gameWorld;
+	//GameWorld*			_gameWorld;
 
 	sf::Texture			_textureMousePointer;
 	sf::Sprite			_spriteMousePointer;
@@ -27,7 +29,6 @@ private:
 	void setMousePointer();
 	void updateMousePointer();
 
-	void handlerEvents();
 	void update(sf::Time elapsedTime);
 	void draw();
 

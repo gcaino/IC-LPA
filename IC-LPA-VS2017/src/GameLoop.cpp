@@ -2,6 +2,8 @@
 // -----------------------------------------
 #include "Constants.h"
 #include "GameWorld.h"
+#include "ScreenManager.h"
+#include "TitleScreen.h"
 #include <SFML\Graphics.hpp>
 #include <iostream>
 // -----------------------------------------
@@ -17,60 +19,45 @@ GameLoop::GameLoop()
 								 Constants::WINDOW_HEIGHT_MAX), "Final Project LPA");
 	_window.setFramerateLimit(FPS);
 	setMousePointer();
-	_gameWorld = new GameWorld(_window);
+
+	_screenManager = new ScreenManager(&_window);
+	_screenManager->addScreen(new TitleScreen(_screenManager));
 }
 GameLoop::~GameLoop()
 {
-	if (_gameWorld != nullptr)
-		delete _gameWorld;
+	_screenManager->removeScreen();
+	delete _screenManager;
 }
 void GameLoop::run()
 {
 	while (_window.isOpen())
 	{
-		handlerEvents();
+		while (_window.pollEvent(_event))
+		{
+			if (_event.type == sf::Event::Closed)
+				_window.close();
+
+			_screenManager->getScreen()->handleEvent(_event);
+		}
+		_screenManager->getScreen()->handleInput();
 
 		_elapsedTime = _clock.restart();
-		//std::cout << 1.0f / _elapsedTime.asSeconds() << std::endl;
-		
 		update(_elapsedTime);
+
 		draw();
 	}
-}
-void GameLoop::handlerEvents()
-{
-	sf::Event event;
-	while (_window.pollEvent(event))
-	{
-		if (event.type == sf::Event::Closed)
-			_window.close();
-
-		if (event.type == sf::Event::KeyPressed)
-		{
-			switch (event.key.code)
-			{
-			case sf::Keyboard::Escape:
-				_window.close();
-			case sf::Keyboard::P:
-				pause();
-			default:
-				break;
-			}				
-		}
-	}
-	_gameWorld->handlerInputs();
 }
 void GameLoop::update(sf::Time elapsedTime)
 {
 	updateMousePointer();
 
 	if (!_paused)
-		_gameWorld->update(elapsedTime);
+		_screenManager->getScreen()->update(_elapsedTime);
 }
 void GameLoop::draw()
 {
 	_window.clear();
-	_gameWorld->draw(_window, sf::RenderStates::Default);
+	_screenManager->getScreen()->draw(_window, sf::RenderStates::Default);
 	_window.draw(_spriteMousePointer, sf::RenderStates::Default);
 	_window.display();
 }

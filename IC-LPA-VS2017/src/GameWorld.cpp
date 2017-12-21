@@ -137,7 +137,10 @@ void GameWorld::update(sf::Time elapsedTime)
 	collisionDetectionPlayerLimitsArena();
 	collisionDetectionEnemiesLimitsArena();
 	collisionDetectionPlayerEnemies();
-	collisionDetectionEnemyEmemies();
+	collisionDetectionEnemiesPlayer();
+	//collisionDetectionEnemyEmemies();
+	checkAttackRangePlayer();
+	checkAttackRangeEnemies();
 
 	updateHealthBar(_player);
 	showStartText(elapsedTime);
@@ -160,7 +163,6 @@ void GameWorld::checkVictoryCondition(sf::Time elapsedTime)
 		}
 	}
 }
-
 void GameWorld::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 }
@@ -268,40 +270,71 @@ void GameWorld::collisionDetectionPlayerEnemies()
 		Enemy* pEnemy = &_waves[_indexCurrentWave].getEnemyRefByIndex(i);
 		if (pEnemy->isActive())
 		{
-			// Range Attack Player
-			if (CollisionManager::boundingBoxRangeAttack(_player.getAnimatedSprite(), pEnemy->getAnimatedSprite()))
+			if (CollisionManager::boundingBoxTest(_player.getAnimatedSprite(), pEnemy->getAnimatedSprite(), 0.5f))
 			{
-				_player.addAttackableEnemy(pEnemy);
-				//std::cout << "Enemy is attackable" << std::endl;
+				std::cout << "Collision" << std::endl;
+				_player.movePreviousPosition();
 			}
-			else
+		}
+	}
+}
+
+void GameWorld::collisionDetectionEnemiesPlayer()
+{
+	uint maxWaveEnemies = _waves[_indexCurrentWave].getMaxEnemies();
+	for (uint i = 0; i < maxWaveEnemies; i++)
+	{
+		Enemy* pEnemy = &_waves[_indexCurrentWave].getEnemyRefByIndex(i);
+		if (pEnemy->isActive())
+		{
+			if (CollisionManager::boundingBoxTest(pEnemy->getAnimatedSprite(), _player.getAnimatedSprite(), 0.5f))
 			{
-				_player.removeAttackableEnemy(pEnemy);
+				pEnemy->movePreviousPosition();
 			}
-			//// Range Attack Enemies
-			if (CollisionManager::boundingBoxRangeAttack(pEnemy->getAnimatedSprite(), _player.getAnimatedSprite()))
+		}
+	}
+}
+
+void GameWorld::checkAttackRangeEnemies()
+{
+	uint maxWaveEnemies = _waves[_indexCurrentWave].getMaxEnemies();
+	for (uint i = 0; i < maxWaveEnemies; i++)
+	{
+		Enemy* pEnemy = &_waves[_indexCurrentWave].getEnemyRefByIndex(i);
+		if (pEnemy->isActive())
+		{
+			if (CollisionManager::boundingBoxRangeAttack(pEnemy->getAnimatedSprite(), _player.getAnimatedSprite(), 0.5f))
 			{
 				pEnemy->addAttackablePlayer(&_player);
-				//std::cout << "Player is attackable" << std::endl;
 			}
 			else
 			{
 				pEnemy->removeAttackablePlayer(&_player);
 			}
-			// Movement
-			if (CollisionManager::boundingBoxTest(_player.getAnimatedSprite(), pEnemy->getAnimatedSprite(), 0.4f))
+		}
+	}
+}
+
+void GameWorld::checkAttackRangePlayer()
+{
+	uint maxWaveEnemies = _waves[_indexCurrentWave].getMaxEnemies();
+	for (uint i = 0; i < maxWaveEnemies; i++)
+	{
+		Enemy* pEnemy = &_waves[_indexCurrentWave].getEnemyRefByIndex(i);
+		if (pEnemy->isActive())
+		{
+			if (CollisionManager::boundingBoxRangeAttack(_player.getAnimatedSprite(), pEnemy->getAnimatedSprite(), 0.5f))
 			{
-				std::cout << "Collision" << std::endl;
-				collisionPlayerActions(pEnemy);
-				collisionEnemyActions(pEnemy);
+				_player.addAttackableEnemy(pEnemy);
 			}
 			else
 			{
-				notCollisionEnemyActions(pEnemy);
+				_player.removeAttackableEnemy(pEnemy);
 			}
 		}
 	}
 }
+
 void GameWorld::collisionDetectionEnemyEmemies()
 {
 	uint maxWaveEnemies = _waves[_indexCurrentWave].getMaxEnemies();
@@ -324,24 +357,6 @@ void GameWorld::collisionDetectionEnemyEmemies()
 		}
 	}
 }
-void GameWorld::collisionPlayerActions(Enemy* pEnemy)
-{
-	_player.movePreviousPosition();
-}
-void GameWorld::collisionEnemyActions(Enemy* pEnemy)
-{
-	pEnemy->movePreviousPosition();
-	pEnemy->setFollowing(false);
-}
-void GameWorld::notCollisionEnemyActions(Enemy* pEnemy)
-{
-	if (!pEnemy->isFollowing()) 
-	{
-		if (!pEnemy->isClockFollowingActive())
-			pEnemy->restartClockToFollow();
-		
-		pEnemy->waitToFollow();
-	}
-}
+
 // -----------------------------------------
 }

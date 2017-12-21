@@ -2,6 +2,7 @@
 // -----------------------------------------
 #include "AnimatedSprite.h"
 #include <iostream>
+#include <SFML\Graphics.hpp>
 // -----------------------------------------
 namespace lpa
 // -----------------------------------------
@@ -18,15 +19,15 @@ bool CollisionManager::boundingBoxTest(const AnimatedSprite & Object1, const Ani
 	sf::FloatRect boundingBoxObj1 = Object1.getGlobalBounds();
 	sf::FloatRect boundingBoxObj2 = Object2.getGlobalBounds();
 
-	boundingBoxObj1.left	*= (1.f + factor);
-	boundingBoxObj1.top		*= (1.f + factor);
-	boundingBoxObj1.width	*= (1.f - factor);
-	boundingBoxObj1.height	*= (1.f - factor);
+	boundingBoxObj1.left	+= (boundingBoxObj1.width * factor);
+	boundingBoxObj1.top		+= (boundingBoxObj1.height * factor);
+	boundingBoxObj1.width	*= (1 - factor);
+	boundingBoxObj1.height	*= (1 - factor);
 
-	boundingBoxObj2.left	*= (1.f + factor);
-	boundingBoxObj2.top		*= (1.f + factor);
-	boundingBoxObj2.width	*= (1.f - factor);
-	boundingBoxObj2.height	*= (1.f - factor);
+	boundingBoxObj2.left	+= (boundingBoxObj2.width * factor);
+	boundingBoxObj2.top		+= (boundingBoxObj2.height * factor);
+	boundingBoxObj2.width	*= (1 - factor);
+	boundingBoxObj2.height	*= (1 - factor);
 
 	if (boundingBoxObj1.intersects(boundingBoxObj2))
 		return true;
@@ -38,11 +39,10 @@ bool CollisionManager::boundingBoxRangeAttack(const AnimatedSprite & Object1, co
 	sf::FloatRect boundingBoxObj1 = Object1.getGlobalBounds();
 	sf::FloatRect boundingBoxObj2 = Object2.getGlobalBounds();
 
-	// FIX, el factor no estaría funcionando correctamente
-	boundingBoxObj1.left	*= (1.f - factor);
-	boundingBoxObj1.top		*= (1.f - factor);
-	boundingBoxObj1.width	*= (1.f + factor);
-	boundingBoxObj1.height	*= (1.f + factor);
+	boundingBoxObj1.left	+= (boundingBoxObj1.width * factor);
+	boundingBoxObj1.top		+= (boundingBoxObj1.height * factor);
+	boundingBoxObj1.width	*= (1 - factor);
+	boundingBoxObj1.height	*= (1 - factor);
 
 	boundingBoxObj2.left;
 	boundingBoxObj2.top;
@@ -68,5 +68,6 @@ bool CollisionManager::pixelTest(const AnimatedSprite& sprite, const sf::Image& 
 		return false;
 	}
 }
+
 // -----------------------------------------
 }

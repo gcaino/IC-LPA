@@ -14,11 +14,11 @@
     <Filter Include="Utils">
       <UniqueIdentifier>{730e754a-6112-4b82-87db-78b1f5a92be1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Screen Files">
+      <UniqueIdentifier>{61302355-a248-4b28-ba4b-4baecce40b68}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\GameWorld.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -58,6 +58,21 @@
     <ClCompile Include="..\src\SpawnManager.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\TitleScreen.cpp">
+      <Filter>Screen Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ScreenManager.cpp">
+      <Filter>Screen Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Screen.cpp">
+      <Filter>Screen Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\GameWorld.cpp">
+      <Filter>Screen Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\CreditsScreen.cpp">
+      <Filter>Screen Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Arena.h">
@@ -70,9 +85,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Character.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\GameWorld.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Player.h">
@@ -101,6 +113,21 @@
     </ClInclude>
     <ClInclude Include="..\src\SpawnManager.h">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Screen.h">
+      <Filter>Screen Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ScreenManager.h">
+      <Filter>Screen Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TitleScreen.h">
+      <Filter>Screen Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\GameWorld.h">
+      <Filter>Screen Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\CreditsScreen.h">
+      <Filter>Screen Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

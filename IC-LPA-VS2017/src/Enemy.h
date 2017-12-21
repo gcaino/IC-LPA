@@ -65,7 +65,7 @@ public:
 	void update(sf::Time elapsedTime, Player* pPlayer);
 	void movePreviousPosition();
 	void moveRandomDirection();
-	void waitToFollow();
+	void waitToFollow(sf::Time elapsedTime);
 	void restartClockToFollow();
 	void attack(Player* pPlayer);
 	void takeDamage(unsigned int damage);

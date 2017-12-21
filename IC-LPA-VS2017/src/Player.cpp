@@ -236,8 +236,6 @@ void Player::handlerInputsAttack(Wave* pWave, const sf::RenderWindow& window)
 	if (_attacking)
 	{
 		sf::Vector2i targetCoords = sf::Mouse::getPosition(window);
-
-
 		uint maxWaveEnemies = pWave->getMaxEnemies();
 
 		std::map<Enemy*, float> tempEnemyDictionary;
@@ -315,7 +313,7 @@ void Player::move(sf::Time elapsedTime)
 	if (_leftPressed)	_position.x -= _velocity * elapsedTime.asSeconds();
 
 	_animatedSprite.setPosition(_position);
-	_animatedSpriteBlood.setPosition(_position);
+	_animatedSpriteBlood.setPosition(_position.x, _position.y + 5.f);
 
 	if (_upPressed || _downPressed || _rightPressed || _leftPressed)
 	{
@@ -342,6 +340,7 @@ void Player::movePreviousPosition()
 {
 	_position = _prevPosition;
 	_animatedSprite.setPosition(_position);
+	_animatedSpriteBlood.setPosition(_position.x, _position.y + 5.f);
 }
 uint Player::calculateDamage()
 {
@@ -357,15 +356,9 @@ void Player::takeDamage(uint damage)
 	}
 	std::cout << "Player Health: " << _health << std::endl;
 
-	if (!_animatedSprite.isPlaying() || _currentAnimation == &_idleAnimation)
-	{
-		_animatedSprite.pause();
-		_currentAnimation = &_hurtAnimation;
-		_animatedSprite.play(*_currentAnimation);
-	}
-
-	if (!_animatedSpriteBlood.isPlaying() && _currentAnimation == &_hurtAnimation)
-		_animatedSpriteBlood.play();
+	_currentAnimation = &_hurtAnimation;
+	_animatedSprite.play(*_currentAnimation);
+	_animatedSpriteBlood.play();
 }
 void Player::verifyDeath(sf::Time elapsedTime)
 {

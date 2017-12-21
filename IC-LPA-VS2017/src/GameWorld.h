@@ -65,10 +65,10 @@ private:
 	void collisionDetectionPlayerLimitsArena();
 	void collisionDetectionEnemiesLimitsArena();
 	void collisionDetectionPlayerEnemies();
+	void collisionDetectionEnemiesPlayer();
 	void collisionDetectionEnemyEmemies();
-	void collisionPlayerActions(Enemy* pEnemy);
-	void collisionEnemyActions(Enemy* pEnemy);
-	void notCollisionEnemyActions(Enemy* pEnemy);
+	void checkAttackRangeEnemies();
+	void checkAttackRangePlayer();
 
 public:
 	GameWorld(ScreenManager* screenManager);

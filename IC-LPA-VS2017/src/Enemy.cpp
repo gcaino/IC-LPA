@@ -184,7 +184,7 @@ void Enemy::draw(sf::RenderTarget & target, sf::RenderStates states) const
 }
 void Enemy::move(sf::Time elapsedTime, Player* pPlayer)
 {
-	if (pPlayer->isAlive() && _following)
+	if (pPlayer->isAlive())
 	{
 		_prevPosition = _position;
 
@@ -199,20 +199,11 @@ void Enemy::move(sf::Time elapsedTime, Player* pPlayer)
 			_position.y -= _velocity * elapsedTime.asSeconds();
 
 		_animatedSprite.setPosition(_position);
-		_animatedSpriteBlood.setPosition(_position);
-	}
+		_animatedSpriteBlood.setPosition(_position.x, _position.y + 5.f);
 
-	if (_following)
-	{
-		_currentAnimation = &_walkingAnimation;
-		_animatedSprite.play(*_currentAnimation);
-	}
-	else
-	{
-		if (_currentAnimation == &_walkingAnimation)
+		if (!_animatedSprite.isPlaying())
 		{
-			_animatedSprite.stop();
-			_currentAnimation = &_idleAnimation;
+			_currentAnimation = &_walkingAnimation;
 			_animatedSprite.play(*_currentAnimation);
 		}
 	}
@@ -221,14 +212,15 @@ void Enemy::movePreviousPosition()
 {
 	_position = _prevPosition;
 	_animatedSprite.setPosition(_position);
+	_animatedSpriteBlood.setPosition(_position.x, _position.y + 5.f);
 }
 void Enemy::moveRandomDirection()
 {
 	// TODO método para evitar que los enemigos se queden atorados en el mapa
 }
-void Enemy::waitToFollow()
+void Enemy::waitToFollow(sf::Time elapsedTime)
 {
-	_timeSinceNotFollowing = _clockFollowing.getElapsedTime();
+	_timeSinceNotFollowing += elapsedTime;
 	if (_timeSinceNotFollowing > _timeToFollow)
 	{
 		_following = true;
@@ -266,15 +258,9 @@ void Enemy::takeDamage(unsigned int damage)
 		return;
 	}
 
-	if (!_animatedSprite.isPlaying() || _currentAnimation == &_idleAnimation)
-	{
-		_animatedSprite.pause();
-		_currentAnimation = &_hurtAnimation;
-		_animatedSprite.play(*_currentAnimation);
-	}
-
-	if (!_animatedSpriteBlood.isPlaying() && _currentAnimation == &_hurtAnimation)
-		_animatedSpriteBlood.play();
+	_currentAnimation = &_hurtAnimation;
+	_animatedSprite.play(*_currentAnimation);
+	_animatedSpriteBlood.play();
 }
 uint Enemy::calculateDamage()
 {
