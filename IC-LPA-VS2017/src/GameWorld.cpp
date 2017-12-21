@@ -5,6 +5,8 @@
 #include "CollisionManager.h"
 #include "GameObject.h"
 #include "ScreenManager.h"
+#include "TitleScreen.h"
+#include "CreditsScreen.h"
 #include <iostream>
 #include <list>
 #include <iterator>
@@ -21,11 +23,14 @@ bool compareAxisY(const AnimatedSprite& first, const AnimatedSprite& second)
 GameWorld::GameWorld(ScreenManager* screenManager)
 	: Screen(screenManager)
 	, _indexCurrentWave(0)
+	, _victory(false)
 	, _spawnManager(&_waves[0])
 	, _score(0)
 	, _highScore(0)
 	, _waitTime(sf::seconds(10.f))
+	, _victoryTime(sf::seconds(10.f))
 	, _elapsedWaitTime(sf::Time::Zero)
+	, _elapsedVictoryTime(sf::Time::Zero)
 {
 	initSounds();
 	initTexts();
@@ -35,7 +40,7 @@ GameWorld::GameWorld(ScreenManager* screenManager)
 	_healthStatusBar.setPosition(sf::Vector2f(10.f, 15.f));
 	_currentHealthTexture.loadFromFile(Constants::textureCurrentHealth);
 	_currentHealth.setTexture(_currentHealthTexture);
-	_currentHealth.setPosition(sf::Vector2f(75.f, 50.f));
+	_currentHealth.setPosition(sf::Vector2f(76.f, 50.f));
 	_orcsKilledBarTexture.loadFromFile(Constants::textureOrcsKilledBar);
 	_orcsKilledBar.setTexture(_orcsKilledBarTexture);
 	_orcsKilledBar.setPosition(sf::Vector2f(330.f, 15.f));
@@ -58,7 +63,7 @@ void GameWorld::initTexts()
 	_waveText.text.setFillColor(sf::Color::Color(255, 175, 5));
 	_waveText.text.setCharacterSize(60);
 	_waveText.text.setStyle(sf::Text::Bold);
-	_waveText.text.setString("WAVE IS COMMING...");
+	_waveText.text.setString("ORCS ARE COMING...");
 	_waveText.text.setPosition(Constants::WINDOW_WIDTH_MAX / 2 - _waveText.text.getGlobalBounds().width / 2, Constants::WINDOW_HEIGHT_MAX * 0.2f);
 	_waveText.visible = true;
 
@@ -67,6 +72,14 @@ void GameWorld::initTexts()
 	_scoreText.text.setCharacterSize(23);
 	_scoreText.visible = true;
 
+	_victoryText.text.setFont(_orcHordeFont);
+	_victoryText.text.setFillColor(sf::Color::Green);
+	_victoryText.text.setCharacterSize(120);
+	_victoryText.text.setStyle(sf::Text::Bold);
+	_victoryText.text.setString("VICTORY!!!");
+	_victoryText.text.setPosition(Constants::WINDOW_WIDTH_MAX / 2 - _victoryText.text.getGlobalBounds().width / 2, Constants::WINDOW_HEIGHT_MAX * 0.2f);
+	_victoryText.visible = false;
+
 	addTextsToDraw();
 }
 
@@ -74,6 +87,7 @@ void GameWorld::addTextsToDraw()
 {
 	_texts.push_back(&_waveText);
 	_texts.push_back(&_scoreText);
+	_texts.push_back(&_victoryText);
 }
 
 void GameWorld::updateTexts()
@@ -98,6 +112,11 @@ void GameWorld::showStartText(sf::Time elapsedTime)
 
 void GameWorld::handleEvent(sf::Event event)
 {
+	if (event.type == sf::Event::KeyPressed)
+	{
+		if (event.key.code == sf::Keyboard::Escape)
+			m_screenManager->changeScreen(new TitleScreen(m_screenManager));
+	}
 }
 
 void GameWorld::handleInput()
@@ -123,9 +142,25 @@ void GameWorld::update(sf::Time elapsedTime)
 	updateHealthBar(_player);
 	showStartText(elapsedTime);
 	updateTexts();
-
 	_spawnManager.update(elapsedTime);
+	checkVictoryCondition(elapsedTime);
 }
+
+void GameWorld::checkVictoryCondition(sf::Time elapsedTime)
+{
+	if (_waves->getMaxEnemies() == _player.getEnemiesKilled())
+	{
+		_victory = true;
+		_victoryText.visible = true;
+
+		_elapsedVictoryTime += elapsedTime;
+		if (_elapsedVictoryTime >= _victoryTime)
+		{
+			m_screenManager->changeScreen(new CreditScreen(m_screenManager));
+		}
+	}
+}
+
 void GameWorld::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 }

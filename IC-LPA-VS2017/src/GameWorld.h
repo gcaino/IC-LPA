@@ -27,9 +27,9 @@ class ScreenManager;
 class GameWorld : public Screen
 {
 private:
-	//const sf::RenderWindow*	_window;
 	uint					_score;
 	uint					_highScore;
+	bool					_victory;
 	Player					_player;
 	Arena					_arena;
 	uint					_indexCurrentWave;
@@ -41,6 +41,7 @@ private:
 	sf::Font				_orcHordeFont;
 	Text					_waveText;
 	Text					_scoreText;
+	Text					_victoryText;
 	sf::Texture				_healthStatusBarTexture;
 	sf::Texture				_currentHealthTexture;
 	sf::Texture				_orcsKilledBarTexture;
@@ -49,6 +50,8 @@ private:
 	sf::Sprite				_currentHealth;
 	sf::Time				_elapsedWaitTime;
 	sf::Time				_waitTime;
+	sf::Time				_victoryTime;
+	sf::Time				_elapsedVictoryTime;
 	std::vector<Text*>		_texts;
 
 	void initTexts();
@@ -57,6 +60,7 @@ private:
 	void showStartText(sf::Time elapsedTime);
 	void updateHealthBar(const Player& player);
 	void initSounds();
+	void checkVictoryCondition(sf::Time elapsedTime);
 
 	void collisionDetectionPlayerLimitsArena();
 	void collisionDetectionEnemiesLimitsArena();
