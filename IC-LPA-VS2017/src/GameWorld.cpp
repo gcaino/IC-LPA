@@ -67,6 +67,14 @@ void GameWorld::initTexts()
 	_waveText.text.setPosition(Constants::WINDOW_WIDTH_MAX / 2 - _waveText.text.getGlobalBounds().width / 2, Constants::WINDOW_HEIGHT_MAX * 0.2f);
 	_waveText.visible = true;
 
+	_objectiveText.text.setFont(_orcHordeFont);
+	_objectiveText.text.setFillColor(sf::Color::Black);
+	_objectiveText.text.setCharacterSize(23);
+	//_objectiveText.text.setStyle(sf::Text::Bold);
+	_objectiveText.text.setString("[OBJECTIVE: Kill 15 Orcs]");
+	_objectiveText.text.setPosition(sf::Vector2f(Constants::WINDOW_WIDTH_MAX * 0.67f, 50.f));
+	_objectiveText.visible = true;
+
 	_scoreText.text.setFont(_orcHordeFont);
 	_scoreText.text.setFillColor(sf::Color::Yellow);
 	_scoreText.text.setCharacterSize(23);
@@ -97,6 +105,7 @@ void GameWorld::addTextsToDraw()
 	_texts.push_back(&_scoreText);
 	_texts.push_back(&_victoryText);
 	_texts.push_back(&_defeatText);
+	_texts.push_back(&_objectiveText);
 }
 
 void GameWorld::updateTexts()
@@ -155,9 +164,13 @@ void GameWorld::update(sf::Time elapsedTime)
 		showStartText(elapsedTime);
 		updateTexts();
 		_spawnManager.update(elapsedTime);
+
+		checkVictoryCondition(elapsedTime);
 	}
-	checkVictoryCondition(elapsedTime);
-	checkLossCondition(elapsedTime);
+	else
+	{
+		checkLossCondition(elapsedTime);
+	}
 }
 
 void GameWorld::checkVictoryCondition(sf::Time elapsedTime)
@@ -381,7 +394,7 @@ void GameWorld::collisionDetectionEnemyEmemies(sf::Time elapsedTime)
 					if (CollisionManager::boundingBoxTest(enemy->getAnimatedSprite(), enemy2->getAnimatedSprite(), 0.7f))
 					{
 						enemy->movePreviousPosition();
-						if ((enemy->getPosition().y + (enemy->getVelocity() * elapsedTime.asSeconds())) < Constants::WINDOW_HEIGHT_MAX - 15.f)
+						if ((enemy->getPosition().y + (enemy->getVelocity() * elapsedTime.asSeconds())) < Constants::WINDOW_HEIGHT_MAX - 30.f)
 						{
 							enemy->setPosition(enemy->getPosition().x, enemy->getPosition().y + (enemy->getVelocity() * elapsedTime.asSeconds()));
 						}

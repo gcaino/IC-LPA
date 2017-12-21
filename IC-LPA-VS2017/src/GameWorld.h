@@ -43,6 +43,7 @@ private:
 	Text					_scoreText;
 	Text					_victoryText;
 	Text					_defeatText;
+	Text					_objectiveText;
 	sf::Texture				_healthStatusBarTexture;
 	sf::Texture				_currentHealthTexture;
 	sf::Texture				_orcsKilledBarTexture;
