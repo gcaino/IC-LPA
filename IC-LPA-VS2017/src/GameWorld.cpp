@@ -147,7 +147,7 @@ void GameWorld::update(sf::Time elapsedTime)
 		collisionDetectionEnemiesLimitsArena();
 		collisionDetectionPlayerEnemies();
 		collisionDetectionEnemiesPlayer();
-		//collisionDetectionEnemyEmemies();
+		collisionDetectionEnemyEmemies(elapsedTime);
 		checkAttackRangePlayer();
 		checkAttackRangeEnemies();
 
@@ -362,7 +362,7 @@ void GameWorld::checkAttackRangePlayer()
 	}
 }
 
-void GameWorld::collisionDetectionEnemyEmemies()
+void GameWorld::collisionDetectionEnemyEmemies(sf::Time elapsedTime)
 {
 	uint maxWaveEnemies = _waves[_indexCurrentWave].getMaxEnemies();
 	for (uint i = 0; i < maxWaveEnemies - 1; i++)
@@ -370,14 +370,16 @@ void GameWorld::collisionDetectionEnemyEmemies()
 		Enemy* enemy = &_waves[_indexCurrentWave].getEnemyRefByIndex(i);
 		if (enemy->isActive())
 		{
-			for (uint j = i + 1; j < maxWaveEnemies; j++)
+			for (uint j = 0; j < maxWaveEnemies; j++)
 			{
 				Enemy* enemy2 = &_waves[_indexCurrentWave].getEnemyRefByIndex(j);
-				if (enemy2->isActive())
+				if (enemy2->isActive() && (enemy != enemy2))
 				{
-					if (CollisionManager::boundingBoxTest(enemy->getAnimatedSprite(), enemy2->getAnimatedSprite()))
+					if (CollisionManager::boundingBoxTest(enemy->getAnimatedSprite(), enemy2->getAnimatedSprite(), 0.7f))
 					{
 						enemy->movePreviousPosition();
+						enemy->setPosition(enemy->getPosition().x, enemy->getPosition().y + (enemy->getVelocity() * elapsedTime.asSeconds()));
+						return;
 					}
 				}
 			}

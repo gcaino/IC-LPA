@@ -39,7 +39,7 @@ void TitleScreen::handleEvent(sf::Event event)
 {
 	if (event.type == sf::Event::KeyPressed)
 	{
-		if (event.key.code == sf::Keyboard::Return || event.key.code == sf::Keyboard::Escape)
+		if (event.key.code == sf::Keyboard::Escape)
 			m_screenManager->getRenderWindow().close();
 	}
 

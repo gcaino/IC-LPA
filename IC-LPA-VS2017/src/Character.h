@@ -77,6 +77,7 @@ public:
 	void			setDrawBlood(bool drawBlood)				{ _drawBlood = drawBlood; }
 	sf::Vector2f	getPosition() const							{ return _position; }
 	void			setPosition(sf::Vector2f newPosition)		{ _position = newPosition; }
+	void			setPosition(float x, float y)				{ _position.x = x; _position.y = y; }
 	Direction		getDirection() const						{ return _direction; }
 	void			setDirection(Direction newDirection)		{ _direction = newDirection; }
 	sf::Vector2f	getPrevPosition() const						{ return _prevPosition; }
@@ -87,6 +88,7 @@ public:
 	void			setActive(bool active)						{ _active = active; }
 	float			getHealth() const							{ return _health; }
 	float			getMaxHealth() const						{ return _maxHealth; }
+	float			getVelocity() const							{ return _velocity; }
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const = 0;
 	void calculateDirection();

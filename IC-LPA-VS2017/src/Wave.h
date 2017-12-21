@@ -8,7 +8,7 @@ namespace lpa
 {
 // -----------------------------------------
 typedef	unsigned int uint;
-const uint ENEMY_MAX = 9;
+const uint ENEMY_MAX = 15;
 // -----------------------------------------
 class Player;
 // -----------------------------------------

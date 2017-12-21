@@ -68,7 +68,7 @@ private:
 	void collisionDetectionEnemiesLimitsArena();
 	void collisionDetectionPlayerEnemies();
 	void collisionDetectionEnemiesPlayer();
-	void collisionDetectionEnemyEmemies();
+	void collisionDetectionEnemyEmemies(sf::Time elapsedTime);
 	void checkAttackRangeEnemies();
 	void checkAttackRangePlayer();
 
