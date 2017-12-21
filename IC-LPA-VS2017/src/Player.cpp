@@ -29,7 +29,7 @@ bool comparePositionY(pair::value_type pos1, pair::value_type pos2)
 // -----------------------------------------
 Player::Player()
 	: PLAYER_SPEED_ATTACK(sf::seconds(0.5f))
-	, PLAYER_START_HEALTH(200.f)
+	, PLAYER_START_HEALTH(500.f)
 	, _attacking(false)
 	, _moving(false)
 	, _rangeAttack()

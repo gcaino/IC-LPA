@@ -199,7 +199,7 @@ void Enemy::move(sf::Time elapsedTime, Player* pPlayer)
 			_position.y -= _velocity * elapsedTime.asSeconds();
 
 		_animatedSprite.setPosition(_position);
-		_animatedSpriteBlood.setPosition(_position.x, _position.y + 5.f);
+		_animatedSpriteBlood.setPosition(_position.x, _position.y);
 
 		if (!_animatedSprite.isPlaying())
 		{
@@ -212,7 +212,7 @@ void Enemy::movePreviousPosition()
 {
 	_position = _prevPosition;
 	_animatedSprite.setPosition(_position);
-	_animatedSpriteBlood.setPosition(_position.x, _position.y + 5.f);
+	_animatedSpriteBlood.setPosition(_position.x, _position.y);
 }
 void Enemy::moveRandomDirection()
 {

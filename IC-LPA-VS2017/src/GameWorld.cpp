@@ -144,7 +144,7 @@ void GameWorld::update(sf::Time elapsedTime)
 		_waves[_indexCurrentWave].update(elapsedTime, &_player);
 
 		collisionDetectionPlayerLimitsArena();
-		collisionDetectionEnemiesLimitsArena();
+		collisionDetectionEnemiesLimitsArena(elapsedTime);
 		collisionDetectionPlayerEnemies();
 		collisionDetectionEnemiesPlayer();
 		collisionDetectionEnemyEmemies(elapsedTime);
@@ -272,7 +272,7 @@ void GameWorld::collisionDetectionPlayerLimitsArena()
 		_player.movePreviousPosition();
 	}
 }
-void GameWorld::collisionDetectionEnemiesLimitsArena()
+void GameWorld::collisionDetectionEnemiesLimitsArena(sf::Time elapsedTime)
 {
 	sf::Image imageArenaCollision = _arena.getImageCollision();
 	uint maxWaveEnemies = _waves[_indexCurrentWave].getMaxEnemies();
@@ -283,8 +283,11 @@ void GameWorld::collisionDetectionEnemiesLimitsArena()
 		{
 			if (CollisionManager::pixelTest(enemy->getAnimatedSprite(), imageArenaCollision))
 			{
-				//std::cout << "Enemy Pixel Collision" << std::endl;
-				enemy->movePreviousPosition();
+				//enemy->movePreviousPosition();
+				if (enemy->getPrevPosition().y > enemy->getPosition().y)
+					enemy->setPosition(enemy->getPosition().x, enemy->getPosition().y + (enemy->getVelocity() * elapsedTime.asSeconds()));
+				else
+					enemy->setPosition(enemy->getPosition().x, enemy->getPosition().y - (enemy->getVelocity() * elapsedTime.asSeconds()));
 			}
 		}
 	}
@@ -378,7 +381,10 @@ void GameWorld::collisionDetectionEnemyEmemies(sf::Time elapsedTime)
 					if (CollisionManager::boundingBoxTest(enemy->getAnimatedSprite(), enemy2->getAnimatedSprite(), 0.7f))
 					{
 						enemy->movePreviousPosition();
-						enemy->setPosition(enemy->getPosition().x, enemy->getPosition().y + (enemy->getVelocity() * elapsedTime.asSeconds()));
+						if ((enemy->getPosition().y + (enemy->getVelocity() * elapsedTime.asSeconds())) < Constants::WINDOW_HEIGHT_MAX - 15.f)
+						{
+							enemy->setPosition(enemy->getPosition().x, enemy->getPosition().y + (enemy->getVelocity() * elapsedTime.asSeconds()));
+						}
 						return;
 					}
 				}

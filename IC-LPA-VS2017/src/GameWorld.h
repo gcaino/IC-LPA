@@ -65,7 +65,7 @@ private:
 	void checkLossCondition(sf::Time elapsedTime);
 
 	void collisionDetectionPlayerLimitsArena();
-	void collisionDetectionEnemiesLimitsArena();
+	void collisionDetectionEnemiesLimitsArena(sf::Time elapsedTime);
 	void collisionDetectionPlayerEnemies();
 	void collisionDetectionEnemiesPlayer();
 	void collisionDetectionEnemyEmemies(sf::Time elapsedTime);
